@@ -37,6 +37,16 @@ import 'package:clean_architecture_test/features/auth/domain/usecases/logout_use
     as _i211;
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart'
     as _i738;
+import 'package:clean_architecture_test/features/products/data/data_sources/products_remote_data_source.dart'
+    as _i223;
+import 'package:clean_architecture_test/features/products/data/repository/products_repository_impl.dart'
+    as _i4;
+import 'package:clean_architecture_test/features/products/domain/repository/products_repository.dart'
+    as _i557;
+import 'package:clean_architecture_test/features/products/domain/usecases/fetch_products_usecase.dart'
+    as _i542;
+import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart'
+    as _i1063;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -82,6 +92,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i306.AuthRemoteDataSource>(
       () => _i306.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i223.ProductsRemoteDataSource>(
+      () => _i223.ProductsRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i563.AuthRepository>(
       () => _i111.AuthRepositoryImpl(
         authLocalDataSource: gh<_i905.AuthLocalDataSource>(),
@@ -110,6 +123,19 @@ extension GetItInjectableX on _i174.GetIt {
         getCurrentUserUseCase: gh<_i643.GetCurrentUserUseCase>(),
         checkAuthUseCase: gh<_i1053.CheckAuthUseCase>(),
         getUserProfileUseCase: gh<_i982.GetUserProfileUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i557.ProductsRepository>(
+      () => _i4.ProductsRepositoryImpl(
+        productsRemoteDataSource: gh<_i223.ProductsRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i542.FetchProductsUseCase>(
+      () => _i542.FetchProductsUseCase(gh<_i557.ProductsRepository>()),
+    );
+    gh.lazySingleton<_i1063.ProductsBloc>(
+      () => _i1063.ProductsBloc(
+        fetchProductsUseCase: gh<_i542.FetchProductsUseCase>(),
       ),
     );
     return this;

@@ -7,6 +7,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/di/injection.dart';
 import 'core/services/auth_session_manager.dart';
 import 'features/auth/presentation/bloc/auth_event.dart';
+import 'features/products/domain/usecases/fetch_products_usecase.dart';
+import 'features/products/presentation/bloc/products_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,15 +27,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authBloc = getIt<AuthBloc>();
+    final fetchProductsUseCase = getIt<FetchProductsUseCase>();
     final appRouter = AppRouter(authBloc: authBloc);
 
-    return BlocProvider(
-      create: (_) => getIt<AuthBloc>(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => authBloc),
+        BlocProvider(
+          create: (_) =>
+              ProductsBloc(fetchProductsUseCase: fetchProductsUseCase),
+          lazy: true,
+        ),
+      ],
       child: MaterialApp.router(
         title: 'Auth Clean App',
         routerConfig: appRouter.router,
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark(useMaterial3: true).copyWith(
+          scaffoldBackgroundColor: Colors.black,
+          canvasColor: Colors.black,
+          appBarTheme: AppBarTheme(
+            elevation: 0,
+            surfaceTintColor: Colors.transparent,
+            scrolledUnderElevation: 0.0,
+          ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue,

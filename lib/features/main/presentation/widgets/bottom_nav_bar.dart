@@ -19,7 +19,11 @@ class BottomNavBar extends StatelessWidget {
       showSelectedLabels: true,
       showUnselectedLabels: false,
       items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home_filled),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Users'),
         BottomNavigationBarItem(
           icon: Icon(Icons.account_circle),
           label: 'Profile',

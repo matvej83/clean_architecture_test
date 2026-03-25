@@ -40,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(isLoading: true));
     final result = await checkAuthUseCase(NoParams());
 
-    await result.fold(
+    result.fold(
       (left) {
         emit(
           state.copyWith(status: AuthStatus.unauthenticated, isLoading: false),
@@ -50,7 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (right) {
           final userResult = await getCurrentUserUseCase(NoParams());
 
-          await userResult.fold(
+          userResult.fold(
             (l) {
               emit(
                 state.copyWith(
@@ -126,18 +126,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold(
       (l) {
         String message = 'Server error';
-        if (l is InvalidCredentialsFailure){
+        if (l is InvalidCredentialsFailure) {
           message = 'Access token is invalid';
         }
         emit(state.copyWith(error: message, isLoading: false));
       },
       (r) {
-        emit(
-          state.copyWith(
-            user: r,
-            isLoading: false,
-          ),
-        );
+        emit(state.copyWith(user: r, isLoading: false));
       },
     );
   }

@@ -14,7 +14,7 @@ abstract class UserModel with _$UserModel {
     required String email,
     required String password,
     required String role,
-    required String avatar,
+    String? avatar,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -22,6 +22,11 @@ abstract class UserModel with _$UserModel {
 }
 
 extension UserModelExt on UserModel {
-  UserEntity toEntity() =>
-      UserEntity(id: id.toString(), name: name, email: email);
+  UserEntity toEntity() => UserEntity(
+    id: id.toString(),
+    name: name,
+    email: email,
+    role: role,
+    avatar: avatar ?? '',
+  );
 }

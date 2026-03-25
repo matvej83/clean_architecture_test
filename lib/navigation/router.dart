@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_state.dart';
 import 'package:clean_architecture_test/features/main/presentation/pages/profile_page.dart';
+import 'package:clean_architecture_test/features/products/presentation/pages/products_page.dart';
 import 'package:clean_architecture_test/navigation/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -39,7 +40,7 @@ class AppRouter {
       }
 
       if (status == AuthStatus.authenticated) {
-        if (isSplash || isLogin) return Pages.main;
+        if (isSplash || isLogin) return Pages.products;
         return null;
       }
 
@@ -57,6 +58,11 @@ class AppRouter {
             path: Pages.main,
             pageBuilder: (context, state) =>
                 const NoTransitionPage(child: HomePage()),
+          ),
+          GoRoute(
+            path: Pages.products,
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: ProductsPage()),
           ),
           GoRoute(
             path: Pages.profile,
