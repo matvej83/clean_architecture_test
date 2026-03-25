@@ -102,9 +102,12 @@ class _LoginPageState extends State<LoginPage> {
         },
         listener: (context, state) {
           if (state.error?.isNotEmpty == true) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.error!)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.error!),
+                backgroundColor: Colors.redAccent,
+              ),
+            );
           }
         },
       ),
