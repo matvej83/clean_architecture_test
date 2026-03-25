@@ -1,0 +1,137 @@
+import 'dart:async';
+
+import 'package:clean_architecture_test/core/error/failure.dart';
+import 'package:clean_architecture_test/core/usecases/usecase.dart';
+import 'package:clean_architecture_test/features/auth/domain/usecases/check_auth_usecase.dart';
+import 'package:clean_architecture_test/features/auth/domain/usecases/get_current_user_usecase.dart';
+import 'package:clean_architecture_test/features/auth/domain/usecases/login_usecase.dart';
+import 'package:clean_architecture_test/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_event.dart';
+import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+
+@lazySingleton
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final LoginUseCase loginUseCase;
+  final LogoutUseCase logoutUseCase;
+  final GetCurrentUserUseCase getCurrentUserUseCase;
+  final CheckAuthUseCase checkAuthUseCase;
+
+  AuthBloc({
+    required this.loginUseCase,
+    required this.logoutUseCase,
+    required this.getCurrentUserUseCase,
+    required this.checkAuthUseCase,
+  }) : super(AuthState.initial()) {
+    on<AuthCheckRequested>(_onAuthCheckRequested);
+    on<AuthLoginRequested>(_onAuthLoginRequested);
+    on<AuthLogoutRequested>(_onAuthLogoutRequested);
+  }
+
+  FutureOr<void> _onAuthCheckRequested(
+    AuthCheckRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    final result = await checkAuthUseCase(NoParams());
+
+    await result.fold(
+      (left) {
+        emit(
+          state.copyWith(status: AuthStatus.unauthenticated, isLoading: false),
+        );
+      },
+      (right) async {
+        if (right) {
+          final userResult = await getCurrentUserUseCase(NoParams());
+
+          await userResult.fold(
+            (l) {
+              emit(
+                state.copyWith(
+                  status: AuthStatus.unauthenticated,
+                  isLoading: false,
+                ),
+              );
+            },
+            (r) {
+              if (r != null) {
+                emit(
+                  state.copyWith(
+                    status: AuthStatus.authenticated,
+                    user: r,
+                    isLoading: false,
+                  ),
+                );
+              } else {
+                emit(
+                  state.copyWith(
+                    status: AuthStatus.unauthenticated,
+                    isLoading: false,
+                  ),
+                );
+              }
+            },
+          );
+        } else {
+          emit(
+            state.copyWith(
+              status: AuthStatus.unauthenticated,
+              isLoading: false,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  FutureOr<void> _onAuthLoginRequested(
+    AuthLoginRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    final result = await loginUseCase(
+      LoginParams(email: event.email, password: event.password),
+    );
+    result.fold(
+      (l) {
+        String message = 'Auth error';
+        if (l is InvalidCredentialsFailure) {
+          message = 'Wrong email or password';
+        } else if (l is ServerFailure) {
+          message = 'Server error';
+        }
+        emit(state.copyWith(error: message, isLoading: false));
+      },
+      (r) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.authenticated,
+            user: r,
+            isLoading: false,
+          ),
+        );
+      },
+    );
+  }
+
+  FutureOr<void> _onAuthLogoutRequested(
+    AuthLogoutRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    final result = await logoutUseCase(NoParams());
+    result.fold(
+      (l) {
+        String message = 'Logout error';
+        emit(state.copyWith(error: message, isLoading: false));
+      },
+      (r) {
+        emit(
+          state.copyWith(status: AuthStatus.unauthenticated, isLoading: false),
+        );
+      },
+    );
+  }
+}
