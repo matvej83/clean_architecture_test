@@ -2,12 +2,20 @@ import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_blo
 import 'package:clean_architecture_test/navigation/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'core/di/injection.dart';
+import 'core/services/auth_session_manager.dart';
+import 'features/auth/presentation/bloc/auth_event.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   await configureDependencies();
+  final sessionManager = getIt<AuthSessionManager>();
+  sessionManager.onLogout = () {
+    getIt<AuthBloc>().add(AuthLogoutRequested());
+  };
   runApp(MyApp());
 }
 

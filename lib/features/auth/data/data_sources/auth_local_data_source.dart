@@ -1,13 +1,14 @@
 import 'dart:convert';
 
+import 'package:clean_architecture_test/features/auth/data/models/auth_token_model.dart';
 import 'package:clean_architecture_test/features/auth/data/models/user_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthLocalDataSource {
-  Future<void> cacheToken(String token);
+  Future<void> cacheToken(AuthTokenModel token);
 
-  Future<String?> getCachedToken();
+  Future<AuthTokenModel?> getCachedToken();
 
   Future<void> clearToken();
 
@@ -26,8 +27,8 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const String cachedUser = 'CACHED_USER';
 
   @override
-  Future<void> cacheToken(String token) async {
-    await sharedPreferences.setString(cachedToken, token);
+  Future<void> cacheToken(AuthTokenModel token) async {
+    await sharedPreferences.setString(cachedToken, jsonEncode(token.toJson()));
   }
 
   @override
@@ -42,8 +43,12 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   @override
-  Future<String?> getCachedToken() async {
-    return sharedPreferences.getString(cachedToken);
+  Future<AuthTokenModel?> getCachedToken() async {
+    final jsonString = sharedPreferences.getString(cachedToken);
+    if (jsonString != null) {
+      return AuthTokenModel.fromJson(jsonDecode(jsonString));
+    }
+    return null;
   }
 
   @override

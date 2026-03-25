@@ -4,6 +4,7 @@ import 'package:clean_architecture_test/core/error/failure.dart';
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
 import 'package:clean_architecture_test/features/auth/domain/usecases/check_auth_usecase.dart';
 import 'package:clean_architecture_test/features/auth/domain/usecases/get_current_user_usecase.dart';
+import 'package:clean_architecture_test/features/auth/domain/usecases/get_user_profile_usecase.dart';
 import 'package:clean_architecture_test/features/auth/domain/usecases/login_usecase.dart';
 import 'package:clean_architecture_test/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_event.dart';
@@ -17,15 +18,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LogoutUseCase logoutUseCase;
   final GetCurrentUserUseCase getCurrentUserUseCase;
   final CheckAuthUseCase checkAuthUseCase;
+  final GetUserProfileUseCase getUserProfileUseCase;
 
   AuthBloc({
     required this.loginUseCase,
     required this.logoutUseCase,
     required this.getCurrentUserUseCase,
     required this.checkAuthUseCase,
+    required this.getUserProfileUseCase,
   }) : super(AuthState.initial()) {
     on<AuthCheckRequested>(_onAuthCheckRequested);
     on<AuthLoginRequested>(_onAuthLoginRequested);
+    on<AuthUserProfileRequested>(_onAuthUserProfileRequested);
     on<AuthLogoutRequested>(_onAuthLogoutRequested);
   }
 
@@ -106,8 +110,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
       (r) {
         emit(
+          state.copyWith(status: AuthStatus.authenticated, isLoading: false),
+        );
+        add(AuthUserProfileRequested());
+      },
+    );
+  }
+
+  FutureOr<void> _onAuthUserProfileRequested(
+    AuthUserProfileRequested event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    final result = await getUserProfileUseCase(NoParams());
+    result.fold(
+      (l) {
+        String message = 'Server error';
+        if (l is InvalidCredentialsFailure){
+          message = 'Access token is invalid';
+        }
+        emit(state.copyWith(error: message, isLoading: false));
+      },
+      (r) {
+        emit(
           state.copyWith(
-            status: AuthStatus.authenticated,
             user: r,
             isLoading: false,
           ),

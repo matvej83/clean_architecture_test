@@ -9,7 +9,14 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:clean_architecture_test/core/di/module.dart' as _i1033;
+import 'package:clean_architecture_test/core/di/modules/network_module.dart'
+    as _i10;
+import 'package:clean_architecture_test/core/di/modules/shared_pref_module.dart'
+    as _i109;
+import 'package:clean_architecture_test/core/network/http_interceptors.dart'
+    as _i863;
+import 'package:clean_architecture_test/core/services/auth_session_manager.dart'
+    as _i649;
 import 'package:clean_architecture_test/features/auth/data/data_sources/auth_local_data_source.dart'
     as _i905;
 import 'package:clean_architecture_test/features/auth/data/data_sources/auth_remote_data_source.dart'
@@ -22,12 +29,15 @@ import 'package:clean_architecture_test/features/auth/domain/usecases/check_auth
     as _i1053;
 import 'package:clean_architecture_test/features/auth/domain/usecases/get_current_user_usecase.dart'
     as _i643;
+import 'package:clean_architecture_test/features/auth/domain/usecases/get_user_profile_usecase.dart'
+    as _i982;
 import 'package:clean_architecture_test/features/auth/domain/usecases/login_usecase.dart'
     as _i778;
 import 'package:clean_architecture_test/features/auth/domain/usecases/logout_usecase.dart'
     as _i211;
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart'
     as _i738;
+import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -39,16 +49,38 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
-    final registerModule = _$RegisterModule();
+    final sharedPrefModule = _$SharedPrefModule();
+    final networkModule = _$NetworkModule();
     await gh.factoryAsync<_i460.SharedPreferences>(
-      () => registerModule.prefs,
+      () => sharedPrefModule.prefs,
       preResolve: true,
     );
-    gh.lazySingleton<_i306.AuthRemoteDataSource>(
-      () => _i306.AuthRemoteDataSourceImpl(),
-    );
+    gh.lazySingleton<_i863.ErrorInterceptor>(() => _i863.ErrorInterceptor());
     gh.lazySingleton<_i905.AuthLocalDataSource>(
       () => _i905.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i361.Dio>(
+      () => networkModule.refreshDio(),
+      instanceName: 'refresh_dio',
+    );
+    gh.lazySingleton<_i649.AuthSessionManager>(
+      () => _i649.AuthSessionManager(gh<_i905.AuthLocalDataSource>()),
+    );
+    gh.lazySingleton<_i863.AuthInterceptor>(
+      () => _i863.AuthInterceptor(
+        gh<_i905.AuthLocalDataSource>(),
+        gh<_i649.AuthSessionManager>(),
+        gh<_i361.Dio>(instanceName: 'refresh_dio'),
+      ),
+    );
+    gh.lazySingleton<_i361.Dio>(
+      () => networkModule.dio(
+        gh<_i863.AuthInterceptor>(),
+        gh<_i863.ErrorInterceptor>(),
+      ),
+    );
+    gh.lazySingleton<_i306.AuthRemoteDataSource>(
+      () => _i306.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i563.AuthRepository>(
       () => _i111.AuthRepositoryImpl(
@@ -62,6 +94,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i643.GetCurrentUserUseCase>(
       () => _i643.GetCurrentUserUseCase(gh<_i563.AuthRepository>()),
     );
+    gh.lazySingleton<_i982.GetUserProfileUseCase>(
+      () => _i982.GetUserProfileUseCase(gh<_i563.AuthRepository>()),
+    );
     gh.lazySingleton<_i778.LoginUseCase>(
       () => _i778.LoginUseCase(gh<_i563.AuthRepository>()),
     );
@@ -74,10 +109,13 @@ extension GetItInjectableX on _i174.GetIt {
         logoutUseCase: gh<_i211.LogoutUseCase>(),
         getCurrentUserUseCase: gh<_i643.GetCurrentUserUseCase>(),
         checkAuthUseCase: gh<_i1053.CheckAuthUseCase>(),
+        getUserProfileUseCase: gh<_i982.GetUserProfileUseCase>(),
       ),
     );
     return this;
   }
 }
 
-class _$RegisterModule extends _i1033.RegisterModule {}
+class _$SharedPrefModule extends _i109.SharedPrefModule {}
+
+class _$NetworkModule extends _i10.NetworkModule {}
