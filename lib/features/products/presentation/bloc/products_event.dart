@@ -25,3 +25,12 @@ class ProductFetched extends ProductsEvent {
   @override
   List<Object?> get props => [id];
 }
+
+class RelatedByIdFetched extends ProductsEvent {
+  final String id;
+
+  RelatedByIdFetched(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}

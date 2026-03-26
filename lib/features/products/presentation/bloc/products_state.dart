@@ -7,6 +7,7 @@ class ProductsState extends Equatable {
   final bool isProductLoading;
   final String? error;
   final List<ProductEntity> products;
+  final List<ProductEntity> relatedById;
   final ProductEntity? product;
   final List<CategoryEntity> categories;
   final String selectedCategoryId;
@@ -16,6 +17,7 @@ class ProductsState extends Equatable {
     this.isProductLoading = false,
     this.error,
     this.products = const [],
+    this.relatedById = const [],
     this.product,
     this.categories = const [],
     this.selectedCategoryId = '',
@@ -26,6 +28,7 @@ class ProductsState extends Equatable {
     bool? isProductLoading,
     String? error,
     List<ProductEntity>? products,
+    List<ProductEntity>? relatedById,
     ProductEntity? product,
     List<CategoryEntity>? categories,
     String? selectedCategoryId,
@@ -35,6 +38,7 @@ class ProductsState extends Equatable {
       isProductLoading: isProductLoading ?? this.isProductLoading,
       error: error,
       products: products ?? this.products,
+      relatedById: relatedById ?? this.relatedById,
       product: product ?? this.product,
       categories: categories ?? this.categories,
       selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
@@ -47,6 +51,7 @@ class ProductsState extends Equatable {
     isProductLoading,
     error,
     products,
+    relatedById,
     product,
     categories,
     selectedCategoryId,

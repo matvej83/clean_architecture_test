@@ -8,6 +8,8 @@ abstract class ProductsRepository {
     String? categoryId,
   });
 
+  Future<Either<Failure, List<ProductEntity>>> fetchRelatedById({String? id});
+
   Future<Either<Failure, ProductEntity>> fetchProduct({String? id});
 
   Future<Either<Failure, List<CategoryEntity>>> fetchCategories();

@@ -42,7 +42,6 @@ class ListItem extends StatelessWidget {
       child: Column(
         spacing: 8.0,
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(
             child: Image.network(
@@ -51,7 +50,7 @@ class ListItem extends StatelessWidget {
             ),
           ),
           Text('\$${product.price}', style: textTheme.bodyMedium),
-          Text('\$${product.title}', style: textTheme.bodyLarge),
+          Text(product.title, style: textTheme.bodyLarge),
         ],
       ),
     );

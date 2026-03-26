@@ -65,7 +65,7 @@ class AppRouter {
                     path: 'product/:id',
                     builder: (context, state) {
                       final id = state.pathParameters['id']!;
-                      return ProductPage(id: id);
+                      return ProductPage(key: ValueKey(id), id: id);
                     },
                   ),
                 ],

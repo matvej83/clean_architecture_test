@@ -7,6 +7,8 @@ import 'package:injectable/injectable.dart';
 abstract class ProductsRemoteDataSource {
   Future<List<ProductModel>?> fetchProducts({String? categoryId});
 
+  Future<List<ProductModel>?> fetchRelatedById({String? id});
+
   Future<ProductModel?> fetchProduct({String? id});
 
   Future<List<CategoryModel>?> fetchCategories();
@@ -61,6 +63,23 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
       final response = await dio.get('categories');
       if (response.data != null) {
         return CategoryModel.fromList(response.data);
+      }
+    } on Exception catch (e) {
+      if (e is DioException && e.response?.statusCode == 401) {
+        throw InvalidCredentialsException();
+      } else {
+        throw ServerException();
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<List<ProductModel>?> fetchRelatedById({String? id}) async {
+    try {
+      final response = await dio.get('products/$id/related');
+      if (response.data != null) {
+        return ProductModel.fromList(response.data);
       }
     } on Exception catch (e) {
       if (e is DioException && e.response?.statusCode == 401) {

@@ -51,4 +51,17 @@ class ProductsRepositoryImpl implements ProductsRepository {
       return Left(mapExceptionToFailure(e));
     }
   }
+
+  @override
+  Future<Either<Failure, List<ProductEntity>>> fetchRelatedById({
+    String? id,
+  }) async {
+    try {
+      final products = await productsRemoteDataSource.fetchRelatedById(id: id);
+      final list = products?.map((e) => e.toEntity()).toList() ?? [];
+      return Right(list);
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
 }

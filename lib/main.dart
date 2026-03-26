@@ -10,6 +10,7 @@ import 'core/services/auth_session_manager.dart';
 import 'features/auth/presentation/bloc/auth_event.dart';
 import 'features/products/domain/usecases/fetch_product_usecase.dart';
 import 'features/products/domain/usecases/fetch_products_usecase.dart';
+import 'features/products/domain/usecases/fetch_related_by_id_usecase.dart';
 import 'features/products/presentation/bloc/products_bloc.dart';
 
 void main() async {
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
     final fetchProductsUseCase = getIt<FetchProductsUseCase>();
     final fetchProductUseCase = getIt<FetchProductUseCase>();
     final fetchCategoriesUseCase = getIt<FetchCategoriesUseCase>();
+    final fetchRelatedByIdUseCase = getIt<FetchRelatedByIdUseCase>();
     final appRouter = AppRouter(authBloc: authBloc);
 
     return MultiBlocProvider(
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
             fetchProductsUseCase: fetchProductsUseCase,
             fetchProductUseCase: fetchProductUseCase,
             fetchCategoriesUseCase: fetchCategoriesUseCase,
+            fetchRelatedByIdUseCase: fetchRelatedByIdUseCase,
           ),
           lazy: true,
         ),

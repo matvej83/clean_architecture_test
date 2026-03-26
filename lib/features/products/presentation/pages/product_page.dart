@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../bloc/products_state.dart';
+import '../widgets/related_by_id_list.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key, required this.id});
@@ -24,6 +25,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
     context.read<ProductsBloc>().add(ProductFetched(widget.id));
+    context.read<ProductsBloc>().add(RelatedByIdFetched(widget.id));
     super.initState();
   }
 
@@ -38,36 +40,44 @@ class _ProductPageState extends State<ProductPage> {
               ? const Center(child: CircularProgressIndicator())
               : Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 8.0,
-                    children: [
-                      CarouselSliderWidget(
-                        itemCount: state.product?.images.length ?? 0,
-                        initialPage: 0,
-                        itemBuilder: (context, index, x) {
-                          final image = state.product?.images[index];
-                          return CarouselSliderItem(
-                            image: image,
-                            current: index,
-                            total: state.product?.images.length,
-                          );
-                        },
-                        controller: controller,
-                      ),
-                      Text(
-                        '${state.product?.price}',
-                        style: textTheme.bodyMedium,
-                      ),
-                      Text(
-                        '${state.product?.title}',
-                        style: textTheme.bodyLarge,
-                      ),
-                      Text(
-                        'Updated at: ${DateFormat('dd MMM, yyyy').format(state.product?.updatedAt ?? DateTime.now())}',
-                        style: textTheme.bodySmall,
-                      ),
-                    ],
+                  child: SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 8.0,
+                      children: [
+                        CarouselSliderWidget(
+                          itemCount: state.product?.images.length ?? 0,
+                          initialPage: 0,
+                          itemBuilder: (context, index, x) {
+                            final image = state.product?.images[index];
+                            return CarouselSliderItem(
+                              image: image,
+                              current: index,
+                              total: state.product?.images.length,
+                            );
+                          },
+                          controller: controller,
+                        ),
+                        Text(
+                          '\$${state.product?.price}',
+                          style: textTheme.bodyMedium,
+                        ),
+                        Text(
+                          '${state.product?.title}',
+                          style: textTheme.bodyLarge,
+                        ),
+                        Text(
+                          'Updated at: ${DateFormat('dd MMM, yyyy').format(state.product?.updatedAt ?? DateTime.now())}',
+                          style: textTheme.bodySmall,
+                        ),
+                        if (state.relatedById.isNotEmpty) ...[
+                          const SizedBox(height: 32.0),
+                          Text('Related products:', style: textTheme.bodyLarge),
+                          RelatedByIdList(),
+                        ],
+                      ],
+                    ),
                   ),
                 );
         },
