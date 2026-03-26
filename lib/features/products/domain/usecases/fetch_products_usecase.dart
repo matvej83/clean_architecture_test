@@ -6,13 +6,22 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class FetchProductsUseCase implements UseCase<List<ProductEntity>, NoParams> {
+class FetchProductsUseCase
+    implements UseCase<List<ProductEntity>, FetchProductsParams> {
   final ProductsRepository repository;
 
   FetchProductsUseCase(this.repository);
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> call(NoParams params) async {
-    return await repository.fetchProducts();
+  Future<Either<Failure, List<ProductEntity>>> call(
+    FetchProductsParams params,
+  ) async {
+    return await repository.fetchProducts(categoryId: params.categoryId);
   }
+}
+
+class FetchProductsParams {
+  final String? categoryId;
+
+  FetchProductsParams({this.categoryId});
 }

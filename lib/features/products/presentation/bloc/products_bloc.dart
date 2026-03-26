@@ -27,8 +27,12 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     ProductsFetched event,
     Emitter<ProductsState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true));
-    final result = await fetchProductsUseCase(NoParams());
+    if (!event.loadSilent) {
+      emit(state.copyWith(isLoading: true));
+    }
+    final result = await fetchProductsUseCase(
+      FetchProductsParams(categoryId: event.categoryId),
+    );
 
     result.fold(
       (l) {
@@ -36,10 +40,22 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         if (l is InvalidCredentialsFailure) {
           message = 'Wrong email or password';
         }
-        emit(state.copyWith(error: message, isLoading: false));
+        emit(
+          state.copyWith(
+            error: message,
+            isLoading: false,
+            selectedCategoryId: event.categoryId,
+          ),
+        );
       },
       (r) {
-        emit(state.copyWith(products: r, isLoading: false));
+        emit(
+          state.copyWith(
+            products: r,
+            isLoading: false,
+            selectedCategoryId: event.categoryId,
+          ),
+        );
       },
     );
   }

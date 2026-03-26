@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:clean_architecture_test/core/error/failure.dart';
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
 import 'package:clean_architecture_test/features/auth/domain/usecases/check_auth_usecase.dart';
-import 'package:clean_architecture_test/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:clean_architecture_test/features/auth/domain/usecases/get_user_profile_usecase.dart';
 import 'package:clean_architecture_test/features/auth/domain/usecases/login_usecase.dart';
 import 'package:clean_architecture_test/features/auth/domain/usecases/logout_usecase.dart';
@@ -16,14 +15,12 @@ import 'package:injectable/injectable.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUseCase loginUseCase;
   final LogoutUseCase logoutUseCase;
-  final GetCurrentUserUseCase getCurrentUserUseCase;
   final CheckAuthUseCase checkAuthUseCase;
   final GetUserProfileUseCase getUserProfileUseCase;
 
   AuthBloc({
     required this.loginUseCase,
     required this.logoutUseCase,
-    required this.getCurrentUserUseCase,
     required this.checkAuthUseCase,
     required this.getUserProfileUseCase,
   }) : super(AuthState.initial()) {
@@ -40,52 +37,31 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(isLoading: true));
     final result = await checkAuthUseCase(NoParams());
 
-    result.fold(
-      (left) {
+    final isAuth = result.getOrElse(() => false);
+
+    if (!isAuth) {
+      emit(
+        state.copyWith(status: AuthStatus.unauthenticated, isLoading: false),
+      );
+      return;
+    }
+
+    final userResult = await getUserProfileUseCase(NoParams());
+
+    userResult.fold(
+      (l) {
         emit(
           state.copyWith(status: AuthStatus.unauthenticated, isLoading: false),
         );
       },
-      (right) async {
-        if (right) {
-          final userResult = await getCurrentUserUseCase(NoParams());
-
-          userResult.fold(
-            (l) {
-              emit(
-                state.copyWith(
-                  status: AuthStatus.unauthenticated,
-                  isLoading: false,
-                ),
-              );
-            },
-            (r) {
-              if (r != null) {
-                emit(
-                  state.copyWith(
-                    status: AuthStatus.authenticated,
-                    user: r,
-                    isLoading: false,
-                  ),
-                );
-              } else {
-                emit(
-                  state.copyWith(
-                    status: AuthStatus.unauthenticated,
-                    isLoading: false,
-                  ),
-                );
-              }
-            },
-          );
-        } else {
-          emit(
-            state.copyWith(
-              status: AuthStatus.unauthenticated,
-              isLoading: false,
-            ),
-          );
-        }
+      (r) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.authenticated,
+            user: r,
+            isLoading: false,
+          ),
+        );
       },
     );
   }

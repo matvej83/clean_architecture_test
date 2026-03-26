@@ -27,8 +27,6 @@ import 'package:clean_architecture_test/features/auth/domain/repository/auth_rep
     as _i563;
 import 'package:clean_architecture_test/features/auth/domain/usecases/check_auth_usecase.dart'
     as _i1053;
-import 'package:clean_architecture_test/features/auth/domain/usecases/get_current_user_usecase.dart'
-    as _i643;
 import 'package:clean_architecture_test/features/auth/domain/usecases/get_user_profile_usecase.dart'
     as _i982;
 import 'package:clean_architecture_test/features/auth/domain/usecases/login_usecase.dart'
@@ -106,9 +104,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1053.CheckAuthUseCase>(
       () => _i1053.CheckAuthUseCase(gh<_i563.AuthRepository>()),
     );
-    gh.lazySingleton<_i643.GetCurrentUserUseCase>(
-      () => _i643.GetCurrentUserUseCase(gh<_i563.AuthRepository>()),
-    );
     gh.lazySingleton<_i982.GetUserProfileUseCase>(
       () => _i982.GetUserProfileUseCase(gh<_i563.AuthRepository>()),
     );
@@ -118,18 +113,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i211.LogoutUseCase>(
       () => _i211.LogoutUseCase(gh<_i563.AuthRepository>()),
     );
+    gh.lazySingleton<_i557.ProductsRepository>(
+      () => _i4.ProductsRepositoryImpl(
+        productsRemoteDataSource: gh<_i223.ProductsRemoteDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i738.AuthBloc>(
       () => _i738.AuthBloc(
         loginUseCase: gh<_i778.LoginUseCase>(),
         logoutUseCase: gh<_i211.LogoutUseCase>(),
-        getCurrentUserUseCase: gh<_i643.GetCurrentUserUseCase>(),
         checkAuthUseCase: gh<_i1053.CheckAuthUseCase>(),
         getUserProfileUseCase: gh<_i982.GetUserProfileUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i557.ProductsRepository>(
-      () => _i4.ProductsRepositoryImpl(
-        productsRemoteDataSource: gh<_i223.ProductsRemoteDataSource>(),
       ),
     );
     gh.lazySingleton<_i1043.FetchCategoriesUseCase>(

@@ -22,7 +22,7 @@ class AppRouter {
   AppRouter({required this.authBloc});
 
   late final GoRouter router = GoRouter(
-    initialLocation: Pages.splash,
+    initialLocation: Pages.products,
     navigatorKey: _rootNavigatorKey,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
     redirect: (context, state) {

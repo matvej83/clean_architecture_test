@@ -17,9 +17,13 @@ class ProductsRepositoryImpl implements ProductsRepository {
   ProductsRepositoryImpl({required this.productsRemoteDataSource});
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> fetchProducts() async {
+  Future<Either<Failure, List<ProductEntity>>> fetchProducts({
+    String? categoryId,
+  }) async {
     try {
-      final products = await productsRemoteDataSource.fetchProducts();
+      final products = await productsRemoteDataSource.fetchProducts(
+        categoryId: categoryId,
+      );
       final list = products?.map((e) => e.toEntity()).toList() ?? [];
       return Right(list);
     } catch (e) {

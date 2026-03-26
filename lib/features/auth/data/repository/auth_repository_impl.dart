@@ -21,16 +21,6 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<Either<Failure, UserEntity?>> getCurrentUser() async {
-    try {
-      final user = await authLocalDataSource.getCachedUser();
-      return Right(user?.toEntity());
-    } catch (e) {
-      return Left(CacheFailure());
-    }
-  }
-
-  @override
   Future<Either<Failure, bool>> isAuthenticated() async {
     try {
       final token = await authLocalDataSource.getCachedToken();

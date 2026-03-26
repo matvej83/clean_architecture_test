@@ -4,7 +4,9 @@ import 'package:clean_architecture_test/features/products/domain/entity/product_
 import 'package:dartz/dartz.dart';
 
 abstract class ProductsRepository {
-  Future<Either<Failure, List<ProductEntity>>> fetchProducts();
+  Future<Either<Failure, List<ProductEntity>>> fetchProducts({
+    String? categoryId,
+  });
 
   Future<Either<Failure, List<CategoryEntity>>> fetchCategories();
 }

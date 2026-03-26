@@ -5,7 +5,15 @@ abstract class ProductsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class ProductsFetched extends ProductsEvent {}
+class ProductsFetched extends ProductsEvent {
+  final String? categoryId;
+  final bool loadSilent;
+
+  ProductsFetched({this.categoryId, this.loadSilent = true});
+
+  @override
+  List<Object?> get props => [categoryId, loadSilent];
+}
 
 class CategoriesFetched extends ProductsEvent {}
 

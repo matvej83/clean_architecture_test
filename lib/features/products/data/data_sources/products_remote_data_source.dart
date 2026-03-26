@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class ProductsRemoteDataSource {
-  Future<List<ProductModel>?> fetchProducts();
+  Future<List<ProductModel>?> fetchProducts({String? categoryId});
 
   Future<List<CategoryModel>?> fetchCategories();
 }
@@ -17,9 +17,12 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
   ProductsRemoteDataSourceImpl(this.dio);
 
   @override
-  Future<List<ProductModel>?> fetchProducts() async {
+  Future<List<ProductModel>?> fetchProducts({String? categoryId}) async {
     try {
-      final response = await dio.get('products');
+      final endPoint = categoryId?.isNotEmpty == true
+          ? 'categories/$categoryId/products'
+          : 'products';
+      final response = await dio.get(endPoint);
       if (response.data != null) {
         return ProductModel.fromList(response.data);
       }
