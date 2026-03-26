@@ -1,5 +1,6 @@
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
+import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_architecture_test/navigation/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,8 @@ import 'features/products/domain/usecases/fetch_product_usecase.dart';
 import 'features/products/domain/usecases/fetch_products_usecase.dart';
 import 'features/products/domain/usecases/fetch_related_by_id_usecase.dart';
 import 'features/products/presentation/bloc/products_bloc.dart';
+import 'features/users/domain/usecases/fetch_user_usecase.dart';
+import 'features/users/domain/usecases/fetch_users_usecase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +37,8 @@ class MyApp extends StatelessWidget {
     final fetchProductUseCase = getIt<FetchProductUseCase>();
     final fetchCategoriesUseCase = getIt<FetchCategoriesUseCase>();
     final fetchRelatedByIdUseCase = getIt<FetchRelatedByIdUseCase>();
+    final fetchUsersUseCase = getIt<FetchUsersUseCase>();
+    final fetchUserUseCase = getIt<FetchUserUseCase>();
     final appRouter = AppRouter(authBloc: authBloc);
 
     return MultiBlocProvider(
@@ -45,6 +50,13 @@ class MyApp extends StatelessWidget {
             fetchProductUseCase: fetchProductUseCase,
             fetchCategoriesUseCase: fetchCategoriesUseCase,
             fetchRelatedByIdUseCase: fetchRelatedByIdUseCase,
+          ),
+          lazy: true,
+        ),
+        BlocProvider(
+          create: (_) => UsersBloc(
+            fetchUsersUseCase: fetchUsersUseCase,
+            fetchUserUseCase: fetchUserUseCase,
           ),
           lazy: true,
         ),

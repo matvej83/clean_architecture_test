@@ -49,8 +49,16 @@ import 'package:clean_architecture_test/features/products/domain/usecases/fetch_
     as _i542;
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_related_by_id_usecase.dart'
     as _i460;
-import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart'
-    as _i1063;
+import 'package:clean_architecture_test/features/users/data/data_sources/users_remote_data_source.dart'
+    as _i638;
+import 'package:clean_architecture_test/features/users/data/repository/users_repository_impl.dart'
+    as _i868;
+import 'package:clean_architecture_test/features/users/domain/repository/users_repository.dart'
+    as _i1001;
+import 'package:clean_architecture_test/features/users/domain/usecases/fetch_user_usecase.dart'
+    as _i487;
+import 'package:clean_architecture_test/features/users/domain/usecases/fetch_users_usecase.dart'
+    as _i788;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -96,6 +104,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i306.AuthRemoteDataSource>(
       () => _i306.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i638.UsersRemoteDataSource>(
+      () => _i638.UsersRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i223.ProductsRemoteDataSource>(
       () => _i223.ProductsRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -130,6 +141,17 @@ extension GetItInjectableX on _i174.GetIt {
         getUserProfileUseCase: gh<_i982.GetUserProfileUseCase>(),
       ),
     );
+    gh.lazySingleton<_i1001.UsersRepository>(
+      () => _i868.UsersRepositoryImpl(
+        productsRemoteDataSource: gh<_i638.UsersRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i487.FetchUserUseCase>(
+      () => _i487.FetchUserUseCase(gh<_i1001.UsersRepository>()),
+    );
+    gh.lazySingleton<_i788.FetchUsersUseCase>(
+      () => _i788.FetchUsersUseCase(gh<_i1001.UsersRepository>()),
+    );
     gh.lazySingleton<_i1043.FetchCategoriesUseCase>(
       () => _i1043.FetchCategoriesUseCase(gh<_i557.ProductsRepository>()),
     );
@@ -141,14 +163,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i460.FetchRelatedByIdUseCase>(
       () => _i460.FetchRelatedByIdUseCase(gh<_i557.ProductsRepository>()),
-    );
-    gh.lazySingleton<_i1063.ProductsBloc>(
-      () => _i1063.ProductsBloc(
-        fetchProductsUseCase: gh<_i542.FetchProductsUseCase>(),
-        fetchCategoriesUseCase: gh<_i1043.FetchCategoriesUseCase>(),
-        fetchProductUseCase: gh<_i994.FetchProductUseCase>(),
-        fetchRelatedByIdUseCase: gh<_i460.FetchRelatedByIdUseCase>(),
-      ),
     );
     return this;
   }

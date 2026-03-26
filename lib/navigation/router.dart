@@ -12,7 +12,8 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/splash_page.dart';
 import '../features/main/presentation/main_screen.dart';
-import '../features/main/presentation/pages/home_page.dart';
+import '../features/users/presentation/pages/user_page.dart';
+import '../features/users/presentation/pages/users_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -54,7 +55,6 @@ class AppRouter {
         },
         branches: [
           StatefulShellBranch(
-            navigatorKey: GlobalKey<NavigatorState>(),
             routes: [
               GoRoute(
                 path: Pages.products,
@@ -76,9 +76,18 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: Pages.main,
+                path: Pages.users,
                 pageBuilder: (context, state) =>
-                    const NoTransitionPage(child: HomePage()),
+                    const NoTransitionPage(child: UsersPage()),
+                routes: [
+                  GoRoute(
+                    path: 'user/:id',
+                    builder: (context, state) {
+                      final id = state.pathParameters['id']!;
+                      return UserPage(key: ValueKey(id), id: id);
+                    },
+                  ),
+                ],
               ),
             ],
           ),

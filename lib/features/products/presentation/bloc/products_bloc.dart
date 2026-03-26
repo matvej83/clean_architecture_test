@@ -7,12 +7,10 @@ import 'package:clean_architecture_test/features/products/domain/usecases/fetch_
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../domain/usecases/fetch_product_usecase.dart';
 
-@lazySingleton
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final FetchProductsUseCase fetchProductsUseCase;
   final FetchProductUseCase fetchProductUseCase;

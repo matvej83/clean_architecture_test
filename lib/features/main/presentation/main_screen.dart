@@ -22,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
     switch (location) {
       case Pages.products:
         return 0;
-      case Pages.main:
+      case Pages.users:
         return 1;
       case Pages.profile:
         return 2;
@@ -36,7 +36,7 @@ class _MainScreenState extends State<MainScreen> {
         context.go(Pages.products);
         break;
       case 1:
-        context.go(Pages.main);
+        context.go(Pages.users);
         break;
       case 2:
         context.go(Pages.profile);
@@ -49,15 +49,26 @@ class _MainScreenState extends State<MainScreen> {
     if (location.contains('products/')) {
       return 'Product';
     }
+    if (location.contains('users/')) {
+      return 'User';
+    }
     switch (location) {
       case Pages.products:
         return 'Products';
-      case Pages.main:
+      case Pages.users:
         return 'Users';
       case Pages.profile:
         return 'Profile';
     }
     return 'Home';
+  }
+
+  bool showBackButton(BuildContext context) {
+    final location = GoRouterState.of(context).uri.toString();
+    return switch (location) {
+      Pages.products || Pages.users || Pages.profile => false,
+      _ => true,
+    };
   }
 
   @override
@@ -71,7 +82,17 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(title: Text(_getAppBarTitle(context)), centerTitle: true),
+      appBar: AppBar(
+        title: Text(_getAppBarTitle(context)),
+        centerTitle: true,
+        leading: showBackButton(context)
+            ? BackButton(
+                onPressed: () {
+                  context.pop();
+                },
+              )
+            : null,
+      ),
       body: SafeArea(
         left: true,
         right: true,
