@@ -18,7 +18,7 @@ class ProductsFetched extends ProductsEvent {
 class CategoriesFetched extends ProductsEvent {}
 
 class ProductFetched extends ProductsEvent {
-  final int id;
+  final String id;
 
   ProductFetched(this.id);
 

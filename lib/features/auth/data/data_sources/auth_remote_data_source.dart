@@ -22,7 +22,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<AuthTokenModel?> login(String email, String password) async {
     final response = await dio.post(
       'auth/login',
-      queryParameters: {'email': 'john@mail.com', 'password': 'changeme'},
+      queryParameters: {'email': email, 'password': password},
       options: Options(extra: {'skipAuth': true}),
     );
     if (response.data != null) {

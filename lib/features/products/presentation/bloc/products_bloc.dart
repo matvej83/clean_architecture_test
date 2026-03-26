@@ -9,17 +9,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../domain/usecases/fetch_product_usecase.dart';
 
 @lazySingleton
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final FetchProductsUseCase fetchProductsUseCase;
+  final FetchProductUseCase fetchProductUseCase;
   final FetchCategoriesUseCase fetchCategoriesUseCase;
 
   ProductsBloc({
     required this.fetchProductsUseCase,
     required this.fetchCategoriesUseCase,
+    required this.fetchProductUseCase,
   }) : super(const ProductsState()) {
     on<ProductsFetched>(_onProductsFetched);
+    on<ProductFetched>(_onProductFetched);
     on<CategoriesFetched>(_onCategoriesFetched);
   }
 
@@ -54,6 +58,40 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
             products: r,
             isLoading: false,
             selectedCategoryId: event.categoryId,
+          ),
+        );
+      },
+    );
+  }
+
+  FutureOr<void> _onProductFetched(
+    ProductFetched event,
+    Emitter<ProductsState> emit,
+  ) async {
+    emit(state.copyWith(isProductLoading: true));
+
+    final result = await fetchProductUseCase(FetchProductParams(id: event.id));
+
+    result.fold(
+      (l) {
+        String message = 'Server error';
+        if (l is InvalidCredentialsFailure) {
+          message = 'Wrong email or password';
+        }
+        emit(
+          state.copyWith(
+            error: message,
+            isProductLoading: false,
+            selectedCategoryId: event.id,
+          ),
+        );
+      },
+      (r) {
+        emit(
+          state.copyWith(
+            product: r,
+            isProductLoading: false,
+            selectedCategoryId: event.id,
           ),
         );
       },

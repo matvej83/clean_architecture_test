@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/di/injection.dart';
 import 'core/services/auth_session_manager.dart';
 import 'features/auth/presentation/bloc/auth_event.dart';
+import 'features/products/domain/usecases/fetch_product_usecase.dart';
 import 'features/products/domain/usecases/fetch_products_usecase.dart';
 import 'features/products/presentation/bloc/products_bloc.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = getIt<AuthBloc>();
     final fetchProductsUseCase = getIt<FetchProductsUseCase>();
+    final fetchProductUseCase = getIt<FetchProductUseCase>();
     final fetchCategoriesUseCase = getIt<FetchCategoriesUseCase>();
     final appRouter = AppRouter(authBloc: authBloc);
 
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => ProductsBloc(
             fetchProductsUseCase: fetchProductsUseCase,
+            fetchProductUseCase: fetchProductUseCase,
             fetchCategoriesUseCase: fetchCategoriesUseCase,
           ),
           lazy: true,

@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  var obscure = true;
 
   void handleLogin() {
     if (_formKey.currentState!.validate()) {
@@ -25,6 +26,19 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     }
+  }
+
+  void obscureIcon() {
+    setState(() {
+      obscure = !obscure;
+    });
+  }
+
+  @override
+  void initState() {
+    _emailController.text = 'john@mail.com';
+    _passwordController.text = 'changeme';
+    super.initState();
   }
 
   @override
@@ -78,11 +92,14 @@ class _LoginPageState extends State<LoginPage> {
                   TextFormField(
                     controller: _passwordController,
                     enabled: !isLoading,
-                    obscureText: true,
+                    obscureText: obscure,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       border: OutlineInputBorder(),
-                      prefix: Icon(Icons.lock),
+                      prefix: GestureDetector(
+                        onTap: obscureIcon,
+                        child: Icon(obscure ? Icons.lock : Icons.lock_open),
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {

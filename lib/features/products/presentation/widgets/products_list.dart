@@ -1,5 +1,8 @@
 import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../navigation/pages.dart';
 
 class ProductsList extends StatelessWidget {
   const ProductsList({super.key, required this.products});
@@ -32,20 +35,25 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Column(
-      spacing: 8.0,
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          child: Image.network(
-            product.images.first,
-            errorBuilder: (context, o, s) => Container(color: Colors.white24),
+    return GestureDetector(
+      onTap: () {
+        context.go(Pages.product + product.id);
+      },
+      child: Column(
+        spacing: 8.0,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: Image.network(
+              product.images.first,
+              errorBuilder: (context, o, s) => Container(color: Colors.white24),
+            ),
           ),
-        ),
-        Text('\$${product.price}', style: textTheme.bodyMedium),
-        Text('\$${product.title}', style: textTheme.bodyLarge),
-      ],
+          Text('\$${product.price}', style: textTheme.bodyMedium),
+          Text('\$${product.title}', style: textTheme.bodyLarge),
+        ],
+      ),
     );
   }
 }

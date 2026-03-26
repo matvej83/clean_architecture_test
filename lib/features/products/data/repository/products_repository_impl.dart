@@ -32,6 +32,16 @@ class ProductsRepositoryImpl implements ProductsRepository {
   }
 
   @override
+  Future<Either<Failure, ProductEntity>> fetchProduct({String? id}) async {
+    try {
+      final product = await productsRemoteDataSource.fetchProduct(id: id);
+      return Right(product!.toEntity());
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
   Future<Either<Failure, List<CategoryEntity>>> fetchCategories() async {
     try {
       final categories = await productsRemoteDataSource.fetchCategories();
