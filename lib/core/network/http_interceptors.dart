@@ -78,8 +78,8 @@ class AuthInterceptor extends Interceptor {
             options: Options(extra: {'skipAuth': true}),
           );
 
-          final newAccessToken = response.data['accessToken'];
-          final newRefreshToken = response.data['refreshToken'];
+          final newAccessToken = response.data['access_token'];
+          final newRefreshToken = response.data['refresh_token'];
 
           await localDataSource.cacheToken(
             AuthTokenModel(

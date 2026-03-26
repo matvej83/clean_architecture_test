@@ -9,6 +9,6 @@ targets:
 
       json_serializable:
         options:
-          field_rename: snake
+          field_rename: none
           explicit_to_json: true
           include_if_null: false

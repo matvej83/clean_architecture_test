@@ -18,6 +18,12 @@ _ProductModel _$ProductModelFromJson(
   images:
       (json['images'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       [],
+  creationAt: json['creationAt'] == null
+      ? null
+      : DateTime.parse(json['creationAt'] as String),
+  updatedAt: json['updatedAt'] == null
+      ? null
+      : DateTime.parse(json['updatedAt'] as String),
 );
 
 Map<String, dynamic> _$ProductModelToJson(_ProductModel instance) =>
@@ -29,4 +35,6 @@ Map<String, dynamic> _$ProductModelToJson(_ProductModel instance) =>
       'description': instance.description,
       'category': instance.category.toJson(),
       'images': instance.images,
+      'creationAt': ?instance.creationAt?.toIso8601String(),
+      'updatedAt': ?instance.updatedAt?.toIso8601String(),
     };

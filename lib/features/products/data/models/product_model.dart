@@ -19,6 +19,8 @@ abstract class ProductModel with _$ProductModel {
     required String description,
     required CategoryModel category,
     @JsonKey(defaultValue: []) required List<String> images,
+    DateTime? creationAt,
+    DateTime? updatedAt,
   }) = _ProductModel;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
@@ -42,5 +44,7 @@ extension ProductModelExt on ProductModel {
     description: description,
     category: category.toEntity(),
     images: images,
+    creationAt: creationAt,
+    updatedAt: updatedAt,
   );
 }

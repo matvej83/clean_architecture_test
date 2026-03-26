@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProductModel {
 
- int get id; String get title; String get slug; int get price; String get description; CategoryModel get category;@JsonKey(defaultValue: []) List<String> get images;
+ int get id; String get title; String get slug; int get price; String get description; CategoryModel get category;@JsonKey(defaultValue: []) List<String> get images; DateTime? get creationAt; DateTime? get updatedAt;
 /// Create a copy of ProductModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ProductModelCopyWith<ProductModel> get copyWith => _$ProductModelCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other.images, images));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other.images, images)&&(identical(other.creationAt, creationAt) || other.creationAt == creationAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,slug,price,description,category,const DeepCollectionEquality().hash(images));
+int get hashCode => Object.hash(runtimeType,id,title,slug,price,description,category,const DeepCollectionEquality().hash(images),creationAt,updatedAt);
 
 @override
 String toString() {
-  return 'ProductModel(id: $id, title: $title, slug: $slug, price: $price, description: $description, category: $category, images: $images)';
+  return 'ProductModel(id: $id, title: $title, slug: $slug, price: $price, description: $description, category: $category, images: $images, creationAt: $creationAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ProductModelCopyWith<$Res>  {
   factory $ProductModelCopyWith(ProductModel value, $Res Function(ProductModel) _then) = _$ProductModelCopyWithImpl;
 @useResult
 $Res call({
- int id, String title, String slug, int price, String description, CategoryModel category,@JsonKey(defaultValue: []) List<String> images
+ int id, String title, String slug, int price, String description, CategoryModel category,@JsonKey(defaultValue: []) List<String> images, DateTime? creationAt, DateTime? updatedAt
 });
 
 
@@ -65,7 +65,7 @@ class _$ProductModelCopyWithImpl<$Res>
 
 /// Create a copy of ProductModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? slug = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? slug = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? creationAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,9 @@ as String,price: null == price ? _self.price : price // ignore: cast_nullable_to
 as int,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as CategoryModel,images: null == images ? _self.images : images // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,creationAt: freezed == creationAt ? _self.creationAt : creationAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 /// Create a copy of ProductModel
@@ -168,10 +170,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  String slug,  int price,  String description,  CategoryModel category, @JsonKey(defaultValue: [])  List<String> images)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  String slug,  int price,  String description,  CategoryModel category, @JsonKey(defaultValue: [])  List<String> images,  DateTime? creationAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProductModel() when $default != null:
-return $default(_that.id,_that.title,_that.slug,_that.price,_that.description,_that.category,_that.images);case _:
+return $default(_that.id,_that.title,_that.slug,_that.price,_that.description,_that.category,_that.images,_that.creationAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -189,10 +191,10 @@ return $default(_that.id,_that.title,_that.slug,_that.price,_that.description,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  String slug,  int price,  String description,  CategoryModel category, @JsonKey(defaultValue: [])  List<String> images)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  String slug,  int price,  String description,  CategoryModel category, @JsonKey(defaultValue: [])  List<String> images,  DateTime? creationAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _ProductModel():
-return $default(_that.id,_that.title,_that.slug,_that.price,_that.description,_that.category,_that.images);case _:
+return $default(_that.id,_that.title,_that.slug,_that.price,_that.description,_that.category,_that.images,_that.creationAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -209,10 +211,10 @@ return $default(_that.id,_that.title,_that.slug,_that.price,_that.description,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  String slug,  int price,  String description,  CategoryModel category, @JsonKey(defaultValue: [])  List<String> images)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  String slug,  int price,  String description,  CategoryModel category, @JsonKey(defaultValue: [])  List<String> images,  DateTime? creationAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ProductModel() when $default != null:
-return $default(_that.id,_that.title,_that.slug,_that.price,_that.description,_that.category,_that.images);case _:
+return $default(_that.id,_that.title,_that.slug,_that.price,_that.description,_that.category,_that.images,_that.creationAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -224,7 +226,7 @@ return $default(_that.id,_that.title,_that.slug,_that.price,_that.description,_t
 @JsonSerializable()
 
 class _ProductModel extends ProductModel {
-  const _ProductModel({required this.id, required this.title, required this.slug, required this.price, required this.description, required this.category, @JsonKey(defaultValue: []) required final  List<String> images}): _images = images,super._();
+  const _ProductModel({required this.id, required this.title, required this.slug, required this.price, required this.description, required this.category, @JsonKey(defaultValue: []) required final  List<String> images, this.creationAt, this.updatedAt}): _images = images,super._();
   factory _ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
 
 @override final  int id;
@@ -240,6 +242,8 @@ class _ProductModel extends ProductModel {
   return EqualUnmodifiableListView(_images);
 }
 
+@override final  DateTime? creationAt;
+@override final  DateTime? updatedAt;
 
 /// Create a copy of ProductModel
 /// with the given fields replaced by the non-null parameter values.
@@ -254,16 +258,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductModel&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.slug, slug) || other.slug == slug)&&(identical(other.price, price) || other.price == price)&&(identical(other.description, description) || other.description == description)&&(identical(other.category, category) || other.category == category)&&const DeepCollectionEquality().equals(other._images, _images)&&(identical(other.creationAt, creationAt) || other.creationAt == creationAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,slug,price,description,category,const DeepCollectionEquality().hash(_images));
+int get hashCode => Object.hash(runtimeType,id,title,slug,price,description,category,const DeepCollectionEquality().hash(_images),creationAt,updatedAt);
 
 @override
 String toString() {
-  return 'ProductModel(id: $id, title: $title, slug: $slug, price: $price, description: $description, category: $category, images: $images)';
+  return 'ProductModel(id: $id, title: $title, slug: $slug, price: $price, description: $description, category: $category, images: $images, creationAt: $creationAt, updatedAt: $updatedAt)';
 }
 
 
@@ -274,7 +278,7 @@ abstract mixin class _$ProductModelCopyWith<$Res> implements $ProductModelCopyWi
   factory _$ProductModelCopyWith(_ProductModel value, $Res Function(_ProductModel) _then) = __$ProductModelCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String title, String slug, int price, String description, CategoryModel category,@JsonKey(defaultValue: []) List<String> images
+ int id, String title, String slug, int price, String description, CategoryModel category,@JsonKey(defaultValue: []) List<String> images, DateTime? creationAt, DateTime? updatedAt
 });
 
 
@@ -291,7 +295,7 @@ class __$ProductModelCopyWithImpl<$Res>
 
 /// Create a copy of ProductModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? slug = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? slug = null,Object? price = null,Object? description = null,Object? category = null,Object? images = null,Object? creationAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_ProductModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -300,7 +304,9 @@ as String,price: null == price ? _self.price : price // ignore: cast_nullable_to
 as int,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as CategoryModel,images: null == images ? _self._images : images // ignore: cast_nullable_to_non_nullable
-as List<String>,
+as List<String>,creationAt: freezed == creationAt ? _self.creationAt : creationAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

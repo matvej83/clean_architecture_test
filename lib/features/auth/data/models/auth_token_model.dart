@@ -8,8 +8,8 @@ part 'auth_token_model.g.dart';
 @freezed
 abstract class AuthTokenModel with _$AuthTokenModel {
   const factory AuthTokenModel({
-    required String accessToken,
-    required String refreshToken,
+    @JsonKey(name: 'access_token') required String accessToken,
+    @JsonKey(name: 'refresh_token') required String refreshToken,
   }) = _AuthTokenModel;
 
   factory AuthTokenModel.fromJson(Map<String, dynamic> json) =>

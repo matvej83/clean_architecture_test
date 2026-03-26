@@ -47,7 +47,7 @@ class ListItem extends StatelessWidget {
             errorBuilder: (context, o, s) => Container(color: Colors.white24),
           ),
         ),
-        Text('\$${product.price}', style: textTheme.bodyMedium),
+        Text('\$${product.creationAt}', style: textTheme.bodyMedium),
         Text('\$${product.title}', style: textTheme.bodyLarge),
       ],
     );
