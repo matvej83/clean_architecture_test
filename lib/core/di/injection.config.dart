@@ -43,6 +43,8 @@ import 'package:clean_architecture_test/features/products/data/repository/produc
     as _i4;
 import 'package:clean_architecture_test/features/products/domain/repository/products_repository.dart'
     as _i557;
+import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart'
+    as _i1043;
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_products_usecase.dart'
     as _i542;
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart'
@@ -130,12 +132,16 @@ extension GetItInjectableX on _i174.GetIt {
         productsRemoteDataSource: gh<_i223.ProductsRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i1043.FetchCategoriesUseCase>(
+      () => _i1043.FetchCategoriesUseCase(gh<_i557.ProductsRepository>()),
+    );
     gh.lazySingleton<_i542.FetchProductsUseCase>(
       () => _i542.FetchProductsUseCase(gh<_i557.ProductsRepository>()),
     );
     gh.lazySingleton<_i1063.ProductsBloc>(
       () => _i1063.ProductsBloc(
         fetchProductsUseCase: gh<_i542.FetchProductsUseCase>(),
+        fetchCategoriesUseCase: gh<_i1043.FetchCategoriesUseCase>(),
       ),
     );
     return this;

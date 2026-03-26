@@ -1,10 +1,13 @@
 import 'package:clean_architecture_test/core/error/exception.dart';
+import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
 import 'package:clean_architecture_test/features/products/data/models/product_model.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class ProductsRemoteDataSource {
   Future<List<ProductModel>?> fetchProducts();
+
+  Future<List<CategoryModel>?> fetchCategories();
 }
 
 @LazySingleton(as: ProductsRemoteDataSource)
@@ -19,6 +22,23 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
       final response = await dio.get('products');
       if (response.data != null) {
         return ProductModel.fromList(response.data);
+      }
+    } on Exception catch (e) {
+      if (e is DioException && e.response?.statusCode == 401) {
+        throw InvalidCredentialsException();
+      } else {
+        throw ServerException();
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<List<CategoryModel>?> fetchCategories() async {
+    try {
+      final response = await dio.get('categories');
+      if (response.data != null) {
+        return CategoryModel.fromList(response.data);
       }
     } on Exception catch (e) {
       if (e is DioException && e.response?.statusCode == 401) {

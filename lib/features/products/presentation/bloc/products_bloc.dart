@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
+import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_products_usecase.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_state.dart';
@@ -12,10 +13,14 @@ import '../../../../core/error/failure.dart';
 @lazySingleton
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final FetchProductsUseCase fetchProductsUseCase;
+  final FetchCategoriesUseCase fetchCategoriesUseCase;
 
-  ProductsBloc({required this.fetchProductsUseCase})
-    : super(const ProductsState()) {
+  ProductsBloc({
+    required this.fetchProductsUseCase,
+    required this.fetchCategoriesUseCase,
+  }) : super(const ProductsState()) {
     on<ProductsFetched>(_onProductsFetched);
+    on<CategoriesFetched>(_onCategoriesFetched);
   }
 
   FutureOr<void> _onProductsFetched(
@@ -35,6 +40,27 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       },
       (r) {
         emit(state.copyWith(products: r, isLoading: false));
+      },
+    );
+  }
+
+  FutureOr<void> _onCategoriesFetched(
+    CategoriesFetched event,
+    Emitter<ProductsState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    final result = await fetchCategoriesUseCase(NoParams());
+
+    result.fold(
+      (l) {
+        String message = 'Server error';
+        if (l is InvalidCredentialsFailure) {
+          message = 'Wrong email or password';
+        }
+        emit(state.copyWith(error: message, isLoading: false));
+      },
+      (r) {
+        emit(state.copyWith(categories: r, isLoading: false));
       },
     );
   }

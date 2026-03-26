@@ -7,6 +7,8 @@ part 'category_model.g.dart';
 
 @freezed
 abstract class CategoryModel with _$CategoryModel {
+  const CategoryModel._();
+
   const factory CategoryModel({
     required int id,
     required String name,
@@ -16,6 +18,15 @@ abstract class CategoryModel with _$CategoryModel {
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$CategoryModelFromJson(json);
+
+  static List<CategoryModel> fromList(List<dynamic> list) {
+    return list
+        .map(
+          (jsonItem) =>
+              CategoryModel.fromJson(jsonItem as Map<String, dynamic>),
+        )
+        .toList();
+  }
 }
 
 extension CategoryModelExt on CategoryModel {

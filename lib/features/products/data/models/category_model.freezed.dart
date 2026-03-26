@@ -211,8 +211,8 @@ return $default(_that.id,_that.name,_that.image,_that.slug);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _CategoryModel implements CategoryModel {
-  const _CategoryModel({required this.id, required this.name, required this.image, required this.slug});
+class _CategoryModel extends CategoryModel {
+  const _CategoryModel({required this.id, required this.name, required this.image, required this.slug}): super._();
   factory _CategoryModel.fromJson(Map<String, dynamic> json) => _$CategoryModelFromJson(json);
 
 @override final  int id;

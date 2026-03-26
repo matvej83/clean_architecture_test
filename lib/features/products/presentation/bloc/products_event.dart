@@ -7,6 +7,8 @@ abstract class ProductsEvent extends Equatable {
 
 class ProductsFetched extends ProductsEvent {}
 
+class CategoriesFetched extends ProductsEvent {}
+
 class ProductFetched extends ProductsEvent {
   final int id;
 

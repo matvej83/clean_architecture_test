@@ -38,11 +38,17 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Login')),
+      resizeToAvoidBottomInset: true,
       body: BlocConsumer<AuthBloc, AuthState>(
         builder: (context, state) {
           final isLoading = state.isLoading;
-          return Padding(
-            padding: EdgeInsetsGeometry.all(24.0),
+          return SingleChildScrollView(
+            padding: EdgeInsetsGeometry.only(
+              top: 24.0,
+              left: 24.0,
+              right: 24.0,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             child: Form(
               key: _formKey,
               child: Column(

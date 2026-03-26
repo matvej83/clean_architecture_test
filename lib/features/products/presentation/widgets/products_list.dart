@@ -9,21 +9,17 @@ class ProductsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
-    return GridView.builder(
-      itemCount: products.length,
-      shrinkWrap: true,
-      physics: ClampingScrollPhysics(),
-      padding: EdgeInsets.zero,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: screenSize.width > screenSize.height ? 3 : 1,
-        crossAxisSpacing: 8.0,
-        mainAxisSpacing: 8.0,
-        childAspectRatio: 1.0,
-      ),
-      itemBuilder: (context, index) {
+    return SliverGrid(
+      delegate: SliverChildBuilderDelegate((context, index) {
         final item = products[index];
         return ListItem(key: ValueKey(item.id), product: item);
-      },
+      }, childCount: products.length),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: screenSize.width > screenSize.height ? 3 : 1,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+        childAspectRatio: 1,
+      ),
     );
   }
 }
@@ -47,7 +43,7 @@ class ListItem extends StatelessWidget {
             errorBuilder: (context, o, s) => Container(color: Colors.white24),
           ),
         ),
-        Text('\$${product.creationAt}', style: textTheme.bodyMedium),
+        Text('\$${product.price}', style: textTheme.bodyMedium),
         Text('\$${product.title}', style: textTheme.bodyLarge),
       ],
     );

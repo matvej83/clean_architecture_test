@@ -67,6 +67,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     context.read<ProductsBloc>().add(ProductsFetched());
+    context.read<ProductsBloc>().add(CategoriesFetched());
     super.initState();
   }
 

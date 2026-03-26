@@ -1,4 +1,5 @@
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
 import 'package:clean_architecture_test/navigation/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,14 +29,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final authBloc = getIt<AuthBloc>();
     final fetchProductsUseCase = getIt<FetchProductsUseCase>();
+    final fetchCategoriesUseCase = getIt<FetchCategoriesUseCase>();
     final appRouter = AppRouter(authBloc: authBloc);
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => authBloc),
         BlocProvider(
-          create: (_) =>
-              ProductsBloc(fetchProductsUseCase: fetchProductsUseCase),
+          create: (_) => ProductsBloc(
+            fetchProductsUseCase: fetchProductsUseCase,
+            fetchCategoriesUseCase: fetchCategoriesUseCase,
+          ),
           lazy: true,
         ),
       ],
