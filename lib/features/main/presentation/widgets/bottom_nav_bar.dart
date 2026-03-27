@@ -18,6 +18,7 @@ class BottomNavBar extends StatelessWidget {
       onTap: onItemTap,
       showSelectedLabels: true,
       showUnselectedLabels: false,
+      backgroundColor: Color(0xFF222222),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home_filled),

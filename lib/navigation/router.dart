@@ -62,7 +62,7 @@ class AppRouter {
                     const NoTransitionPage(child: ProductsPage()),
                 routes: [
                   GoRoute(
-                    path: 'product/:id',
+                    path: ':id',
                     builder: (context, state) {
                       final id = state.pathParameters['id']!;
                       return ProductPage(key: ValueKey(id), id: id);
@@ -81,7 +81,7 @@ class AppRouter {
                     const NoTransitionPage(child: UsersPage()),
                 routes: [
                   GoRoute(
-                    path: 'user/:id',
+                    path: ':id',
                     builder: (context, state) {
                       final id = state.pathParameters['id']!;
                       return UserPage(key: ValueKey(id), id: id);

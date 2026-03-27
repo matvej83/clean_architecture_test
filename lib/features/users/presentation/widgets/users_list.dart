@@ -25,7 +25,7 @@ class UsersList extends StatelessWidget {
           key: ValueKey(user.id),
           areYou: authState.user?.id == user.id,
           onTap: () {
-            context.push(Pages.user + user.id);
+            context.go('${Pages.users}/${user.id}');
           },
           user: user,
         );

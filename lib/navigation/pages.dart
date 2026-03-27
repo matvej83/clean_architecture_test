@@ -1,9 +1,9 @@
 class Pages {
-  static const String splash = '/splash';
-  static const String login = '/login';
-  static const String products = '/products';
-  static const String product = '/products/product/';
-  static const String users = '/users';
-  static const String user = '/users/user/';
-  static const String profile = '/profile';
+  static const splash = '/splash';
+  static const login = '/login';
+
+  /// Shell routes
+  static const products = '/products';
+  static const users = '/users';
+  static const profile = '/profile';
 }

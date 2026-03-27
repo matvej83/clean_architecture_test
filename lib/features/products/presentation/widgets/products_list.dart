@@ -37,7 +37,7 @@ class ListItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
-        context.push(Pages.product + product.id);
+        context.go('${Pages.products}/${product.id}');
       },
       child: Column(
         spacing: 8.0,

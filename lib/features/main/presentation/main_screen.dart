@@ -17,58 +17,26 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _getCurrentIndex(BuildContext context) {
-    final location = GoRouterState.of(context).uri.toString();
-    switch (location) {
-      case Pages.products:
-        return 0;
-      case Pages.users:
-        return 1;
-      case Pages.profile:
-        return 2;
-    }
-    return 0;
-  }
-
-  void _onItemTap(BuildContext context, {index}) {
-    switch (index) {
-      case 0:
-        context.go(Pages.products);
-        break;
-      case 1:
-        context.go(Pages.users);
-        break;
-      case 2:
-        context.go(Pages.profile);
-        break;
-    }
-  }
-
   String _getAppBarTitle(BuildContext context) {
-    final location = GoRouterState.of(context).uri.toString();
-    if (location.contains('products/')) {
-      return 'Product';
+    final location = GoRouterState.of(context).uri;
+    if (location.pathSegments.length == 2) {
+      if (location.pathSegments.first == 'products') {
+        return 'Product';
+      } else if (location.pathSegments.first == 'users') {
+        return 'User';
+      }
     }
-    if (location.contains('users/')) {
-      return 'User';
-    }
-    switch (location) {
-      case Pages.products:
-        return 'Products';
-      case Pages.users:
-        return 'Users';
-      case Pages.profile:
-        return 'Profile';
-    }
-    return 'Home';
+    return switch (location.toString()) {
+      Pages.products => 'Products',
+      Pages.users => 'Users',
+      Pages.profile => 'Profile',
+      _ => 'Home',
+    };
   }
 
   bool showBackButton(BuildContext context) {
-    final location = GoRouterState.of(context).uri.toString();
-    return switch (location) {
-      Pages.products || Pages.users || Pages.profile => false,
-      _ => true,
-    };
+    final uri = GoRouterState.of(context).uri;
+    return uri.pathSegments.length > 1;
   }
 
   @override
@@ -88,7 +56,9 @@ class _MainScreenState extends State<MainScreen> {
         leading: showBackButton(context)
             ? BackButton(
                 onPressed: () {
-                  context.pop();
+                  if (context.canPop()) {
+                    context.pop();
+                  }
                 },
               )
             : null,
@@ -100,9 +70,9 @@ class _MainScreenState extends State<MainScreen> {
         child: widget.navigationShell,
       ),
       bottomNavigationBar: BottomNavBar(
-        currentPage: _getCurrentIndex(context),
+        currentPage: widget.navigationShell.currentIndex,
         onItemTap: (index) {
-          _onItemTap(context, index: index);
+          widget.navigationShell.goBranch(index);
         },
       ),
     );

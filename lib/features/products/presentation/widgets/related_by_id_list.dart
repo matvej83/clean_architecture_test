@@ -39,7 +39,7 @@ class ListItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
-        context.go(Pages.product + product.id);
+        context.go('${Pages.products}/${product.id}');
       },
       child: SizedBox(
         width: 130.0,
