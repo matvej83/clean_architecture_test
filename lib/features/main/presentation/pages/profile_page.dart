@@ -1,5 +1,6 @@
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_event.dart';
 import 'package:clean_architecture_test/features/auth/presentation/widgets/user_avatar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,12 +25,18 @@ class ProfilePage extends StatelessWidget {
               children: [
                 UserAvatar(avatar: state.user?.avatar ?? ''),
                 Text('${state.user?.name}', style: textTheme.headlineSmall),
-                Text('Email: ${state.user?.email}', style: textTheme.bodyLarge),
+                Text(
+                  '${'loginScreen.fieldNameEmail'.tr()}: ${state.user?.email}',
+                  style: textTheme.bodyLarge,
+                ),
                 Row(
                   spacing: 8.0,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Logout', style: textTheme.bodyLarge),
+                    Text(
+                      'profileScreen.btnLogout'.tr(),
+                      style: textTheme.bodyLarge,
+                    ),
                     IconButton(
                       onPressed: () {
                         context.read<AuthBloc>().add(AuthLogoutRequested());

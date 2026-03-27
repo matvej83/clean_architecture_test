@@ -1,6 +1,7 @@
 import 'package:clean_architecture_test/features/main/presentation/widgets/bottom_nav_bar.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -21,16 +22,16 @@ class _MainScreenState extends State<MainScreen> {
     final location = GoRouterState.of(context).uri;
     if (location.pathSegments.length == 2) {
       if (location.pathSegments.first == 'products') {
-        return 'Product';
+        return 'productScreen.screenName'.tr();
       } else if (location.pathSegments.first == 'users') {
-        return 'User';
+        return 'userScreen.screenName'.tr();
       }
     }
     return switch (location.toString()) {
-      Pages.products => 'Products',
-      Pages.users => 'Users',
-      Pages.profile => 'Profile',
-      _ => 'Home',
+      Pages.products => 'productsScreen.screenName'.tr(),
+      Pages.users => 'usersScreen.screenName'.tr(),
+      Pages.profile => 'profileScreen.screenName'.tr(),
+      _ => '',
     };
   }
 

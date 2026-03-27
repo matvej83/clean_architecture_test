@@ -3,6 +3,7 @@ import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_blo
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_architecture_test/navigation/router.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -19,13 +20,21 @@ import 'features/users/domain/usecases/fetch_users_usecase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await dotenv.load(fileName: '.env');
   await configureDependencies();
   final sessionManager = getIt<AuthSessionManager>();
   sessionManager.onLogout = () {
     getIt<AuthBloc>().add(AuthLogoutRequested());
   };
-  runApp(MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: [Locale('en')],
+      path: 'assets/translations',
+      fallbackLocale: Locale('en'),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -67,6 +76,9 @@ class MyApp extends StatelessWidget {
         routerConfig: appRouter.router,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.dark,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
       ),
     );
   }

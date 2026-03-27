@@ -3,6 +3,7 @@ import 'package:clean_architecture_test/core/presentation/widgets/carousel_slide
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:clean_architecture_test/features/products/presentation/widgets/carousel_slider_item.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -68,12 +69,15 @@ class _ProductPageState extends State<ProductPage> {
                           style: textTheme.bodyLarge,
                         ),
                         Text(
-                          'Updated at: ${DateFormat('dd MMM, yyyy').format(state.product?.updatedAt ?? DateTime.now())}',
+                          '${'updatedAt'.tr()} ${DateFormat('dd MMM, yyyy', context.locale.languageCode).format(state.product?.updatedAt ?? DateTime.now())}',
                           style: textTheme.bodySmall,
                         ),
                         if (state.relatedById.isNotEmpty) ...[
                           const SizedBox(height: 32.0),
-                          Text('Related products:', style: textTheme.bodyLarge),
+                          Text(
+                            'productScreen.relatedProducts'.tr(),
+                            style: textTheme.bodyLarge,
+                          ),
                           RelatedByIdList(),
                         ],
                       ],

@@ -2,6 +2,7 @@ import 'package:clean_architecture_test/features/auth/domain/entity/user_entity.
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/auth/presentation/widgets/user_avatar.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -65,7 +66,7 @@ class ListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${user.name}${areYou ? ' (You)' : ''}',
+                    '${user.name}${areYou ? ' (${'you'.tr()})' : ''}',
                     style: textTheme.bodyMedium,
                     softWrap: true,
                     overflow: TextOverflow.fade,

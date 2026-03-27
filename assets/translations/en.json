@@ -1,0 +1,37 @@
+{
+  "updatedAt": "Updated at:",
+  "you": "You",
+  "bottomNavBar": {
+    "homeTab": "Home",
+    "usersTab": "Users",
+    "profileTab": "Profile"
+  },
+  "loginScreen": {
+    "screenName": "Login",
+    "fieldNameEmail": "Email",
+    "fieldNamePassword": "Password",
+    "btnLogin": "Login"
+  },
+  "productsScreen": {
+    "screenName": "Products",
+    "categories": "Categories"
+  },
+  "productScreen": {
+    "screenName": "Product",
+    "relatedProducts": "Related products"
+  },
+  "usersScreen": {
+    "screenName": "Users"
+  },
+  "userScreen": {
+    "screenName": "User"
+  },
+  "profileScreen": {
+    "screenName": "Profile",
+    "btnLogout": "Logout"
+  },
+  "fieldValidation": {
+    "enterEmail": "Enter email",
+    "enterPassword": "Enter password"
+  }
+}

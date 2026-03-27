@@ -1,6 +1,7 @@
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_event.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: Text('loginScreen.screenName'.tr())),
       resizeToAvoidBottomInset: true,
       body: BlocConsumer<AuthBloc, AuthState>(
         builder: (context, state) {
@@ -78,12 +79,12 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.emailAddress,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
-                      labelText: 'Email',
+                      labelText: 'loginScreen.fieldNameEmail'.tr(),
                       prefix: Icon(Icons.email),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter email';
+                        return 'fieldValidation.enterPassword'.tr();
                       }
                       return null;
                     },
@@ -93,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                     enabled: !isLoading,
                     obscureText: obscure,
                     decoration: InputDecoration(
-                      labelText: 'Password',
+                      labelText: 'loginScreen.fieldNamePassword'.tr(),
                       prefix: GestureDetector(
                         onTap: obscureIcon,
                         child: Icon(obscure ? Icons.lock : Icons.lock_open),
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Enter password';
+                        return 'fieldValidation.enterPassword'.tr();
                       }
                       return null;
                     },
@@ -114,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                             height: 20.0,
                             child: CircularProgressIndicator(strokeWidth: 2.0),
                           )
-                        : Text('Login'),
+                        : Text('loginScreen.btnLogin'.tr()),
                   ),
                 ],
               ),
