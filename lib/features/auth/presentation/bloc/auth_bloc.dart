@@ -8,6 +8,7 @@ import 'package:clean_architecture_test/features/auth/domain/usecases/login_usec
 import 'package:clean_architecture_test/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_event.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -76,11 +77,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
     result.fold(
       (l) {
-        String message = 'Auth error';
+        String message = 'errors.authError'.tr();
         if (l is InvalidCredentialsFailure) {
-          message = 'Wrong email or password';
+          message = 'errors.wrongEmailOrPassword'.tr();
         } else if (l is ServerFailure) {
-          message = 'Server error';
+          message = 'errors.serverError'.tr();
         }
         emit(state.copyWith(error: message, isLoading: false));
       },
@@ -101,9 +102,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await getUserProfileUseCase(NoParams());
     result.fold(
       (l) {
-        String message = 'Server error';
+        String message = 'errors.serverError'.tr();
         if (l is InvalidCredentialsFailure) {
-          message = 'Access token is invalid';
+          message = 'errors.accessTokenInvalid'.tr();
         }
         emit(state.copyWith(error: message, isLoading: false));
       },
@@ -121,7 +122,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await logoutUseCase(NoParams());
     result.fold(
       (l) {
-        String message = 'Logout error';
+        String message = 'errors.logoutError'.tr();
         emit(state.copyWith(error: message, isLoading: false));
       },
       (r) {

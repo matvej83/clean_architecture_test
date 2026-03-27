@@ -33,5 +33,12 @@
   "fieldValidation": {
     "enterEmail": "Enter email",
     "enterPassword": "Enter password"
+  },
+  "errors": {
+    "authError": "Auth error",
+    "wrongEmailOrPassword": "Wrong email or password",
+    "serverError": "Server error",
+    "accessTokenInvalid": "Access token is invalid",
+    "logoutError": "Logout error"
   }
 }

@@ -79,7 +79,7 @@ class ListItem extends StatelessWidget {
               ),
               softWrap: true,
               overflow: TextOverflow.fade,
-              maxLines: 2,
+              maxLines: 1,
             ),
           ],
         ),

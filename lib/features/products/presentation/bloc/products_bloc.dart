@@ -6,6 +6,7 @@ import 'package:clean_architecture_test/features/products/domain/usecases/fetch_
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_related_by_id_usecase.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/failure.dart';
@@ -42,9 +43,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
     result.fold(
       (l) {
-        String message = 'Server error';
+        String message = 'errors.serverError'.tr();
         if (l is InvalidCredentialsFailure) {
-          message = 'Wrong email or password';
+          message = 'errors.wrongEmailOrPassword'.tr();
         }
         emit(
           state.copyWith(
@@ -76,9 +77,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
     result.fold(
       (l) {
-        String message = 'Server error';
+        String message = 'errors.serverError'.tr();
         if (l is InvalidCredentialsFailure) {
-          message = 'Wrong email or password';
+          message = 'errors.wrongEmailOrPassword'.tr();
         }
         emit(
           state.copyWith(
@@ -109,9 +110,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
     result.fold(
       (l) {
-        String message = 'Server error';
+        String message = 'errors.serverError'.tr();
         if (l is InvalidCredentialsFailure) {
-          message = 'Wrong email or password';
+          message = 'errors.wrongEmailOrPassword'.tr();
         }
         emit(state.copyWith(error: message, isLoading: false));
       },
@@ -131,9 +132,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
     result.fold(
       (l) {
-        String message = 'Server error';
+        String message = 'errors.serverError'.tr();
         if (l is InvalidCredentialsFailure) {
-          message = 'Wrong email or password';
+          message = 'errors.wrongEmailOrPassword'.tr();
         }
         emit(state.copyWith(error: message));
       },

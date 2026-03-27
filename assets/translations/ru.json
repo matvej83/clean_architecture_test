@@ -1,0 +1,44 @@
+{
+  "updatedAt": "Обновлено:",
+  "you": "Вы",
+  "bottomNavBar": {
+    "homeTab": "Старт",
+    "usersTab": "Пользователи",
+    "profileTab": "Профиль"
+  },
+  "loginScreen": {
+    "screenName": "Вход",
+    "fieldNameEmail": "Email",
+    "fieldNamePassword": "Пароль",
+    "btnLogin": "Войти"
+  },
+  "productsScreen": {
+    "screenName": "Товары",
+    "categories": "Категории"
+  },
+  "productScreen": {
+    "screenName": "Товар",
+    "relatedProducts": "Похожие товары"
+  },
+  "usersScreen": {
+    "screenName": "Пользователи"
+  },
+  "userScreen": {
+    "screenName": "Пользователь"
+  },
+  "profileScreen": {
+    "screenName": "Профиль",
+    "btnLogout": "Выход"
+  },
+  "fieldValidation": {
+    "enterEmail": "Введите email",
+    "enterPassword": "Введите пароль"
+  },
+  "errors": {
+    "authError": "Ошибка авторизации",
+    "wrongEmailOrPassword": "Неверный email или пароль",
+    "serverError": "Ошибка сервера",
+    "accessTokenInvalid": "Access token невалидный",
+    "logoutError": "Ошибка при выходе"
+  }
+}

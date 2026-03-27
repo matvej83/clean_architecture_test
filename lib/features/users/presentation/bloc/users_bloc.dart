@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_event.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/failure.dart';
@@ -29,9 +30,9 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
     result.fold(
       (l) {
-        String message = 'Server error';
+        String message = 'errors.serverError'.tr();
         if (l is InvalidCredentialsFailure) {
-          message = 'Wrong email or password';
+          message = 'errors.wrongEmailOrPassword'.tr();
         }
         emit(state.copyWith(error: message, isLoading: false));
       },
@@ -51,9 +52,9 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
     result.fold(
       (l) {
-        String message = 'Server error';
+        String message = 'errors.serverError'.tr();
         if (l is InvalidCredentialsFailure) {
-          message = 'Wrong email or password';
+          message = 'errors.wrongEmailOrPassword'.tr();
         }
         emit(state.copyWith(error: message, isUserLoading: false));
       },
