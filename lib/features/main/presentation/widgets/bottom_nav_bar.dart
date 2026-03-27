@@ -13,12 +13,8 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
       currentIndex: currentPage,
       onTap: onItemTap,
-      showSelectedLabels: true,
-      showUnselectedLabels: false,
-      backgroundColor: Color(0xFF222222),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home_filled),

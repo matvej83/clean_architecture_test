@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../features/auth/data/data_sources/auth_local_data_source.dart';
+import '../error/exception.dart';
 import '../services/auth_session_manager.dart';
 
 @lazySingleton
@@ -51,11 +52,12 @@ class AuthInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final isUnauthorized = err.response?.statusCode == 401;
+    final skipLoginError = err.requestOptions.path.contains('auth/login');
     final isRefreshCall = err.requestOptions.path.contains(
       'auth/refresh-token',
     );
 
-    if (isUnauthorized && !isRefreshCall) {
+    if (isUnauthorized && !isRefreshCall && !skipLoginError) {
       final completer = Completer<Response>();
 
       _queue.add((request: err.requestOptions, completer: completer));
@@ -69,7 +71,7 @@ class AuthInterceptor extends Interceptor {
           /// logout
           if (token?.refreshToken == null) {
             sessionManager.logout();
-            throw Exception('No refresh token');
+            throw InvalidCredentialsException();
           }
 
           final response = await refreshDio.post(
@@ -117,8 +119,16 @@ class AuthInterceptor extends Interceptor {
         }
       }
 
-      final response = await completer.future;
-      return handler.resolve(response);
+      try {
+        final response = await completer.future;
+        return handler.resolve(response);
+      } catch (e) {
+        return handler.reject(
+          e is DioException
+              ? e
+              : DioException(requestOptions: err.requestOptions, error: e),
+        );
+      }
     }
 
     handler.next(err);
@@ -133,41 +143,22 @@ class AuthInterceptor extends Interceptor {
 class ErrorInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    String message = 'Unexpected error';
-
-    switch (err.type) {
-      case DioExceptionType.connectionTimeout:
-        message = 'Connection timeout';
-        break;
-      case DioExceptionType.receiveTimeout:
-        message = 'Receive timeout';
-        break;
-      case DioExceptionType.sendTimeout:
-        message = 'Send timeout';
-        break;
-      default:
-        if (err.response != null) {
-          final statusCode = err.response!.statusCode;
-
-          switch (statusCode) {
-            case 400:
-              message = 'Bad request';
-              break;
-            case 401:
-              message = 'Unauthorized';
-              break;
-            case 403:
-              message = 'Forbidden';
-              break;
-            case 404:
-              message = 'Not found';
-              break;
-            case 500:
-              message = 'Server error';
-              break;
-          }
-        }
-    }
+    final message = switch (err.type) {
+      DioExceptionType.connectionTimeout => 'Connection timeout',
+      DioExceptionType.sendTimeout => 'Receive timeout',
+      DioExceptionType.receiveTimeout => 'Receive timeout',
+      _ =>
+        err.response != null
+            ? switch (err.response!.statusCode) {
+                400 => 'Bad request',
+                401 => 'Unauthorized',
+                403 => 'Forbidden',
+                404 => 'Not found',
+                500 => 'Server error',
+                _ => 'Unexpected error',
+              }
+            : 'Unexpected error',
+    };
 
     final newError = DioException(
       requestOptions: err.requestOptions,

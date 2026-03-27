@@ -17,7 +17,10 @@ class ProductsPage extends StatelessWidget {
             : CustomScrollView(
                 physics: const ClampingScrollPhysics(),
                 slivers: [
-                  SliverToBoxAdapter(child: CategoriesList()),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    sliver: SliverToBoxAdapter(child: CategoriesList()),
+                  ),
                   SliverPadding(
                     padding: const EdgeInsets.only(top: 24.0),
                     sliver: ProductsList(products: state.products),

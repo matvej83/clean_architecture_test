@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/theme/app_theme.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
@@ -65,26 +66,7 @@ class MyApp extends StatelessWidget {
         title: 'Auth Clean App',
         routerConfig: appRouter.router,
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark(useMaterial3: true).copyWith(
-          scaffoldBackgroundColor: Colors.black,
-          canvasColor: Colors.black,
-          appBarTheme: AppBarTheme(
-            elevation: 0,
-            surfaceTintColor: Colors.transparent,
-            scrolledUnderElevation: 0.0,
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              disabledBackgroundColor: Colors.grey,
-              foregroundColor: Colors.white,
-              disabledForegroundColor: Colors.blueGrey,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(12.0),
-              ),
-            ),
-          ),
-        ),
+        theme: AppTheme.dark,
       ),
     );
   }

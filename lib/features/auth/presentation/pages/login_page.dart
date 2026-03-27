@@ -79,7 +79,6 @@ class _LoginPageState extends State<LoginPage> {
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                       labelText: 'Email',
-                      border: OutlineInputBorder(),
                       prefix: Icon(Icons.email),
                     ),
                     validator: (value) {
@@ -95,7 +94,6 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: obscure,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      border: OutlineInputBorder(),
                       prefix: GestureDetector(
                         onTap: obscureIcon,
                         child: Icon(obscure ? Icons.lock : Icons.lock_open),

@@ -8,14 +8,7 @@ import '../../network/http_interceptors.dart';
 abstract class NetworkModule {
   @lazySingleton
   Dio dio(AuthInterceptor authInterceptor, ErrorInterceptor errorInterceptor) {
-    final dio = Dio(
-      BaseOptions(
-        baseUrl: AppEnv.baseUrl,
-        contentType: 'application/json',
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-      ),
-    );
+    final dio = Dio(_baseOptions);
 
     dio.interceptors.addAll([authInterceptor, errorInterceptor]);
 
@@ -25,6 +18,13 @@ abstract class NetworkModule {
   @Named('refresh_dio')
   @lazySingleton
   Dio refreshDio() {
-    return Dio(BaseOptions(baseUrl: AppEnv.baseUrl));
+    return Dio(_baseOptions);
   }
 }
+
+final _baseOptions = BaseOptions(
+  baseUrl: AppEnv.baseUrl,
+  contentType: 'application/json',
+  connectTimeout: const Duration(seconds: 10),
+  receiveTimeout: const Duration(seconds: 10),
+);

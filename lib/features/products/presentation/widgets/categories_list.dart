@@ -55,7 +55,11 @@ class ListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        color: isSelected ? Colors.white24 : null,
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          borderRadius: isSelected ? BorderRadius.circular(8.0) : null,
+          color: isSelected ? Colors.white24 : null,
+        ),
         width: 120.0,
         child: Column(
           spacing: 8.0,

@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:clean_architecture_test/common_widgets/carousel_slider.dart';
+import 'package:clean_architecture_test/core/presentation/widgets/carousel_slider.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:clean_architecture_test/features/products/presentation/widgets/carousel_slider_item.dart';
