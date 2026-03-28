@@ -52,7 +52,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('loginScreen.screenName'.tr())),
+      appBar: AppBar(
+        title: Text('loginScreen.screenName'.tr()),
+        centerTitle: true,
+      ),
       resizeToAvoidBottomInset: true,
       body: BlocConsumer<AuthBloc, AuthState>(
         builder: (context, state) {
