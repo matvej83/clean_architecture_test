@@ -35,15 +35,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthCheckRequested event,
     Emitter<AuthState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true));
     final result = await checkAuthUseCase(NoParams());
 
     final isAuth = result.getOrElse(() => false);
 
     if (!isAuth) {
-      emit(
-        state.copyWith(status: AuthStatus.unauthenticated, isLoading: false),
-      );
+      emit(state.copyWith(status: AuthStatus.unauthenticated));
       return;
     }
 
@@ -51,18 +48,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     userResult.fold(
       (l) {
-        emit(
-          state.copyWith(status: AuthStatus.unauthenticated, isLoading: false),
-        );
+        emit(state.copyWith(status: AuthStatus.unauthenticated));
       },
       (r) {
-        emit(
-          state.copyWith(
-            status: AuthStatus.authenticated,
-            user: r,
-            isLoading: false,
-          ),
-        );
+        emit(state.copyWith(status: AuthStatus.authenticated, user: r));
       },
     );
   }
@@ -86,10 +75,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(error: message, isLoading: false));
       },
       (r) {
+        add(AuthUserProfileRequested());
         emit(
           state.copyWith(status: AuthStatus.authenticated, isLoading: false),
         );
-        add(AuthUserProfileRequested());
       },
     );
   }

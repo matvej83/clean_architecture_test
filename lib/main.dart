@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
     final fetchRelatedByIdUseCase = getIt<FetchRelatedByIdUseCase>();
     final fetchUsersUseCase = getIt<FetchUsersUseCase>();
     final fetchUserUseCase = getIt<FetchUserUseCase>();
-    final appRouter = AppRouter(authBloc: authBloc);
+    final appRouter = getIt<AppRouter>();
 
     return MultiBlocProvider(
       providers: [

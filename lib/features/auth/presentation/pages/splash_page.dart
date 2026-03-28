@@ -14,7 +14,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(AuthCheckRequested());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AuthBloc>().add(AuthCheckRequested());
+    });
   }
 
   @override

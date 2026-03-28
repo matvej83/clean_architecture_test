@@ -1,31 +1,34 @@
 import 'dart:async';
 
-import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_state.dart';
-import 'package:clean_architecture_test/features/main/presentation/pages/profile_page.dart';
-import 'package:clean_architecture_test/features/products/presentation/pages/product_page.dart';
-import 'package:clean_architecture_test/features/products/presentation/pages/products_page.dart';
-import 'package:clean_architecture_test/navigation/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:injectable/injectable.dart';
 
+import '../features/auth/presentation/bloc/auth_bloc.dart';
+import '../features/auth/presentation/bloc/auth_state.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/splash_page.dart';
 import '../features/main/presentation/main_screen.dart';
+import '../features/main/presentation/pages/profile_page.dart';
+import '../features/products/presentation/pages/product_page.dart';
+import '../features/products/presentation/pages/products_page.dart';
 import '../features/users/presentation/pages/user_page.dart';
 import '../features/users/presentation/pages/users_page.dart';
+import 'pages.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
+@lazySingleton
 class AppRouter {
   final AuthBloc authBloc;
 
-  AppRouter({required this.authBloc});
+  AppRouter(this.authBloc);
 
   late final GoRouter router = GoRouter(
-    initialLocation: Pages.products,
+    initialLocation: Pages.splash,
     navigatorKey: _rootNavigatorKey,
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
+    debugLogDiagnostics: true,
     redirect: (context, state) {
       final status = authBloc.state.status;
 
@@ -48,7 +51,6 @@ class AppRouter {
       return null;
     },
     routes: [
-      /// Shell routes
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MainScreen(navigationShell: navigationShell);
@@ -72,7 +74,6 @@ class AppRouter {
               ),
             ],
           ),
-
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -91,7 +92,6 @@ class AppRouter {
               ),
             ],
           ),
-
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -103,32 +103,24 @@ class AppRouter {
           ),
         ],
       ),
-
-      /// routes
       GoRoute(
         path: Pages.splash,
-        builder: (context, state) {
-          return SplashPage();
-        },
+        builder: (context, state) => const SplashPage(),
       ),
       GoRoute(
         path: Pages.login,
-        builder: (context, state) {
-          return LoginPage();
-        },
+        builder: (context, state) => const LoginPage(),
       ),
     ],
   );
 }
 
 class GoRouterRefreshStream extends ChangeNotifier {
-  final Stream<dynamic> _stream;
   late final StreamSubscription<dynamic> _subscription;
 
-  GoRouterRefreshStream(this._stream) {
-    _subscription = _stream.listen((event) {
-      return notifyListeners();
-    });
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    notifyListeners();
+    _subscription = stream.asBroadcastStream().listen((_) => notifyListeners());
   }
 
   @override

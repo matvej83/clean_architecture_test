@@ -59,6 +59,7 @@ import 'package:clean_architecture_test/features/users/domain/usecases/fetch_use
     as _i487;
 import 'package:clean_architecture_test/features/users/domain/usecases/fetch_users_usecase.dart'
     as _i788;
+import 'package:clean_architecture_test/navigation/router.dart' as _i657;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -140,6 +141,9 @@ extension GetItInjectableX on _i174.GetIt {
         checkAuthUseCase: gh<_i1053.CheckAuthUseCase>(),
         getUserProfileUseCase: gh<_i982.GetUserProfileUseCase>(),
       ),
+    );
+    gh.lazySingleton<_i657.AppRouter>(
+      () => _i657.AppRouter(gh<_i738.AuthBloc>()),
     );
     gh.lazySingleton<_i1001.UsersRepository>(
       () => _i868.UsersRepositoryImpl(

@@ -4,6 +4,7 @@ class AppTheme {
   static final dark = ThemeData.dark(useMaterial3: true).copyWith(
     scaffoldBackgroundColor: Colors.black,
     canvasColor: Colors.black,
+    splashColor: Colors.black,
     appBarTheme: AppBarTheme(
       elevation: 0,
       surfaceTintColor: Colors.transparent,
@@ -65,7 +66,7 @@ class AppTheme {
         foregroundColor: Colors.white,
         disabledForegroundColor: Colors.blueGrey,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadiusGeometry.circular(12.0),
+          borderRadius: BorderRadius.circular(12.0),
         ),
       ),
     ),
