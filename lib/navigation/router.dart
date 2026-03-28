@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:clean_architecture_test/features/locations/presentation/pages/locations_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
@@ -89,6 +90,15 @@ class AppRouter {
                     },
                   ),
                 ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Pages.locations,
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: LocationsPage()),
               ),
             ],
           ),

@@ -35,6 +35,14 @@ import 'package:clean_architecture_test/features/auth/domain/usecases/logout_use
     as _i211;
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart'
     as _i738;
+import 'package:clean_architecture_test/features/locations/data/data_sources/locations_remote_data_source.dart'
+    as _i198;
+import 'package:clean_architecture_test/features/locations/data/repository/products_repository_impl.dart'
+    as _i332;
+import 'package:clean_architecture_test/features/locations/domain/repository/locations_repository.dart'
+    as _i1056;
+import 'package:clean_architecture_test/features/locations/domain/usecases/fetch_products_usecase.dart'
+    as _i548;
 import 'package:clean_architecture_test/features/products/data/data_sources/products_remote_data_source.dart'
     as _i223;
 import 'package:clean_architecture_test/features/products/data/repository/products_repository_impl.dart'
@@ -129,9 +137,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i211.LogoutUseCase>(
       () => _i211.LogoutUseCase(gh<_i563.AuthRepository>()),
     );
+    gh.lazySingleton<_i198.LocationsRemoteDataSource>(
+      () => _i198.LocationsRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i557.ProductsRepository>(
       () => _i4.ProductsRepositoryImpl(
         productsRemoteDataSource: gh<_i223.ProductsRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i1056.LocationsRepository>(
+      () => _i332.LocationsRepositoryImpl(
+        locationsRemoteDataSource: gh<_i198.LocationsRemoteDataSource>(),
       ),
     );
     gh.lazySingleton<_i738.AuthBloc>(
@@ -167,6 +183,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i460.FetchRelatedByIdUseCase>(
       () => _i460.FetchRelatedByIdUseCase(gh<_i557.ProductsRepository>()),
+    );
+    gh.lazySingleton<_i548.FetchLocationsUseCase>(
+      () => _i548.FetchLocationsUseCase(gh<_i1056.LocationsRepository>()),
     );
     return this;
   }

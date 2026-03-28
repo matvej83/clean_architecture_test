@@ -5,5 +5,6 @@ class Pages {
   /// Shell routes
   static const products = '/products';
   static const users = '/users';
+  static const locations = '/locations';
   static const profile = '/profile';
 }

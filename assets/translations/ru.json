@@ -3,7 +3,8 @@
   "you": "Вы",
   "bottomNavBar": {
     "homeTab": "Старт",
-    "usersTab": "Пользователи",
+    "usersTab": "Люди",
+    "locationsTab": "Места",
     "profileTab": "Профиль"
   },
   "loginScreen": {
@@ -29,6 +30,13 @@
   "profileScreen": {
     "screenName": "Профиль",
     "btnLogout": "Выход"
+  },
+  "locationsScreen": {
+    "screenName": "Места",
+    "latitude": "широта:",
+    "longitude": "долгота:",
+    "list": "Список",
+    "map": "Карта"
   },
   "fieldValidation": {
     "enterEmail": "Введите email",

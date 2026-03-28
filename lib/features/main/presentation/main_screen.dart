@@ -1,3 +1,5 @@
+import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
+import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_event.dart';
 import 'package:clean_architecture_test/features/main/presentation/widgets/bottom_nav_bar.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
@@ -30,6 +32,7 @@ class _MainScreenState extends State<MainScreen> {
     return switch (location.toString()) {
       Pages.products => 'productsScreen.screenName'.tr(),
       Pages.users => 'usersScreen.screenName'.tr(),
+      Pages.locations => 'locationsScreen.screenName'.tr(),
       Pages.profile => 'profileScreen.screenName'.tr(),
       _ => '',
     };
@@ -44,6 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     context.read<ProductsBloc>().add(ProductsFetched(loadSilent: false));
     context.read<ProductsBloc>().add(CategoriesFetched());
+    context.read<LocationsBloc>().add(LocationsFetched(loadSilent: false));
     super.initState();
   }
 

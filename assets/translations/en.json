@@ -4,6 +4,7 @@
   "bottomNavBar": {
     "homeTab": "Home",
     "usersTab": "Users",
+    "locationsTab": "Locations",
     "profileTab": "Profile"
   },
   "loginScreen": {
@@ -29,6 +30,13 @@
   "profileScreen": {
     "screenName": "Profile",
     "btnLogout": "Logout"
+  },
+  "locationsScreen": {
+    "screenName": "Locations",
+    "latitude": "latitude:",
+    "longitude": "longitude:",
+    "list": "List",
+    "map": "Map"
   },
   "fieldValidation": {
     "enterEmail": "Enter email",

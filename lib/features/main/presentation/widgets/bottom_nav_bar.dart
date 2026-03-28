@@ -26,6 +26,10 @@ class BottomNavBar extends StatelessWidget {
           label: 'bottomNavBar.usersTab'.tr(),
         ),
         BottomNavigationBarItem(
+          icon: Icon(Icons.place_rounded),
+          label: 'bottomNavBar.locationsTab'.tr(),
+        ),
+        BottomNavigationBarItem(
           icon: Icon(Icons.account_circle),
           label: 'bottomNavBar.profileTab'.tr(),
         ),

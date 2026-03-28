@@ -19,7 +19,7 @@ class UsersList extends StatelessWidget {
     return ListView.separated(
       itemCount: state.users.length,
       physics: const ClampingScrollPhysics(),
-      padding: EdgeInsets.zero,
+      padding: EdgeInsets.symmetric(vertical: 16.0),
       itemBuilder: (context, index) {
         final user = state.users[index];
         return ListItem(

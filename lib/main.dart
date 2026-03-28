@@ -1,5 +1,6 @@
 import 'package:clean_architecture_test/core/presentation/theme/app_theme.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_architecture_test/navigation/router.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/di/injection.dart';
 import 'core/services/auth_session_manager.dart';
 import 'features/auth/presentation/bloc/auth_event.dart';
+import 'features/locations/domain/usecases/fetch_products_usecase.dart';
 import 'features/products/domain/usecases/fetch_product_usecase.dart';
 import 'features/products/domain/usecases/fetch_products_usecase.dart';
 import 'features/products/domain/usecases/fetch_related_by_id_usecase.dart';
@@ -43,12 +45,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authBloc = getIt<AuthBloc>();
+    // products
     final fetchProductsUseCase = getIt<FetchProductsUseCase>();
     final fetchProductUseCase = getIt<FetchProductUseCase>();
     final fetchCategoriesUseCase = getIt<FetchCategoriesUseCase>();
     final fetchRelatedByIdUseCase = getIt<FetchRelatedByIdUseCase>();
+    // users
     final fetchUsersUseCase = getIt<FetchUsersUseCase>();
     final fetchUserUseCase = getIt<FetchUserUseCase>();
+    // locations
+    final fetchLocationsUseCase = getIt<FetchLocationsUseCase>();
     final appRouter = getIt<AppRouter>();
 
     return MultiBlocProvider(
@@ -68,6 +74,11 @@ class MyApp extends StatelessWidget {
             fetchUsersUseCase: fetchUsersUseCase,
             fetchUserUseCase: fetchUserUseCase,
           ),
+          lazy: true,
+        ),
+        BlocProvider(
+          create: (_) =>
+              LocationsBloc(fetchLocationsUseCase: fetchLocationsUseCase),
           lazy: true,
         ),
       ],
