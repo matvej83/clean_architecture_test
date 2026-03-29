@@ -3,6 +3,8 @@ import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_eve
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/presentation/widgets/infinite_scroll_background.dart';
+
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -24,7 +26,12 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: Icon(Icons.flutter_dash, size: 80.0, color: Colors.white70),
+        child: InfiniteScrollingBackground(
+          animationHeight: 250.0,
+          foregroundImageSize: 160.0,
+          backgroundImage: 'assets/images/wall.png',
+          foregroundImage: 'assets/images/cart.png',
+        ),
       ),
     );
   }

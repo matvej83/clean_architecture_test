@@ -85,6 +85,7 @@ class _LocationsPageState extends State<LocationsPage>
               labelColor: Colors.blueGrey,
               selectedButtonColor: Colors.blue,
               selectedLabelColor: Colors.white,
+              separator: const SizedBox(),
             ),
             Expanded(
               child: state.isLoading
