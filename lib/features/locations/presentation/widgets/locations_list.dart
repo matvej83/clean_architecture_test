@@ -87,6 +87,10 @@ class ListItem extends StatelessWidget {
               style: textTheme.bodyMedium,
               softWrap: true,
             ),
+            Text(
+              '${location.distance} km from you',
+              style: textTheme.bodyMedium,
+            ),
           ],
         ),
       ),

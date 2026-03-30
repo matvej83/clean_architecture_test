@@ -1,6 +1,7 @@
 import 'package:clean_architecture_test/features/locations/domain/entity/location_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:collection/collection.dart';
 
@@ -38,5 +39,21 @@ class LocationsUtil {
       );
     }
     return markers;
+  }
+
+  static double getDistance(LatLng from, LatLng to) =>
+      Distance().as(LengthUnit.Kilometer, from, to);
+
+  static List<LocationEntity> addGeolocationToList({
+    required List<LocationEntity> locations,
+    required Position position,
+  }) {
+    var list = <LocationEntity>[];
+    for (var e in locations) {
+      final from = LatLng(position.latitude, position.longitude);
+      final to = LatLng(e.latitude, e.longitude);
+      list.add(e.copyWith(distance: getDistance(from, to)));
+    }
+    return list;
   }
 }

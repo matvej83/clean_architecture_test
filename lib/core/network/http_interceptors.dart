@@ -57,6 +57,12 @@ class AuthInterceptor extends Interceptor {
       'auth/refresh-token',
     );
 
+    /// logout if impossible to refresh token
+    if (isUnauthorized && isRefreshCall) {
+      sessionManager.notifySessionExpired();
+      return handler.reject(DioException(requestOptions: err.requestOptions));
+    }
+
     if (isUnauthorized && !isRefreshCall && !skipLoginError) {
       final completer = Completer<Response>();
 
@@ -70,7 +76,7 @@ class AuthInterceptor extends Interceptor {
 
           /// logout
           if (token?.refreshToken == null) {
-            sessionManager.logout();
+            sessionManager.notifySessionExpired();
             throw InvalidCredentialsException();
           }
 
@@ -108,7 +114,7 @@ class AuthInterceptor extends Interceptor {
           }
         } catch (e) {
           // logout
-          sessionManager.logout();
+          sessionManager.notifySessionExpired();
 
           for (final item in _queue) {
             item.completer.completeError(e);

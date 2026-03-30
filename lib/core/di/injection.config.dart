@@ -17,6 +17,8 @@ import 'package:clean_architecture_test/core/network/http_interceptors.dart'
     as _i863;
 import 'package:clean_architecture_test/core/services/auth_session_manager.dart'
     as _i649;
+import 'package:clean_architecture_test/core/services/geolocation_service.dart'
+    as _i139;
 import 'package:clean_architecture_test/features/auth/data/data_sources/auth_local_data_source.dart'
     as _i905;
 import 'package:clean_architecture_test/features/auth/data/data_sources/auth_remote_data_source.dart'
@@ -87,15 +89,18 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.lazySingleton<_i863.ErrorInterceptor>(() => _i863.ErrorInterceptor());
+    gh.lazySingleton<_i649.AuthSessionManager>(
+      () => _i649.AuthSessionManager(),
+    );
+    gh.lazySingleton<_i139.GeolocationService>(
+      () => _i139.GeolocationService(),
+    );
     gh.lazySingleton<_i905.AuthLocalDataSource>(
       () => _i905.AuthLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
     );
     gh.lazySingleton<_i361.Dio>(
       () => networkModule.refreshDio(),
       instanceName: 'refresh_dio',
-    );
-    gh.lazySingleton<_i649.AuthSessionManager>(
-      () => _i649.AuthSessionManager(gh<_i905.AuthLocalDataSource>()),
     );
     gh.lazySingleton<_i863.AuthInterceptor>(
       () => _i863.AuthInterceptor(

@@ -1,18 +1,24 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:injectable/injectable.dart';
 
-import '../../features/auth/data/data_sources/auth_local_data_source.dart';
+import '../../features/auth/domain/repository/auth_repository.dart';
 
 @lazySingleton
 class AuthSessionManager {
-  final AuthLocalDataSource localDataSource;
+  AuthRepository? _authRepository;
 
-  VoidCallback? onLogout;
+  final _controller = StreamController<void>.broadcast();
 
-  AuthSessionManager(this.localDataSource);
+  Stream<void> get onSessionExpired => _controller.stream;
+
+  void setRepository(AuthRepository repo) => _authRepository = repo;
+
+  void notifySessionExpired() => _controller.add(null);
 
   Future<void> logout() async {
-    await localDataSource.clearToken();
-    onLogout?.call();
+    try {
+      await _authRepository?.logout();
+    } catch (_) {}
   }
 }

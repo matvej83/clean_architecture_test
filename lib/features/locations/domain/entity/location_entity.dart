@@ -1,20 +1,15 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class LocationEntity extends Equatable {
-  final String id;
-  final String name;
-  final String description;
-  final double latitude;
-  final double longitude;
+part 'location_entity.freezed.dart';
 
-  const LocationEntity({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.latitude,
-    required this.longitude,
-  });
-
-  @override
-  List<Object?> get props => [id, name, description, latitude, longitude];
+@Freezed(toJson: false, fromJson: false, equal: true, copyWith: true)
+abstract class LocationEntity with _$LocationEntity {
+  const factory LocationEntity({
+    required String id,
+    required String name,
+    required String description,
+    required double latitude,
+    required double longitude,
+    double? distance,
+  }) = _LocationEntity;
 }
