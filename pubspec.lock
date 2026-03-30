@@ -178,7 +178,7 @@ packages:
     source: hosted
     version: "4.11.1"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       sha256: "2f5709ae4d3d59dd8f7cd309b4e023046b57d8a6c82130785d2b0e5868084e76"
@@ -364,7 +364,7 @@ packages:
     source: hosted
     version: "8.2.2"
   flutter_map_marker_popup:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_map_marker_popup
       sha256: "982b38455e739fe04abf05066340e0ce5883c40fb08b121cc8c60f5ee2c664a3"
