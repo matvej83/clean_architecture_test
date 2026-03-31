@@ -13,27 +13,32 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: currentPage,
-      onTap: onItemTap,
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.home_filled),
-          label: 'bottomNavBar.homeTab'.tr(),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.group),
-          label: 'bottomNavBar.usersTab'.tr(),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.place_rounded),
-          label: 'bottomNavBar.locationsTab'.tr(),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle),
-          label: 'bottomNavBar.profileTab'.tr(),
-        ),
-      ],
+    return Builder(
+      key: ValueKey(context.locale),
+      builder: (context) {
+        return BottomNavigationBar(
+          currentIndex: currentPage,
+          onTap: onItemTap,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home_filled),
+              label: 'bottomNavBar.homeTab'.tr(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.group),
+              label: 'bottomNavBar.usersTab'.tr(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.place_rounded),
+              label: 'bottomNavBar.locationsTab'.tr(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              label: 'bottomNavBar.profileTab'.tr(),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -29,7 +29,10 @@
   },
   "profileScreen": {
     "screenName": "Profile",
-    "btnLogout": "Logout"
+    "btnLogout": "Logout",
+    "changeLang": "Change language",
+    "langEn": "English",
+    "langRu": "Russian"
   },
   "locationsScreen": {
     "screenName": "Locations",

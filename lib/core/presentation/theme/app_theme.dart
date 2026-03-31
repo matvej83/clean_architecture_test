@@ -59,6 +59,34 @@ class AppTheme {
         return const TextStyle(color: Colors.grey);
       }),
     ),
+    dropdownMenuTheme: DropdownMenuThemeData(
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.white),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.white),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: Colors.blue),
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        prefixIconConstraints: BoxConstraints(maxHeight: 24.0),
+      ),
+      menuStyle: MenuStyle(
+        backgroundColor: WidgetStateProperty.all(Colors.black),
+        surfaceTintColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return Colors.grey;
+          }
+          return Colors.transparent;
+        }),
+        padding: WidgetStateProperty.all(EdgeInsets.zero),
+      ),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blue,

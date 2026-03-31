@@ -6,13 +6,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
+import '../widgets/language_selector.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late TextTheme textTheme;
+  bool _showSelector = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _showSelector = true);
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    textTheme = Theme.of(context).textTheme;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state.status == AuthStatus.authenticated) {
@@ -29,6 +51,7 @@ class ProfilePage extends StatelessWidget {
                   '${'loginScreen.fieldNameEmail'.tr()}: ${state.user?.email}',
                   style: textTheme.bodyLarge,
                 ),
+                if (_showSelector) LanguageSelector() else SizedBox(),
                 Row(
                   spacing: 8.0,
                   mainAxisSize: MainAxisSize.min,

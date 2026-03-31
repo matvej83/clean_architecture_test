@@ -30,6 +30,7 @@ dependencies:
   flutter_map_marker_popup: ^8.1.0
   collection: ^1.19.1
   geolocator: ^14.0.2
+  flutter_svg: ^2.2.4
 
 dev_dependencies:
   flutter_test:
@@ -52,5 +53,6 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/svg_icons/
     - assets/translations/
     - .env

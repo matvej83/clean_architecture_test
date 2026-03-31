@@ -19,11 +19,8 @@ class _LocationsPageState extends State<LocationsPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
   int? initialIndex;
-  final List<String> _tabs = [
-    'locationsScreen.list'.tr(),
-    'locationsScreen.map'.tr(),
-  ];
   int _currentIndex = 0;
+  final int tabCount = 2;
 
   /// Initialized tabs
   final Map<int, Widget> _builtTabs = {};
@@ -55,7 +52,7 @@ class _LocationsPageState extends State<LocationsPage>
     super.initState();
     _tabController = TabController(
       initialIndex: initialIndex ?? 0,
-      length: _tabs.length,
+      length: tabCount,
       vsync: this,
     );
     _currentIndex = _tabController.index;
@@ -73,29 +70,34 @@ class _LocationsPageState extends State<LocationsPage>
       builder: (context, state) {
         return Column(
           children: [
-            CustomTabBar(
-              tabs: _tabs,
-              selectedIndex: _tabController.index,
-              useDifferentBorderForOuter: true,
-              onTap: (i) => _tabController.animateTo(i),
-              barDecoration: BoxDecoration(color: Colors.transparent),
-              barPadding: EdgeInsets.symmetric(vertical: 8.0),
-              buttonBorderRadius: 12.0,
-              buttonColor: Color(0xFF222222),
-              labelColor: Colors.blueGrey,
-              selectedButtonColor: Colors.blue,
-              selectedLabelColor: Colors.white,
-              separator: const SizedBox(),
+            Builder(
+              key: ValueKey(context.locale),
+              builder: (context) {
+                return CustomTabBar(
+                  tabs: [
+                    'locationsScreen.list'.tr(),
+                    'locationsScreen.map'.tr(),
+                  ],
+                  selectedIndex: _tabController.index,
+                  useDifferentBorderForOuter: true,
+                  onTap: (i) => _tabController.animateTo(i),
+                  barDecoration: BoxDecoration(color: Colors.transparent),
+                  barPadding: EdgeInsets.symmetric(vertical: 8.0),
+                  buttonBorderRadius: 12.0,
+                  buttonColor: Color(0xFF222222),
+                  labelColor: Colors.blueGrey,
+                  selectedButtonColor: Colors.blue,
+                  selectedLabelColor: Colors.white,
+                  separator: const SizedBox(),
+                );
+              },
             ),
             Expanded(
               child: state.isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : IndexedStack(
                       index: _tabController.index,
-                      children: List.generate(
-                        _tabs.length,
-                        (i) => _buildTab(i),
-                      ),
+                      children: List.generate(tabCount, (i) => _buildTab(i)),
                     ),
             ),
           ],
