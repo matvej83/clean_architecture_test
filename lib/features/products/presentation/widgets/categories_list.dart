@@ -51,14 +51,14 @@ class ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           borderRadius: isSelected ? BorderRadius.circular(8.0) : null,
-          color: isSelected ? Colors.white24 : null,
+          color: isSelected ? theme.unselectedWidgetColor : null,
         ),
         width: 120.0,
         child: Column(
@@ -70,12 +70,12 @@ class ListItem extends StatelessWidget {
             Image.network(
               category.image,
               errorBuilder: (context, o, s) =>
-                  Container(height: 120.0, color: Colors.white24),
+                  Container(height: 120.0, color: theme.unselectedWidgetColor),
             ),
             Text(
               category.name,
-              style: textTheme.bodyMedium?.copyWith(
-                color: isSelected ? Colors.blue : null,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: isSelected ? theme.primaryColor : null,
               ),
               softWrap: true,
               overflow: TextOverflow.fade,

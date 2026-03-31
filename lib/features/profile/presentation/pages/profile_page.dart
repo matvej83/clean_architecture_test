@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
 import '../widgets/language_selector.dart';
+import '../widgets/theme_selector.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -51,7 +52,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   '${'loginScreen.fieldNameEmail'.tr()}: ${state.user?.email}',
                   style: textTheme.bodyLarge,
                 ),
-                if (_showSelector) LanguageSelector() else SizedBox(),
+                if (_showSelector) ...[
+                  ThemeSelector(),
+                  LanguageSelector(),
+                ] else
+                  SizedBox(),
                 Row(
                   spacing: 8.0,
                   mainAxisSize: MainAxisSize.min,

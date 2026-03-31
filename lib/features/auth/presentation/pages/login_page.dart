@@ -51,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('loginScreen.screenName'.tr()),
@@ -74,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 spacing: 16.0,
                 children: [
-                  Icon(Icons.lock_outline, size: 80.0, color: Colors.blue),
+                  Icon(Icons.lock_outline, size: 80.0, color: theme.primaryColor),
                   const SizedBox(height: 40.0),
                   TextFormField(
                     controller: _emailController,

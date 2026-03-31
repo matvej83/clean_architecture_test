@@ -59,6 +59,18 @@ import 'package:clean_architecture_test/features/products/domain/usecases/fetch_
     as _i542;
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_related_by_id_usecase.dart'
     as _i460;
+import 'package:clean_architecture_test/features/theme/cubit/cubit.dart'
+    as _i474;
+import 'package:clean_architecture_test/features/theme/data/data_sources/theme_local_data_source.dart'
+    as _i385;
+import 'package:clean_architecture_test/features/theme/data/repository/theme_repository_impl.dart'
+    as _i81;
+import 'package:clean_architecture_test/features/theme/domain/repository/theme_repository.dart'
+    as _i936;
+import 'package:clean_architecture_test/features/theme/domain/usecases/get_theme_usecase.dart'
+    as _i963;
+import 'package:clean_architecture_test/features/theme/domain/usecases/set_theme_usecase.dart'
+    as _i831;
 import 'package:clean_architecture_test/features/users/data/data_sources/users_remote_data_source.dart'
     as _i638;
 import 'package:clean_architecture_test/features/users/data/repository/users_repository_impl.dart'
@@ -102,11 +114,19 @@ extension GetItInjectableX on _i174.GetIt {
       () => networkModule.refreshDio(),
       instanceName: 'refresh_dio',
     );
+    gh.lazySingleton<_i385.ThemeLocalDataSource>(
+      () => _i385.ThemeLocalDataSourceImpl(gh<_i460.SharedPreferences>()),
+    );
     gh.lazySingleton<_i863.AuthInterceptor>(
       () => _i863.AuthInterceptor(
         gh<_i905.AuthLocalDataSource>(),
         gh<_i649.AuthSessionManager>(),
         gh<_i361.Dio>(instanceName: 'refresh_dio'),
+      ),
+    );
+    gh.lazySingleton<_i936.ThemeRepository>(
+      () => _i81.ThemeRepositoryImpl(
+        themeLocalDataSource: gh<_i385.ThemeLocalDataSource>(),
       ),
     );
     gh.lazySingleton<_i361.Dio>(
@@ -117,6 +137,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i306.AuthRemoteDataSource>(
       () => _i306.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i963.GetThemeUseCase>(
+      () => _i963.GetThemeUseCase(gh<_i936.ThemeRepository>()),
+    );
+    gh.lazySingleton<_i831.SetThemeUseCase>(
+      () => _i831.SetThemeUseCase(gh<_i936.ThemeRepository>()),
     );
     gh.lazySingleton<_i638.UsersRemoteDataSource>(
       () => _i638.UsersRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -148,6 +174,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i557.ProductsRepository>(
       () => _i4.ProductsRepositoryImpl(
         productsRemoteDataSource: gh<_i223.ProductsRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i474.ThemeCubit>(
+      () => _i474.ThemeCubit(
+        getThemeUseCase: gh<_i963.GetThemeUseCase>(),
+        setThemeUseCase: gh<_i831.SetThemeUseCase>(),
       ),
     );
     gh.lazySingleton<_i1056.LocationsRepository>(

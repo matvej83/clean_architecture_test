@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:clean_architecture_test/core/presentation/theme/app_theme.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
+import 'package:clean_architecture_test/features/theme/cubit/state.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_architecture_test/navigation/router.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -20,6 +20,7 @@ import 'features/products/domain/usecases/fetch_product_usecase.dart';
 import 'features/products/domain/usecases/fetch_products_usecase.dart';
 import 'features/products/domain/usecases/fetch_related_by_id_usecase.dart';
 import 'features/products/presentation/bloc/products_bloc.dart';
+import 'features/theme/cubit/cubit.dart';
 import 'features/users/domain/usecases/fetch_user_usecase.dart';
 import 'features/users/domain/usecases/fetch_users_usecase.dart';
 
@@ -49,6 +50,7 @@ class _MyAppState extends State<MyApp> {
   late final StreamSubscription _sessionSub;
   final appRouter = getIt<AppRouter>();
   final authBloc = getIt<AuthBloc>();
+  final themeCubit = getIt<ThemeCubit>();
   final sessionManager = getIt<AuthSessionManager>();
   final authRepo = getIt<AuthRepository>();
   final geolocationService = getIt<GeolocationService>();
@@ -88,6 +90,7 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => authBloc),
+        BlocProvider(create: (_) => themeCubit..loadTheme()),
         BlocProvider(
           create: (_) => ProductsBloc(
             fetchProductsUseCase: fetchProductsUseCase,
@@ -112,14 +115,18 @@ class _MyAppState extends State<MyApp> {
           lazy: true,
         ),
       ],
-      child: MaterialApp.router(
-        title: 'Store App',
-        routerConfig: appRouter.router,
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.dark,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            title: 'Store App',
+            routerConfig: appRouter.router,
+            debugShowCheckedModeBanner: false,
+            theme: state.theme,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+          );
+        },
       ),
     );
   }

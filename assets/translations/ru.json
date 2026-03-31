@@ -32,7 +32,9 @@
     "btnLogout": "Выход",
     "changeLang": "Сменить язык",
     "langEn": "Английский",
-    "langRu": "Русский"
+    "langRu": "Русский",
+    "themeDark": "Темная тема",
+    "themeLight": "Светлая тема"
   },
   "locationsScreen": {
     "screenName": "Места",

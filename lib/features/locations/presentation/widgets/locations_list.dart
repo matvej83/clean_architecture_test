@@ -61,9 +61,9 @@ class ListItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           border: isSelected
-              ? Border.all(color: Colors.blue)
-              : Border.all(color: Colors.white38),
-          color: isSelected ? Colors.white12 : null,
+              ? Border.all(color: Theme.of(context).primaryColor)
+              : Border.all(color: Theme.of(context).unselectedWidgetColor),
+          color: isSelected ? Theme.of(context).unselectedWidgetColor : null,
         ),
         child: Column(
           spacing: 8.0,

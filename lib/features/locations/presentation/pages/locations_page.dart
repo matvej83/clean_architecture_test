@@ -66,6 +66,7 @@ class _LocationsPageState extends State<LocationsPage>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return BlocBuilder<LocationsBloc, LocationsState>(
       builder: (context, state) {
         return Column(
@@ -84,9 +85,9 @@ class _LocationsPageState extends State<LocationsPage>
                   barDecoration: BoxDecoration(color: Colors.transparent),
                   barPadding: EdgeInsets.symmetric(vertical: 8.0),
                   buttonBorderRadius: 12.0,
-                  buttonColor: Color(0xFF222222),
-                  labelColor: Colors.blueGrey,
-                  selectedButtonColor: Colors.blue,
+                  buttonColor: theme.unselectedWidgetColor,
+                  labelColor: theme.disabledColor,
+                  selectedButtonColor: theme.primaryColor,
                   selectedLabelColor: Colors.white,
                   separator: const SizedBox(),
                 );
