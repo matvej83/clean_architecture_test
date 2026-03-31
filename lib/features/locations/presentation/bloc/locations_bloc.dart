@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
-import '../../../../core/di/injection.dart';
 import '../../../../core/error/failure.dart';
 import '../../domain/usecases/fetch_products_usecase.dart';
 import 'locations_event.dart';
@@ -25,11 +24,10 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
   }) : super(const LocationsState()) {
     on<LocationsFetched>(_onLocationsFetched);
     on<LocationSelected>(_onLocationSelected);
-    getIt<GeolocationService>().startTracking();
-    _locationSub = getIt<GeolocationService>().onLocationChanged.listen((
-      position,
-    ) {
-      this.position = position;
+    on<LocationUpdated>(_onLocationUpdated);
+    geolocationService.startTracking();
+    _locationSub = geolocationService.onLocationChanged.listen((position) {
+      add(LocationUpdated(position));
     });
   }
 
@@ -114,5 +112,21 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
         markers: markers,
       ),
     );
+  }
+
+  FutureOr<void> _onLocationUpdated(
+    LocationUpdated event,
+    Emitter<LocationsState> emit,
+  ) {
+    position = event.position;
+
+    if (state.locations.isNotEmpty) {
+      final updatedLocations = LocationsUtil.addGeolocationToList(
+        locations: state.locations,
+        position: event.position,
+      );
+
+      emit(state.copyWith(locations: updatedLocations));
+    }
   }
 }

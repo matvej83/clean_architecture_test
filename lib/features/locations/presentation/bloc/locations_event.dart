@@ -1,5 +1,6 @@
 import 'package:clean_architecture_test/features/locations/domain/entity/location_entity.dart';
 import 'package:equatable/equatable.dart';
+import 'package:geolocator/geolocator.dart';
 
 abstract class LocationsEvent extends Equatable {
   @override
@@ -25,4 +26,10 @@ class LocationSelected extends LocationsEvent {
 
   @override
   List<Object?> get props => [locationId, location];
+}
+
+class LocationUpdated extends LocationsEvent {
+  final Position position;
+
+  LocationUpdated(this.position);
 }
