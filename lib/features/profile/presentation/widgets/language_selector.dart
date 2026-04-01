@@ -2,6 +2,8 @@ import 'package:clean_architecture_test/features/profile/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/presentation/widgets/custom_dropdown_menu.dart';
+
 class LanguageSelector extends StatefulWidget {
   const LanguageSelector({super.key});
 
@@ -22,13 +24,14 @@ class _LanguageSelectorState extends State<LanguageSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownMenu<String>(
-      initialSelection: initialValue,
+    return CustomDropdownMenu<String>(
+      key: ValueKey(context.locale),
+      initialValue: initialValue,
       leadingIcon: Padding(
         padding: const EdgeInsets.only(left: 4.0),
         child: ProfileUtils.getLanguageIcon(dropdownValue),
       ),
-      onSelected: (String? value) {
+      onChanged: (value) {
         if (value != null) {
           setState(() {
             dropdownValue = value;
@@ -36,7 +39,7 @@ class _LanguageSelectorState extends State<LanguageSelector> {
           });
         }
       },
-      dropdownMenuEntries: <DropdownMenuEntry<String>>[
+      entries: <DropdownMenuEntry<String>>[
         DropdownMenuEntry<String>(
           value: 'en',
           label: 'profileScreen.langEn'.tr(),
