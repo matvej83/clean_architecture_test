@@ -1,14 +1,12 @@
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_event.dart';
 import 'package:clean_architecture_test/features/main/presentation/widgets/bottom_nav_bar.dart';
+import 'package:clean_architecture_test/features/main/utils.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../navigation/pages.dart';
 
 class MainScreen extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -20,29 +18,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String _getAppBarTitle(BuildContext context) {
-    final location = GoRouterState.of(context).uri;
-    if (location.pathSegments.length == 2) {
-      if (location.pathSegments.first == 'products') {
-        return 'productScreen.screenName'.tr();
-      } else if (location.pathSegments.first == 'users') {
-        return 'userScreen.screenName'.tr();
-      }
-    }
-    return switch (location.toString()) {
-      Pages.products => 'productsScreen.screenName'.tr(),
-      Pages.users => 'usersScreen.screenName'.tr(),
-      Pages.locations => 'locationsScreen.screenName'.tr(),
-      Pages.profile => 'profileScreen.screenName'.tr(),
-      _ => '',
-    };
-  }
-
-  bool showBackButton(BuildContext context) {
-    final uri = GoRouterState.of(context).uri;
-    return uri.pathSegments.length > 1;
-  }
-
   @override
   void initState() {
     context.read<ProductsBloc>().add(ProductsFetched(loadSilent: false));
@@ -55,9 +30,9 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_getAppBarTitle(context)),
+        title: Text(MainScreenUtils.getAppBarTitle(context)),
         centerTitle: true,
-        leading: showBackButton(context)
+        leading: MainScreenUtils.showBackButton(context)
             ? BackButton(
                 onPressed: () {
                   if (context.canPop()) {
