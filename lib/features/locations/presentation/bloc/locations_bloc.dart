@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clean_architecture_test/core/services/geolocation_service.dart';
 import 'package:clean_architecture_test/features/locations/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -12,7 +13,8 @@ import '../../domain/usecases/fetch_products_usecase.dart';
 import 'locations_event.dart';
 import 'locations_state.dart';
 
-class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
+class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
+    with WidgetsBindingObserver {
   final FetchLocationsUseCase fetchLocationsUseCase;
   final GeolocationService geolocationService;
 
@@ -25,6 +27,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
     on<LocationsFetched>(_onLocationsFetched);
     on<LocationSelected>(_onLocationSelected);
     on<LocationUpdated>(_onLocationUpdated);
+    WidgetsBinding.instance.addObserver(this);
     geolocationService.startTracking();
     _locationSub = geolocationService.onLocationChanged.listen((position) {
       add(LocationUpdated(position));
@@ -33,8 +36,8 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
 
   @override
   Future<void> close() {
+    WidgetsBinding.instance.removeObserver(this);
     _locationSub?.cancel();
-    geolocationService.stopTracking();
     return super.close();
   }
 
@@ -118,15 +121,26 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
     LocationUpdated event,
     Emitter<LocationsState> emit,
   ) {
-    position = event.position;
-
-    if (state.locations.isNotEmpty) {
+    if (state.locations.isNotEmpty &&
+        (position == null ||
+            !LocationsUtil.isSamePosition(position!, event.position))) {
+      position = event.position;
       final updatedLocations = LocationsUtil.addGeolocationToList(
         locations: state.locations,
         position: event.position,
       );
 
       emit(state.copyWith(locations: updatedLocations));
+    }
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      final pos = await geolocationService.getCurrentPosition();
+      if (pos != null) {
+        add(LocationUpdated(pos));
+      }
     }
   }
 }

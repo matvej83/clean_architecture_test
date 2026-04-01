@@ -56,4 +56,8 @@ class LocationsUtil {
     }
     return list;
   }
+
+  static bool isSamePosition(Position a, Position b) {
+    return a.latitude == b.latitude && a.longitude == b.longitude;
+  }
 }
