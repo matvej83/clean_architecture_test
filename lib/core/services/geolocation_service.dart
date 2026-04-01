@@ -5,6 +5,55 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class GeolocationService {
+  /// Example:
+  ///
+  /// ```dart
+  /// class GeolocationBloc extends Bloc<GeolocationEvent, GeolocationState>
+  ///     with WidgetsBindingObserver {
+  ///   final GeolocationService geolocationService;
+  ///
+  ///   StreamSubscription? _locationSub;
+  ///
+  ///   GeolocationBloc({
+  ///     required this.geolocationService,
+  ///   }) : super(const GeolocationsState()) {
+  ///     on<GeolocationUpdated>(_onUpdateGeolocation);
+  ///     ...
+  ///     WidgetsBinding.instance.addObserver(this);
+  ///     geolocationService.startTracking();
+  ///     _locationSub = geolocationService.onLocationChanged.listen((position) {
+  ///       add(GeolocationUpdated(position));
+  ///     });
+  ///   }
+  ///   ...
+  ///
+  ///   @override
+  ///   Future<void> close() {
+  ///     WidgetsBinding.instance.removeObserver(this);
+  ///     _locationSub?.cancel();
+  ///     return super.close();
+  ///   }
+  ///   ...
+  ///
+  /// FutureOr<void> _onUpdateGeolocation(
+  ///     GeolocationUpdated event,
+  ///     Emitter<GeolocationsState> emit,
+  ///   ) {
+  ///      // handle update
+  ///   }
+  ///   ...
+  ///
+  /// @override
+  ///   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+  ///     if (state == AppLifecycleState.resumed) {
+  ///       final pos = await geolocationService.getCurrentPosition();
+  ///       if (pos != null) {
+  ///         add(GeolocationUpdated(pos));
+  ///       }
+  ///     }
+  ///   }
+  ///   ```
+
   final _controller = StreamController<Position>.broadcast();
 
   Stream<Position> get onLocationChanged => _controller.stream;
