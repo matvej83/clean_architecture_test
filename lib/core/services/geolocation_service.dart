@@ -16,7 +16,7 @@ class GeolocationService {
   ///
   ///   GeolocationBloc({
   ///     required this.geolocationService,
-  ///   }) : super(const GeolocationsState()) {
+  ///   }) : super(const GeolocationState()) {
   ///     on<GeolocationUpdated>(_onUpdateGeolocation);
   ///     ...
   ///     WidgetsBinding.instance.addObserver(this);
@@ -37,7 +37,7 @@ class GeolocationService {
   ///
   /// FutureOr<void> _onUpdateGeolocation(
   ///     GeolocationUpdated event,
-  ///     Emitter<GeolocationsState> emit,
+  ///     Emitter<GeolocationState> emit,
   ///   ) {
   ///      // handle update
   ///   }
