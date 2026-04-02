@@ -25,6 +25,8 @@ class AppRouter {
 
   AppRouter(this.authBloc);
 
+  bool _isFirstNavigation = true;
+
   late final GoRouter router = GoRouter(
     initialLocation: Pages.splash,
     navigatorKey: _rootNavigatorKey,
@@ -33,19 +35,40 @@ class AppRouter {
     redirect: (context, state) {
       final status = authBloc.state.status;
 
+      final isPublic = isPublicRoute(state);
       final isLogin = state.matchedLocation == Pages.login;
       final isSplash = state.matchedLocation == Pages.splash;
 
+      final isDeepLink =
+          _isFirstNavigation && state.uri.toString() != Pages.splash;
+
+      // disable flag
+      _isFirstNavigation = false;
+
+      // --- SPLASH ---
       if (status == AuthStatus.unknown) {
         return isSplash ? null : Pages.splash;
       }
 
+      // --- UNAUTH ---
       if (status == AuthStatus.unauthenticated) {
-        return isLogin ? null : Pages.login;
+        if (isPublic || isLogin) return null;
+
+        // save <from> only for deeplink
+        if (isDeepLink) {
+          final from = state.uri.toString();
+          return '${Pages.login}?from=$from';
+        }
+
+        return Pages.login;
       }
 
+      // --- AUTH ---
       if (status == AuthStatus.authenticated) {
-        if (isSplash || isLogin) return Pages.products;
+        if (isSplash || isLogin) {
+          final from = state.uri.queryParameters['from'];
+          return from ?? Pages.products;
+        }
         return null;
       }
 
@@ -138,4 +161,8 @@ class GoRouterRefreshStream extends ChangeNotifier {
     _subscription.cancel();
     super.dispose();
   }
+}
+
+bool isPublicRoute(GoRouterState state) {
+  return [Pages.login, Pages.splash].contains(state.matchedLocation);
 }
