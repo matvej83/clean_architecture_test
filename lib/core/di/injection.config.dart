@@ -51,6 +51,8 @@ import 'package:clean_architecture_test/features/products/data/repository/produc
     as _i4;
 import 'package:clean_architecture_test/features/products/domain/repository/products_repository.dart'
     as _i557;
+import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart'
+    as _i979;
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart'
     as _i1043;
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_product_usecase.dart'
@@ -59,6 +61,8 @@ import 'package:clean_architecture_test/features/products/domain/usecases/fetch_
     as _i542;
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_related_by_id_usecase.dart'
     as _i460;
+import 'package:clean_architecture_test/features/products/domain/usecases/upload_image_usecase.dart'
+    as _i362;
 import 'package:clean_architecture_test/features/theme/cubit/cubit.dart'
     as _i474;
 import 'package:clean_architecture_test/features/theme/data/data_sources/theme_local_data_source.dart'
@@ -209,6 +213,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i788.FetchUsersUseCase>(
       () => _i788.FetchUsersUseCase(gh<_i1001.UsersRepository>()),
     );
+    gh.lazySingleton<_i979.CreateProductUseCase>(
+      () => _i979.CreateProductUseCase(gh<_i557.ProductsRepository>()),
+    );
     gh.lazySingleton<_i1043.FetchCategoriesUseCase>(
       () => _i1043.FetchCategoriesUseCase(gh<_i557.ProductsRepository>()),
     );
@@ -220,6 +227,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i460.FetchRelatedByIdUseCase>(
       () => _i460.FetchRelatedByIdUseCase(gh<_i557.ProductsRepository>()),
+    );
+    gh.lazySingleton<_i362.UploadImageUseCase>(
+      () => _i362.UploadImageUseCase(gh<_i557.ProductsRepository>()),
     );
     gh.lazySingleton<_i548.FetchLocationsUseCase>(
       () => _i548.FetchLocationsUseCase(gh<_i1056.LocationsRepository>()),

@@ -21,6 +21,16 @@
     "screenName": "Product",
     "relatedProducts": "Related products"
   },
+  "addProductScreen": {
+    "screenName": "Add product",
+    "selectCategory": "Select category",
+    "addImages": "Add images (< 3)",
+    "fieldTitle": "Title",
+    "fieldPrice": "Price",
+    "fieldDescription": "Description",
+    "createBtn": "Create",
+    "createdSuccess": "Created successful"
+  },
   "usersScreen": {
     "screenName": "Users"
   },
@@ -34,7 +44,8 @@
     "langEn": "English",
     "langRu": "Russian",
     "themeDark": "Dark theme",
-    "themeLight": "Light theme"
+    "themeLight": "Light theme",
+    "role": "Role"
   },
   "locationsScreen": {
     "screenName": "Locations",
@@ -45,7 +56,8 @@
   },
   "fieldValidation": {
     "enterEmail": "Enter email",
-    "enterPassword": "Enter password"
+    "enterPassword": "Enter password",
+    "notEmpty": "Must be not empty"
   },
   "errors": {
     "authError": "Auth error",

@@ -69,6 +69,10 @@ class _ProductPageState extends State<ProductPage> {
                           style: textTheme.bodyLarge,
                         ),
                         Text(
+                          '${state.product?.description}',
+                          style: textTheme.bodyMedium,
+                        ),
+                        Text(
                           '${'updatedAt'.tr()} ${DateFormat('dd MMM, yyyy', context.locale.languageCode).format(state.product?.updatedAt ?? DateTime.now())}',
                           style: textTheme.bodySmall,
                         ),

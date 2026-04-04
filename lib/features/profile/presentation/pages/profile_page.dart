@@ -52,6 +52,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   '${'loginScreen.fieldNameEmail'.tr()}: ${state.user?.email}',
                   style: textTheme.bodyLarge,
                 ),
+                Text(
+                  '${'profileScreen.role'.tr()}: ${state.user?.role}',
+                  style: textTheme.bodyLarge,
+                ),
                 if (_showSelector) ...[
                   ThemeSelector(),
                   LanguageSelector(),

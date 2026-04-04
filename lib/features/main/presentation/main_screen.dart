@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/widgets/fab_menu.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_event.dart';
 import 'package:clean_architecture_test/features/main/presentation/widgets/bottom_nav_bar.dart';
@@ -7,6 +8,8 @@ import 'package:clean_architecture_test/features/products/presentation/bloc/prod
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../navigation/pages.dart';
 
 class MainScreen extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -48,6 +51,28 @@ class _MainScreenState extends State<MainScreen> {
         minimum: const EdgeInsets.only(left: 10, right: 10),
         child: widget.navigationShell,
       ),
+      floatingActionButton: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        transitionBuilder: (child, animation) {
+          return ScaleTransition(
+            scale: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutBack,
+            ),
+            child: FadeTransition(opacity: animation, child: child),
+          );
+        },
+        child: widget.navigationShell.currentIndex == 0
+            ? FabMenu(
+                key: const ValueKey('fab'),
+                onAddProductTap: () {
+                  context.push(Pages.addProduct);
+                },
+                onAddCategoryTap: () {},
+              )
+            : null,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavBar(
         currentPage: widget.navigationShell.currentIndex,
         onItemTap: (index) {

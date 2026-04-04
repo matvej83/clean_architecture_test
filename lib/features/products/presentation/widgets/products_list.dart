@@ -43,14 +43,25 @@ class ListItem extends StatelessWidget {
         spacing: 8.0,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Flexible(
-            child: Image.network(
-              product.images.first,
-              errorBuilder: (context, o, s) => Container(color: Colors.white24),
+          AspectRatio(
+            aspectRatio: 1.4,
+            child: ClipRRect(
+              borderRadius: BorderRadiusGeometry.circular(12.0),
+              child: Image.network(
+                product.images.first,
+                fit: BoxFit.cover,
+                errorBuilder: (context, o, s) =>
+                    Container(color: Colors.white24),
+              ),
             ),
           ),
           Text('\$${product.price}', style: textTheme.bodyMedium),
-          Text(product.title, style: textTheme.bodyLarge),
+          Text(
+            product.title,
+            style: textTheme.bodyLarge,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );

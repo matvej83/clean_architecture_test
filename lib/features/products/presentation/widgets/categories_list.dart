@@ -1,32 +1,35 @@
 import 'package:clean_architecture_test/features/products/domain/entity/category_entity.dart';
-import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
-import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoriesList extends StatelessWidget {
-  const CategoriesList({super.key});
+  const CategoriesList({
+    super.key,
+    required this.categories,
+    required this.selectedCategoryId,
+    required this.onTap,
+  });
+
+  final List<CategoryEntity> categories;
+  final String selectedCategoryId;
+  final Function(String) onTap;
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<ProductsBloc>().state;
     return SizedBox(
-      height: 170.0,
+      height: 160.0,
       child: ListView.separated(
-        itemCount: state.categories.length,
+        itemCount: categories.length,
         physics: const ClampingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
-          final category = state.categories[index];
-          final isSelected = state.selectedCategoryId == category.id;
+          final category = categories[index];
+          final isSelected = selectedCategoryId == category.id;
           return ListItem(
             key: ValueKey(category.id),
             isSelected: isSelected,
             onTap: () {
-              context.read<ProductsBloc>().add(
-                ProductsFetched(categoryId: isSelected ? '' : category.id),
-              );
+              onTap(isSelected ? '' : category.id);
             },
             category: category,
           );
@@ -67,10 +70,20 @@ class ListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              category.image,
-              errorBuilder: (context, o, s) =>
-                  Container(height: 120.0, color: theme.unselectedWidgetColor),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                category.image,
+                height: 104.0,
+                fit: BoxFit.fill,
+                errorBuilder: (context, o, s) => Container(
+                  height: 104.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: theme.unselectedWidgetColor,
+                  ),
+                ),
+              ),
             ),
             Text(
               category.name,
@@ -78,7 +91,7 @@ class ListItem extends StatelessWidget {
                 color: isSelected ? theme.primaryColor : null,
               ),
               softWrap: true,
-              overflow: TextOverflow.fade,
+              overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
           ],
