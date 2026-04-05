@@ -215,8 +215,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     emit(state.copyWith(isCreating: true));
-    await Future.delayed(const Duration(seconds: 5));
-    emit(state.copyWith(isCreating: false));
 
     List<String> uploadedImages = [];
 

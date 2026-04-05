@@ -102,15 +102,13 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
   @override
   Future<ImageModel?> uploadImage({required File imageFile}) async {
     try {
-      final response = await dio.post(
-        'files/upload',
-        data: FormData.fromMap({
-          'file': await MultipartFile.fromFile(
-            imageFile.path,
-            filename: path.basename(imageFile.path),
-          ),
-        }),
-      );
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          imageFile.path,
+          filename: path.basename(imageFile.path),
+        ),
+      });
+      final response = await dio.post('files/upload', data: formData);
       if (response.data != null) {
         return ImageModel.fromJson(response.data);
       }
