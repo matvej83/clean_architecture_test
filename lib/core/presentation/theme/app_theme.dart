@@ -101,6 +101,13 @@ class AppTheme {
         ),
       ),
     ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        ),
+      ),
+    ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       shape: const CircleBorder(),
       backgroundColor: const Color(0xFF222222),

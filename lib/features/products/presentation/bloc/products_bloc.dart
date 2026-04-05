@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart';
+import 'package:clean_architecture_test/features/products/domain/usecases/delete_product_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_products_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_related_by_id_usecase.dart';
@@ -23,6 +24,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final FetchRelatedByIdUseCase fetchRelatedByIdUseCase;
   final UploadImageUseCase uploadImageUseCase;
   final CreateProductUseCase createProductUseCase;
+  final DeleteProductUseCase deleteProductUseCase;
 
   ProductsBloc({
     required this.fetchProductsUseCase,
@@ -31,6 +33,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     required this.fetchRelatedByIdUseCase,
     required this.uploadImageUseCase,
     required this.createProductUseCase,
+    required this.deleteProductUseCase,
   }) : super(const ProductsState()) {
     on<ProductsFetched>(_onProductsFetched);
     on<ProductFetched>(_onProductFetched);
@@ -43,6 +46,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<ImageUploaded>(_onImageUploaded);
     on<ProductCreated>(_onProductCreated);
     on<DataRemoved>(_onDataRemoved);
+    on<ProductDeleted>(_onProductDeleted);
   }
 
   FutureOr<void> _onProductsFetched(
@@ -57,7 +61,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     }
 
     final result = await fetchProductsUseCase(
-      FetchProductsParams(categoryId: event.categoryId),
+      FetchProductsParams(
+        categoryId: state.selectedCategoryId.isNotEmpty
+            ? state.selectedCategoryId
+            : null,
+      ),
     );
 
     result.fold(
@@ -259,6 +267,25 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       },
       (r) {
         emit(state.copyWith(createdSuccessful: true, isCreating: false));
+      },
+    );
+  }
+
+  FutureOr<void> _onProductDeleted(
+    ProductDeleted event,
+    Emitter<ProductsState> emit,
+  ) async {
+    final result = await deleteProductUseCase.repository.deleteProduct(
+      id: event.id,
+    );
+    result.fold(
+      (l) {
+        emit(
+          state.copyWith(error: 'errors.serverError'.tr(), isCreating: false),
+        );
+      },
+      (r) {
+        add(ProductsFetched());
       },
     );
   }

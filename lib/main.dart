@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart';
+import 'package:clean_architecture_test/features/products/domain/usecases/delete_product_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/upload_image_usecase.dart';
 import 'package:clean_architecture_test/features/theme/cubit/state.dart';
@@ -64,6 +65,7 @@ class _MyAppState extends State<MyApp> {
   final fetchRelatedByIdUseCase = getIt<FetchRelatedByIdUseCase>();
   final uploadImageUseCase = getIt<UploadImageUseCase>();
   final createProductUseCase = getIt<CreateProductUseCase>();
+  final deleteProductUseCase = getIt<DeleteProductUseCase>();
 
   // users
   final fetchUsersUseCase = getIt<FetchUsersUseCase>();
@@ -103,6 +105,7 @@ class _MyAppState extends State<MyApp> {
             fetchRelatedByIdUseCase: fetchRelatedByIdUseCase,
             uploadImageUseCase: uploadImageUseCase,
             createProductUseCase: createProductUseCase,
+            deleteProductUseCase: deleteProductUseCase,
           ),
           lazy: true,
         ),

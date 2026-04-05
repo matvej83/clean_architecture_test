@@ -15,7 +15,12 @@
   },
   "productsScreen": {
     "screenName": "Products",
-    "categories": "Categories"
+    "categories": "Categories",
+    "delete": "Delete",
+    "deleteProduct": "Delete Product",
+    "areYouSure": "Are you sure you want to delete product?",
+    "okText": "OK",
+    "cancelText": "Cancel"
   },
   "productScreen": {
     "screenName": "Product",

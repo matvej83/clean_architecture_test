@@ -17,6 +17,8 @@ abstract class ProductsRemoteDataSource {
 
   Future<ProductModel?> createProduct({required ProductModel product});
 
+  Future<bool> deleteProduct({required int id});
+
   Future<List<CategoryModel>?> fetchCategories();
 
   Future<ImageModel?> uploadImage({required File imageFile});
@@ -137,5 +139,19 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
       }
     }
     return null;
+  }
+
+  @override
+  Future<bool> deleteProduct({required int id}) async {
+    try {
+      final response = await dio.delete('products/$id');
+      return response.statusCode == 200;
+    } on Exception catch (e) {
+      if (e is DioException && e.response?.statusCode == 401) {
+        throw InvalidCredentialsException();
+      } else {
+        throw ServerException();
+      }
+    }
   }
 }

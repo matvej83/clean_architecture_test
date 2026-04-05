@@ -88,6 +88,20 @@ class ProductsRepositoryImpl implements ProductsRepository {
   }
 
   @override
+  Future<Either<Failure, bool>> deleteProduct({required int id}) async {
+    try {
+      final result = await productsRemoteDataSource.deleteProduct(id: id);
+      if (result) {
+        return Right(true);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
   Future<Either<Failure, ImageEntity>> uploadImage({
     required File imageFile,
   }) async {

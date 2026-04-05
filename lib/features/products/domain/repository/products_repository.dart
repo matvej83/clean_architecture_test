@@ -21,6 +21,8 @@ abstract class ProductsRepository {
     required ProductModel product,
   });
 
+  Future<Either<Failure, bool>> deleteProduct({required int id});
+
   Future<Either<Failure, List<CategoryEntity>>> fetchCategories();
 
   Future<Either<Failure, ImageEntity>> uploadImage({required File imageFile});

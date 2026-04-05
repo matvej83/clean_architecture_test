@@ -19,7 +19,12 @@
   },
   "productScreen": {
     "screenName": "Товар",
-    "relatedProducts": "Похожие товары"
+    "relatedProducts": "Похожие товары",
+    "delete": "Удалить",
+    "deleteProduct": "Удалить товар",
+    "areYouSure": "Вы действительно хотите удалить товар?",
+    "okText": "Да",
+    "cancelText": "Отмена"
   },
   "addProductScreen": {
     "screenName": "Добавить товар",

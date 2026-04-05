@@ -53,6 +53,8 @@ import 'package:clean_architecture_test/features/products/domain/repository/prod
     as _i557;
 import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart'
     as _i979;
+import 'package:clean_architecture_test/features/products/domain/usecases/delete_product_usecase.dart'
+    as _i745;
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart'
     as _i1043;
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_product_usecase.dart'
@@ -215,6 +217,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i979.CreateProductUseCase>(
       () => _i979.CreateProductUseCase(gh<_i557.ProductsRepository>()),
+    );
+    gh.lazySingleton<_i745.DeleteProductUseCase>(
+      () => _i745.DeleteProductUseCase(gh<_i557.ProductsRepository>()),
     );
     gh.lazySingleton<_i1043.FetchCategoriesUseCase>(
       () => _i1043.FetchCategoriesUseCase(gh<_i557.ProductsRepository>()),
