@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
+import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
+import 'package:clean_architecture_test/features/products/domain/usecases/create_category_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/delete_product_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
@@ -25,6 +27,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final UploadImageUseCase uploadImageUseCase;
   final CreateProductUseCase createProductUseCase;
   final DeleteProductUseCase deleteProductUseCase;
+  final CreateCategoryUseCase createCategoryUseCase;
 
   ProductsBloc({
     required this.fetchProductsUseCase,
@@ -34,6 +37,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     required this.uploadImageUseCase,
     required this.createProductUseCase,
     required this.deleteProductUseCase,
+    required this.createCategoryUseCase,
   }) : super(const ProductsState()) {
     on<ProductsFetched>(_onProductsFetched);
     on<ProductFetched>(_onProductFetched);
@@ -47,6 +51,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<ProductCreated>(_onProductCreated);
     on<DataRemoved>(_onDataRemoved);
     on<ProductDeleted>(_onProductDeleted);
+    on<CategoryCreated>(_onCategoryCreated);
   }
 
   FutureOr<void> _onProductsFetched(
@@ -286,6 +291,50 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       },
       (r) {
         add(ProductsFetched());
+      },
+    );
+  }
+
+  FutureOr<void> _onCategoryCreated(
+    CategoryCreated event,
+    Emitter<ProductsState> emit,
+  ) async {
+    emit(state.copyWith(isCreating: true));
+
+    List<String> uploadedImages = [];
+
+    if (state.pickedImages?.isNotEmpty == true) {
+      final result = await uploadImageUseCase(
+        UploadImageParams(image: state.pickedImages!.first),
+      );
+
+      result.fold(
+        (l) {
+          emit(
+            state.copyWith(error: 'errors.serverError'.tr(), isCreating: false),
+          );
+          return;
+        },
+        (r) {
+          uploadedImages.add(r.location);
+        },
+      );
+    }
+
+    final result = await createCategoryUseCase(
+      CreateCategoryParams(
+        category: CategoryModel(image: uploadedImages.first, name: event.name),
+      ),
+    );
+
+    result.fold(
+      (l) {
+        emit(
+          state.copyWith(error: 'errors.serverError'.tr(), isCreating: false),
+        );
+      },
+      (r) {
+        emit(state.copyWith(createdSuccessful: true, isCreating: false));
       },
     );
   }

@@ -36,6 +36,13 @@
     "createBtn": "Создать",
     "createdSuccess": "Создано успешно"
   },
+  "addCategoryScreen": {
+    "screenName": "Добавить категорию",
+    "addImage": "Добавьте фото",
+    "fieldName": "Имя",
+    "createBtn": "Создать",
+    "createdSuccess": "Создано успешно"
+  },
   "usersScreen": {
     "screenName": "Пользователи"
   },

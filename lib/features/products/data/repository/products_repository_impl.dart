@@ -118,4 +118,22 @@ class ProductsRepositoryImpl implements ProductsRepository {
       return Left(mapExceptionToFailure(e));
     }
   }
+
+  @override
+  Future<Either<Failure, CategoryEntity>> createCategory({
+    required CategoryModel category,
+  }) async {
+    try {
+      final result = await productsRemoteDataSource.createCategory(
+        product: category,
+      );
+      if (result != null) {
+        return Right(result.toEntity());
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
 }

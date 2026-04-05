@@ -36,6 +36,13 @@
     "createBtn": "Create",
     "createdSuccess": "Created successful"
   },
+  "addCategoryScreen": {
+    "screenName": "Add category",
+    "addImage": "Add image",
+    "fieldName": "Name",
+    "createBtn": "Create",
+    "createdSuccess": "Created successful"
+  },
   "usersScreen": {
     "screenName": "Users"
   },

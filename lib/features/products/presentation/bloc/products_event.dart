@@ -79,6 +79,15 @@ class ProductDeleted extends ProductsEvent {
   List<Object?> get props => [id];
 }
 
+class CategoryCreated extends ProductsEvent {
+  final String name;
+
+  CategoryCreated({required this.name});
+
+  @override
+  List<Object?> get props => [name];
+}
+
 class ImagePicked extends ProductsEvent {}
 
 class ImageRemoved extends ProductsEvent {

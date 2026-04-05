@@ -8,43 +8,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/presentation/widgets/app_text_form_field.dart';
-import '../widgets/categories_list.dart';
 import '../widgets/images_list.dart';
 
-class AddProductPage extends StatefulWidget {
-  const AddProductPage({super.key});
+class AddCategoryPage extends StatefulWidget {
+  const AddCategoryPage({super.key});
 
   @override
-  State<AddProductPage> createState() => _AddProductPageState();
+  State<AddCategoryPage> createState() => _AddCategoryPageState();
 }
 
-class _AddProductPageState extends State<AddProductPage> {
+class _AddCategoryPageState extends State<AddCategoryPage> {
   late ProductsBloc bloc;
   late TextTheme textTheme;
   late ProductModel product;
   final _formKey = GlobalKey<FormState>();
-  final _titleController = TextEditingController();
-  final _priceController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  final _nameController = TextEditingController();
 
-  void handleCreateProduct(ProductsState state) {
+  void handleCreateCategory(ProductsState state) {
     if (_formKey.currentState!.validate()) {
-      if (state.createdProductCategoryId.isNotEmpty == true &&
-          state.pickedImages?.isNotEmpty == true) {
-        bloc.add(
-          ProductCreated(
-            title: _titleController.text,
-            description: _descriptionController.text,
-            price: int.tryParse(_priceController.text) ?? 0,
-          ),
-        );
+      if (state.pickedImages?.isNotEmpty == true) {
+        bloc.add(CategoryCreated(name: _nameController.text));
       } else {
-        final message = (state.pickedImages ?? []).isEmpty
-            ? 'addImages'
-            : 'selectCategory';
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${'addProductScreen.$message'.tr()}!'),
+            content: Text('${'addCategoryScreen.addImage'.tr()}!'),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -67,9 +54,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _priceController.dispose();
-    _descriptionController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
@@ -77,7 +62,7 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('addProductScreen.screenName'.tr()),
+        title: Text('addCategoryScreen.screenName'.tr()),
         centerTitle: true,
         leading: BackButton(
           onPressed: () {
@@ -103,14 +88,13 @@ class _AddProductPageState extends State<AddProductPage> {
           if (state.createdSuccessful) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('${'addProductScreen.createdSuccess'.tr()}!'),
+                content: Text('${'addCategoryScreen.createdSuccess'.tr()}!'),
                 backgroundColor: Colors.green,
               ),
             );
             bloc.add(DataRemoved());
-            _titleController.text = '';
-            _descriptionController.text = '';
-            _priceController.text = '';
+            _nameController.text = '';
+            bloc.add(CategoriesFetched());
           }
           if (state.error?.isNotEmpty == true) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -132,25 +116,11 @@ class _AddProductPageState extends State<AddProductPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${'addProductScreen.selectCategory'.tr()}:',
-                    style: textTheme.titleMedium,
-                  ),
-                  CategoriesList(
-                    categories: state.categories,
-                    selectedCategoryId: state.createdProductCategoryId,
-                    onTap: (id) {
-                      if (!isLoading) {
-                        bloc.add(
-                          CreatedProductCategorySelected(categoryId: id),
-                        );
-                      }
-                    },
-                  ),
-                  Text(
-                    '${'addProductScreen.addImages'.tr()}:',
+                    '${'addCategoryScreen.addImage'.tr()}:',
                     style: textTheme.bodyLarge,
                   ),
                   ImagesList(
+                    maxLength: 1,
                     images: state.pickedImages ?? [],
                     onTap: () {
                       if (!isLoading) {
@@ -173,39 +143,11 @@ class _AddProductPageState extends State<AddProductPage> {
                         spacing: 16.0,
                         children: [
                           AppTextFormField(
-                            controller: _titleController,
+                            controller: _nameController,
                             enabled: !isLoading,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              labelText: 'addProductScreen.fieldTitle'.tr(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'fieldValidation.notEmpty'.tr();
-                              }
-                              return null;
-                            },
-                          ),
-                          AppTextFormField(
-                            controller: _priceController,
-                            enabled: !isLoading,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              labelText: 'addProductScreen.fieldPrice'.tr(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'fieldValidation.notEmpty'.tr();
-                              }
-                              return null;
-                            },
-                          ),
-                          AppTextFormField(
-                            controller: _descriptionController,
-                            enabled: !isLoading,
-                            decoration: InputDecoration(
-                              labelText: 'addProductScreen.fieldDescription'
-                                  .tr(),
+                              labelText: 'addCategoryScreen.fieldName'.tr(),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -218,7 +160,7 @@ class _AddProductPageState extends State<AddProductPage> {
                             onPressed: isLoading
                                 ? null
                                 : () {
-                                    handleCreateProduct(state);
+                                    handleCreateCategory(state);
                                   },
                             child: isLoading
                                 ? SizedBox(
@@ -228,7 +170,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                       strokeWidth: 2.0,
                                     ),
                                   )
-                                : Text('addProductScreen.createBtn'.tr()),
+                                : Text('addCategoryScreen.createBtn'.tr()),
                           ),
                         ],
                       ),

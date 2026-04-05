@@ -21,6 +21,8 @@ abstract class ProductsRemoteDataSource {
 
   Future<List<CategoryModel>?> fetchCategories();
 
+  Future<CategoryModel?> createCategory({required CategoryModel product});
+
   Future<ImageModel?> uploadImage({required File imageFile});
 }
 
@@ -130,6 +132,25 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
       final response = await dio.post('products/', data: product.toJson());
       if (response.data != null) {
         return ProductModel.fromJson(response.data);
+      }
+    } on Exception catch (e) {
+      if (e is DioException && e.response?.statusCode == 401) {
+        throw InvalidCredentialsException();
+      } else {
+        throw ServerException();
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<CategoryModel?> createCategory({
+    required CategoryModel product,
+  }) async {
+    try {
+      final response = await dio.post('categories/', data: product.toJson());
+      if (response.data != null) {
+        return CategoryModel.fromJson(response.data);
       }
     } on Exception catch (e) {
       if (e is DioException && e.response?.statusCode == 401) {

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:clean_architecture_test/core/error/failure.dart';
+import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/category_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/image_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
@@ -24,6 +25,10 @@ abstract class ProductsRepository {
   Future<Either<Failure, bool>> deleteProduct({required int id});
 
   Future<Either<Failure, List<CategoryEntity>>> fetchCategories();
+
+  Future<Either<Failure, CategoryEntity>> createCategory({
+    required CategoryModel category,
+  });
 
   Future<Either<Failure, ImageEntity>> uploadImage({required File imageFile});
 }

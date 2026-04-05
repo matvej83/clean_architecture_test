@@ -68,7 +68,9 @@ class _MainScreenState extends State<MainScreen> {
                 onAddProductTap: () {
                   context.push(Pages.addProduct);
                 },
-                onAddCategoryTap: () {},
+                onAddCategoryTap: () {
+                  context.push(Pages.addCategory);
+                },
               )
             : null,
       ),

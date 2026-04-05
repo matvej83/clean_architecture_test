@@ -71,9 +71,9 @@ class ListItem extends StatelessWidget {
             onRemove(image);
           },
           style: IconButton.styleFrom(
-            backgroundColor: theme.primaryColor.withValues(alpha: 0.5),
+            backgroundColor: Colors.cyan.withValues(alpha: 0.4),
           ),
-          icon: Icon(Icons.delete, size: 24.0, color: Colors.white),
+          icon: Icon(Icons.delete_forever, size: 24.0, color: Colors.red),
         ),
       ],
     );
