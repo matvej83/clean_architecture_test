@@ -18,15 +18,27 @@ class CarouselSliderItem extends StatelessWidget {
                 aspectRatio: 1.0,
                 child: Image.network(
                   image!,
-                  errorBuilder: (context, o, s) => const SizedBox(),
+                  errorBuilder: (context, o, s) =>
+                      Container(color: Colors.white24),
                 ),
               ),
               if (current != null && total != null)
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Text(
-                    '${current! + 1} / $total',
-                    style: textTheme.bodyMedium?.copyWith(color: Colors.black),
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 4.0),
+                    padding: EdgeInsets.symmetric(
+                      vertical: 4.0,
+                      horizontal: 8.0,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Colors.cyan.withValues(alpha: 0.2),
+                    ),
+                    child: Text(
+                      '${current! + 1} / $total',
+                      style: textTheme.bodyMedium,
+                    ),
                   ),
                 ),
             ],

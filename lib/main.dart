@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
+import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart';
+import 'package:clean_architecture_test/features/products/domain/usecases/delete_product_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
+import 'package:clean_architecture_test/features/products/domain/usecases/upload_image_usecase.dart';
 import 'package:clean_architecture_test/features/theme/cubit/state.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_architecture_test/navigation/router.dart';
@@ -16,6 +19,7 @@ import 'core/services/auth_session_manager.dart';
 import 'core/services/geolocation_service.dart';
 import 'features/auth/domain/repository/auth_repository.dart';
 import 'features/locations/domain/usecases/fetch_products_usecase.dart';
+import 'features/products/domain/usecases/create_category_usecase.dart';
 import 'features/products/domain/usecases/fetch_product_usecase.dart';
 import 'features/products/domain/usecases/fetch_products_usecase.dart';
 import 'features/products/domain/usecases/fetch_related_by_id_usecase.dart';
@@ -60,6 +64,10 @@ class _MyAppState extends State<MyApp> {
   final fetchProductUseCase = getIt<FetchProductUseCase>();
   final fetchCategoriesUseCase = getIt<FetchCategoriesUseCase>();
   final fetchRelatedByIdUseCase = getIt<FetchRelatedByIdUseCase>();
+  final uploadImageUseCase = getIt<UploadImageUseCase>();
+  final createProductUseCase = getIt<CreateProductUseCase>();
+  final deleteProductUseCase = getIt<DeleteProductUseCase>();
+  final createCategoryUseCase = getIt<CreateCategoryUseCase>();
 
   // users
   final fetchUsersUseCase = getIt<FetchUsersUseCase>();
@@ -97,6 +105,10 @@ class _MyAppState extends State<MyApp> {
             fetchProductUseCase: fetchProductUseCase,
             fetchCategoriesUseCase: fetchCategoriesUseCase,
             fetchRelatedByIdUseCase: fetchRelatedByIdUseCase,
+            uploadImageUseCase: uploadImageUseCase,
+            createProductUseCase: createProductUseCase,
+            deleteProductUseCase: deleteProductUseCase,
+            createCategoryUseCase: createCategoryUseCase,
           ),
           lazy: true,
         ),

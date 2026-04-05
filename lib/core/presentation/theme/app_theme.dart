@@ -12,6 +12,7 @@ class AppTheme {
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0.0,
       backgroundColor: const Color(0xFF222222),
+      centerTitle: true,
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
@@ -99,6 +100,20 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12.0),
         ),
       ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: ButtonStyle(
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        ),
+      ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      shape: const CircleBorder(),
+      backgroundColor: const Color(0xFF222222),
+      foregroundColor: Colors.white,
+      enableFeedback: true,
+      elevation: 2,
     ),
   );
 
@@ -200,6 +215,13 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12.0),
         ),
       ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      shape: const CircleBorder(),
+      backgroundColor: Colors.blue,
+      foregroundColor: Colors.white,
+      enableFeedback: true,
+      elevation: 2,
     ),
   );
 }

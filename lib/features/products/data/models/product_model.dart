@@ -12,12 +12,14 @@ abstract class ProductModel with _$ProductModel {
   const ProductModel._();
 
   const factory ProductModel({
-    required int id,
+    @JsonKey(includeToJson: false, includeFromJson: true) int? id,
     required String title,
-    required String slug,
+    @JsonKey(includeToJson: false, includeFromJson: true) String? slug,
     required int price,
     required String description,
-    required CategoryModel category,
+    @JsonKey(includeToJson: false, includeFromJson: true)
+    CategoryModel? category,
+    @JsonKey(includeToJson: true, includeFromJson: false) int? categoryId,
     @JsonKey(defaultValue: []) required List<String> images,
     DateTime? creationAt,
     DateTime? updatedAt,
@@ -39,10 +41,10 @@ extension ProductModelExt on ProductModel {
   ProductEntity toEntity() => ProductEntity(
     id: id.toString(),
     title: title,
-    slug: slug,
+    slug: slug ?? '',
     price: price,
     description: description,
-    category: category.toEntity(),
+    category: category!.toEntity(),
     images: images,
     creationAt: creationAt,
     updatedAt: updatedAt,

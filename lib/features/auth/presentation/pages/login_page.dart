@@ -5,6 +5,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/presentation/widgets/app_text_form_field.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -75,13 +77,16 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 spacing: 16.0,
                 children: [
-                  Icon(Icons.lock_outline, size: 80.0, color: theme.primaryColor),
+                  Icon(
+                    Icons.lock_outline,
+                    size: 80.0,
+                    color: theme.primaryColor,
+                  ),
                   const SizedBox(height: 40.0),
-                  TextFormField(
+                  AppTextFormField(
                     controller: _emailController,
                     enabled: !isLoading,
                     keyboardType: TextInputType.emailAddress,
-                    textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                       labelText: 'loginScreen.fieldNameEmail'.tr(),
                       prefix: Icon(Icons.email),
@@ -93,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                       return null;
                     },
                   ),
-                  TextFormField(
+                  AppTextFormField(
                     controller: _passwordController,
                     enabled: !isLoading,
                     obscureText: obscure,

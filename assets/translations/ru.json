@@ -19,7 +19,29 @@
   },
   "productScreen": {
     "screenName": "Товар",
-    "relatedProducts": "Похожие товары"
+    "relatedProducts": "Похожие товары",
+    "delete": "Удалить",
+    "deleteProduct": "Удалить товар",
+    "areYouSure": "Вы действительно хотите удалить товар?",
+    "okText": "Да",
+    "cancelText": "Отмена"
+  },
+  "addProductScreen": {
+    "screenName": "Добавить товар",
+    "selectCategory": "Выберите категорию",
+    "addImages": "Добавьте фото (< 3)",
+    "fieldTitle": "Заголовок",
+    "fieldPrice": "Цена",
+    "fieldDescription": "Описание",
+    "createBtn": "Создать",
+    "createdSuccess": "Создано успешно"
+  },
+  "addCategoryScreen": {
+    "screenName": "Добавить категорию",
+    "addImage": "Добавьте фото",
+    "fieldName": "Имя",
+    "createBtn": "Создать",
+    "createdSuccess": "Создано успешно"
   },
   "usersScreen": {
     "screenName": "Пользователи"
@@ -34,7 +56,8 @@
     "langEn": "Английский",
     "langRu": "Русский",
     "themeDark": "Темная тема",
-    "themeLight": "Светлая тема"
+    "themeLight": "Светлая тема",
+    "role": "Роль"
   },
   "locationsScreen": {
     "screenName": "Места",
@@ -45,7 +68,8 @@
   },
   "fieldValidation": {
     "enterEmail": "Введите email",
-    "enterPassword": "Введите пароль"
+    "enterPassword": "Введите пароль",
+    "notEmpty": "Введите значение"
   },
   "errors": {
     "authError": "Ошибка авторизации",

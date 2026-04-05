@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:clean_architecture_test/core/error/failure.dart';
 import 'package:clean_architecture_test/core/error/mapper.dart';
 import 'package:clean_architecture_test/features/products/data/data_sources/products_remote_data_source.dart';
+import 'package:clean_architecture_test/features/products/data/models/image_model.dart';
 import 'package:clean_architecture_test/features/products/data/models/product_model.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/category_entity.dart';
+import 'package:clean_architecture_test/features/products/domain/entity/image_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/repository/products_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -60,6 +64,74 @@ class ProductsRepositoryImpl implements ProductsRepository {
       final products = await productsRemoteDataSource.fetchRelatedById(id: id);
       final list = products?.map((e) => e.toEntity()).toList() ?? [];
       return Right(list);
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProductEntity>> createProduct({
+    required ProductModel product,
+  }) async {
+    try {
+      final result = await productsRemoteDataSource.createProduct(
+        product: product,
+      );
+      if (result != null) {
+        return Right(result.toEntity());
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteProduct({required int id}) async {
+    try {
+      final result = await productsRemoteDataSource.deleteProduct(id: id);
+      if (result) {
+        return Right(true);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ImageEntity>> uploadImage({
+    required File imageFile,
+  }) async {
+    try {
+      final result = await productsRemoteDataSource.uploadImage(
+        imageFile: imageFile,
+      );
+      if (result != null) {
+        return Right(result.toEntity());
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, CategoryEntity>> createCategory({
+    required CategoryModel category,
+  }) async {
+    try {
+      final result = await productsRemoteDataSource.createCategory(
+        product: category,
+      );
+      if (result != null) {
+        return Right(result.toEntity());
+      } else {
+        return Left(ServerFailure());
+      }
     } catch (e) {
       return Left(mapExceptionToFailure(e));
     }

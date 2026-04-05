@@ -31,6 +31,12 @@ dependencies:
   collection: ^1.19.1
   geolocator: ^14.0.2
   flutter_svg: ^2.2.4
+  mocktail: ^1.0.4
+  image_picker: ^1.2.1
+  image: ^4.8.0
+  path: ^1.9.1
+  path_provider: ^2.1.5
+  flutter_slidable: ^4.0.3
 
 dev_dependencies:
   flutter_test:

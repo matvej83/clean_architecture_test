@@ -6,6 +6,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/products_event.dart';
+
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
 
@@ -30,7 +32,17 @@ class ProductsPage extends StatelessWidget {
                   ),
                   SliverPadding(
                     padding: const EdgeInsets.only(top: 12.0),
-                    sliver: SliverToBoxAdapter(child: CategoriesList()),
+                    sliver: SliverToBoxAdapter(
+                      child: CategoriesList(
+                        categories: state.categories,
+                        selectedCategoryId: state.selectedCategoryId,
+                        onTap: (id) {
+                          context.read<ProductsBloc>().add(
+                            ProductsFetched(categoryId: id),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   SliverPadding(
                     padding: const EdgeInsets.only(top: 24.0),

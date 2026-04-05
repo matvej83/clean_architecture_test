@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:clean_architecture_test/core/error/exception.dart';
 import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
+import 'package:clean_architecture_test/features/products/data/models/image_model.dart';
 import 'package:clean_architecture_test/features/products/data/models/product_model.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:path/path.dart' as path;
 
 abstract class ProductsRemoteDataSource {
   Future<List<ProductModel>?> fetchProducts({String? categoryId});
@@ -11,7 +15,15 @@ abstract class ProductsRemoteDataSource {
 
   Future<ProductModel?> fetchProduct({String? id});
 
+  Future<ProductModel?> createProduct({required ProductModel product});
+
+  Future<bool> deleteProduct({required int id});
+
   Future<List<CategoryModel>?> fetchCategories();
+
+  Future<CategoryModel?> createCategory({required CategoryModel product});
+
+  Future<ImageModel?> uploadImage({required File imageFile});
 }
 
 @LazySingleton(as: ProductsRemoteDataSource)
@@ -89,5 +101,78 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
       }
     }
     return null;
+  }
+
+  @override
+  Future<ImageModel?> uploadImage({required File imageFile}) async {
+    try {
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          imageFile.path,
+          filename: path.basename(imageFile.path),
+        ),
+      });
+      final response = await dio.post('files/upload', data: formData);
+      if (response.data != null) {
+        return ImageModel.fromJson(response.data);
+      }
+    } on Exception catch (e) {
+      if (e is DioException && e.response?.statusCode == 401) {
+        throw InvalidCredentialsException();
+      } else {
+        throw ServerException();
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<ProductModel?> createProduct({required ProductModel product}) async {
+    try {
+      final response = await dio.post('products/', data: product.toJson());
+      if (response.data != null) {
+        return ProductModel.fromJson(response.data);
+      }
+    } on Exception catch (e) {
+      if (e is DioException && e.response?.statusCode == 401) {
+        throw InvalidCredentialsException();
+      } else {
+        throw ServerException();
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<CategoryModel?> createCategory({
+    required CategoryModel product,
+  }) async {
+    try {
+      final response = await dio.post('categories/', data: product.toJson());
+      if (response.data != null) {
+        return CategoryModel.fromJson(response.data);
+      }
+    } on Exception catch (e) {
+      if (e is DioException && e.response?.statusCode == 401) {
+        throw InvalidCredentialsException();
+      } else {
+        throw ServerException();
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<bool> deleteProduct({required int id}) async {
+    try {
+      final response = await dio.delete('products/$id');
+      return response.statusCode == 200;
+    } on Exception catch (e) {
+      if (e is DioException && e.response?.statusCode == 401) {
+        throw InvalidCredentialsException();
+      } else {
+        throw ServerException();
+      }
+    }
   }
 }

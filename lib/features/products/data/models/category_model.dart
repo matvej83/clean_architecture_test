@@ -10,10 +10,10 @@ abstract class CategoryModel with _$CategoryModel {
   const CategoryModel._();
 
   const factory CategoryModel({
-    required int id,
+    @JsonKey(includeFromJson: true, includeToJson: false) int? id,
     required String name,
     required String image,
-    required String slug,
+    @JsonKey(includeFromJson: true, includeToJson: false) String? slug,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
@@ -30,6 +30,10 @@ abstract class CategoryModel with _$CategoryModel {
 }
 
 extension CategoryModelExt on CategoryModel {
-  CategoryEntity toEntity() =>
-      CategoryEntity(id: id.toString(), name: name, image: image, slug: slug);
+  CategoryEntity toEntity() => CategoryEntity(
+    id: (id ?? 0).toString(),
+    name: name,
+    image: image,
+    slug: slug ?? '',
+  );
 }
