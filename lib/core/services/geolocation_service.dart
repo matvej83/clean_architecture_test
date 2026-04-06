@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
@@ -136,6 +137,9 @@ class GeolocationService {
         ),
       );
     } catch (_) {
+      if (kIsWeb) {
+        return null;
+      }
       return await Geolocator.getLastKnownPosition();
     }
   }
@@ -160,7 +164,9 @@ class GeolocationService {
     }
 
     if (permission == LocationPermission.deniedForever) {
-      await Geolocator.openAppSettings();
+      if (!kIsWeb) {
+        await Geolocator.openAppSettings();
+      }
       return false;
     }
 

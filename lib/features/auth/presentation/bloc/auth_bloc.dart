@@ -75,10 +75,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(error: message, isLoading: false));
       },
       (r) {
-        add(AuthUserProfileRequested());
         emit(
           state.copyWith(status: AuthStatus.authenticated, isLoading: false),
         );
+        add(AuthUserProfileRequested());
       },
     );
   }
