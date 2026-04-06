@@ -6,7 +6,11 @@ abstract class NetworkException extends AppException {}
 
 class UnauthorizedException extends NetworkException {}
 
-class ServerException extends NetworkException {}
+class ServerException extends NetworkException {
+  final String? message;
+
+  ServerException({this.message});
+}
 
 class TimeoutException extends NetworkException {}
 

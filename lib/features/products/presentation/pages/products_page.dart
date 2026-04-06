@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/presentation/widgets/app_dialog.dart';
 import '../bloc/products_event.dart';
 
 class ProductsPage extends StatelessWidget {
@@ -14,6 +15,7 @@ class ProductsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final bloc = context.read<ProductsBloc>();
     return BlocBuilder<ProductsBloc, ProductsState>(
       builder: (context, state) {
         return state.isLoading
@@ -37,9 +39,21 @@ class ProductsPage extends StatelessWidget {
                         categories: state.categories,
                         selectedCategoryId: state.selectedCategoryId,
                         onTap: (id) {
-                          context.read<ProductsBloc>().add(
-                            ProductsFetched(categoryId: id),
+                          bloc.add(ProductsFetched(categoryId: id));
+                        },
+                        onDeleteTap: (id) async {
+                          final result = await AppDialog.show(
+                            context,
+                            title: 'productScreen.deleteProduct'.tr(),
+                            text: 'productScreen.areYouSure'.tr(),
+                            cancelText: 'productScreen.cancelText'.tr(),
+                            okText: 'productScreen.okText'.tr(),
                           );
+                          if (result) {
+                            bloc.add(
+                              CategoryDeleted(id: int.tryParse(id) ?? 0),
+                            );
+                          }
                         },
                       ),
                     ),

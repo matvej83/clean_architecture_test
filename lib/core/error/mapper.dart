@@ -6,7 +6,7 @@ Failure mapExceptionToFailure(Object error) {
   if (error is InvalidCredentialsException) {
     return InvalidCredentialsFailure();
   }
-  if (error is ServerException) return ServerFailure();
+  if (error is ServerException) return ServerFailure(message: error.message);
   if (error is TimeoutException) return TimeoutFailure();
   if (error is NoInternetException) return NoInternetFailure();
   if (error is CacheException) return CacheFailure();

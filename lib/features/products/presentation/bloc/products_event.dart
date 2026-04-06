@@ -17,7 +17,14 @@ class ProductsFetched extends ProductsEvent {
   List<Object?> get props => [categoryId, loadSilent];
 }
 
-class CategoriesFetched extends ProductsEvent {}
+class CategoriesFetched extends ProductsEvent {
+  final bool loadSilent;
+
+  CategoriesFetched({this.loadSilent = true});
+
+  @override
+  List<Object?> get props => [loadSilent];
+}
 
 class ProductFetched extends ProductsEvent {
   final String id;
@@ -86,6 +93,15 @@ class CategoryCreated extends ProductsEvent {
 
   @override
   List<Object?> get props => [name];
+}
+
+class CategoryDeleted extends ProductsEvent {
+  final int id;
+
+  CategoryDeleted({required this.id});
+
+  @override
+  List<Object?> get props => [id];
 }
 
 class ImagePicked extends ProductsEvent {}

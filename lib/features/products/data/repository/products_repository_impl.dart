@@ -136,4 +136,18 @@ class ProductsRepositoryImpl implements ProductsRepository {
       return Left(mapExceptionToFailure(e));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> deleteCategory({required int id}) async {
+    try {
+      final result = await productsRemoteDataSource.deleteCategory(id: id);
+      if (result) {
+        return Right(true);
+      } else {
+        return Left(ServerFailure());
+      }
+    } catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
 }
