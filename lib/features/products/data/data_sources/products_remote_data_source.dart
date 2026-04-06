@@ -134,8 +134,10 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
         return ProductModel.fromJson(response.data);
       }
     } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
+      if (e is DioException) {
+        if (e.response?.statusCode == 401) {
+          throw InvalidCredentialsException();
+        }
       } else {
         throw ServerException();
       }

@@ -266,8 +266,15 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
     result.fold(
       (l) {
+        String? message;
+        if (l is ServerFailure) {
+          message = l.message;
+        }
         emit(
-          state.copyWith(error: 'errors.serverError'.tr(), isCreating: false),
+          state.copyWith(
+            error: message ?? 'errors.serverError'.tr(),
+            isCreating: false,
+          ),
         );
       },
       (r) {
