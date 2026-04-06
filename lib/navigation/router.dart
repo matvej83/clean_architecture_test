@@ -174,5 +174,5 @@ class GoRouterRefreshStream extends ChangeNotifier {
 }
 
 bool isPublicRoute(GoRouterState state) {
-  return [Pages.login, Pages.splash].contains(state.matchedLocation);
+  return [Pages.login].contains(state.matchedLocation);
 }

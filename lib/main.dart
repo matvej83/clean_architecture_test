@@ -86,7 +86,6 @@ class _MyAppState extends State<MyApp> {
       await sessionManager.logout();
       appRouter.router.go('/login');
     });
-    geolocationService.startTracking();
   }
 
   @override
