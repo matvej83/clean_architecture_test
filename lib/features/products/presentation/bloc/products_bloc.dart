@@ -17,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../data/models/product_model.dart';
+import '../../domain/usecases/delete_category_usecase.dart';
 import '../../domain/usecases/fetch_product_usecase.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
@@ -28,6 +29,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final CreateProductUseCase createProductUseCase;
   final DeleteProductUseCase deleteProductUseCase;
   final CreateCategoryUseCase createCategoryUseCase;
+  final DeleteCategoryUseCase deleteCategoryUseCase;
 
   ProductsBloc({
     required this.fetchProductsUseCase,
@@ -38,6 +40,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     required this.createProductUseCase,
     required this.deleteProductUseCase,
     required this.createCategoryUseCase,
+    required this.deleteCategoryUseCase,
   }) : super(const ProductsState()) {
     on<ProductsFetched>(_onProductsFetched);
     on<ProductFetched>(_onProductFetched);
@@ -52,6 +55,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<DataRemoved>(_onDataRemoved);
     on<ProductDeleted>(_onProductDeleted);
     on<CategoryCreated>(_onCategoryCreated);
+    on<CategoryDeleted>(_onCategoryDeleted);
   }
 
   FutureOr<void> _onProductsFetched(
@@ -119,7 +123,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     CategoriesFetched event,
     Emitter<ProductsState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true));
+    if (!event.loadSilent) {
+      emit(state.copyWith(isLoading: true));
+    }
     final result = await fetchCategoriesUseCase(NoParams());
 
     result.fold(
@@ -342,6 +348,25 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       },
       (r) {
         emit(state.copyWith(createdSuccessful: true, isCreating: false));
+      },
+    );
+  }
+
+  FutureOr<void> _onCategoryDeleted(
+    CategoryDeleted event,
+    Emitter<ProductsState> emit,
+  ) async {
+    final result = await deleteCategoryUseCase.repository.deleteCategory(
+      id: event.id,
+    );
+    result.fold(
+      (l) {
+        emit(
+          state.copyWith(error: 'errors.serverError'.tr(), isCreating: false),
+        );
+      },
+      (r) {
+        add(CategoriesFetched());
       },
     );
   }

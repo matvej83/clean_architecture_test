@@ -20,6 +20,7 @@ import 'core/services/geolocation_service.dart';
 import 'features/auth/domain/repository/auth_repository.dart';
 import 'features/locations/domain/usecases/fetch_products_usecase.dart';
 import 'features/products/domain/usecases/create_category_usecase.dart';
+import 'features/products/domain/usecases/delete_category_usecase.dart';
 import 'features/products/domain/usecases/fetch_product_usecase.dart';
 import 'features/products/domain/usecases/fetch_products_usecase.dart';
 import 'features/products/domain/usecases/fetch_related_by_id_usecase.dart';
@@ -68,6 +69,7 @@ class _MyAppState extends State<MyApp> {
   final createProductUseCase = getIt<CreateProductUseCase>();
   final deleteProductUseCase = getIt<DeleteProductUseCase>();
   final createCategoryUseCase = getIt<CreateCategoryUseCase>();
+  final deleteCategoryUseCase = getIt<DeleteCategoryUseCase>();
 
   // users
   final fetchUsersUseCase = getIt<FetchUsersUseCase>();
@@ -109,6 +111,7 @@ class _MyAppState extends State<MyApp> {
             createProductUseCase: createProductUseCase,
             deleteProductUseCase: deleteProductUseCase,
             createCategoryUseCase: createCategoryUseCase,
+            deleteCategoryUseCase: deleteCategoryUseCase,
           ),
           lazy: true,
         ),

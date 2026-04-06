@@ -7,11 +7,13 @@ class CategoriesList extends StatelessWidget {
     required this.categories,
     required this.selectedCategoryId,
     required this.onTap,
+    this.onDeleteTap,
   });
 
   final List<CategoryEntity> categories;
   final String selectedCategoryId;
   final Function(String) onTap;
+  final Function(String)? onDeleteTap;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,9 @@ class CategoriesList extends StatelessWidget {
             onTap: () {
               onTap(isSelected ? '' : category.id);
             },
+            onDeleteTap: () {
+              onDeleteTap?.call(category.id);
+            },
             category: category,
           );
         },
@@ -46,17 +51,20 @@ class ListItem extends StatelessWidget {
     required this.category,
     this.isSelected = false,
     required this.onTap,
+    this.onDeleteTap,
   });
 
   final CategoryEntity category;
   final bool isSelected;
   final VoidCallback onTap;
+  final VoidCallback? onDeleteTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return GestureDetector(
       onTap: onTap,
+      onLongPress: onDeleteTap,
       child: Container(
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(

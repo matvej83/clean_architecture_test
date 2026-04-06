@@ -24,6 +24,8 @@ abstract class ProductsRepository {
 
   Future<Either<Failure, bool>> deleteProduct({required int id});
 
+  Future<Either<Failure, bool>> deleteCategory({required int id});
+
   Future<Either<Failure, List<CategoryEntity>>> fetchCategories();
 
   Future<Either<Failure, CategoryEntity>> createCategory({
