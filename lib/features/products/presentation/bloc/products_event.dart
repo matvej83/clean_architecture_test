@@ -9,12 +9,13 @@ abstract class ProductsEvent extends Equatable {
 
 class ProductsFetched extends ProductsEvent {
   final String? categoryId;
+  final String? search;
   final bool loadSilent;
 
-  ProductsFetched({this.categoryId, this.loadSilent = true});
+  ProductsFetched({this.categoryId, this.search, this.loadSilent = true});
 
   @override
-  List<Object?> get props => [categoryId, loadSilent];
+  List<Object?> get props => [categoryId, search, loadSilent];
 }
 
 class CategoriesFetched extends ProductsEvent {

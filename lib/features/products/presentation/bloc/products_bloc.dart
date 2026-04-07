@@ -74,6 +74,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         categoryId: state.selectedCategoryId.isNotEmpty
             ? state.selectedCategoryId
             : null,
+        search: event.search,
       ),
     );
 
@@ -86,12 +87,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         emit(state.copyWith(error: message, isLoading: false));
       },
       (r) {
-        emit(
-          state.copyWith(
-            products: r,
-            isLoading: false,
-          ),
-        );
+        emit(state.copyWith(products: r, isLoading: false));
       },
     );
   }

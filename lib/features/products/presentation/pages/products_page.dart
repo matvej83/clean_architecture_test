@@ -26,6 +26,20 @@ class ProductsPage extends StatelessWidget {
                   SliverPadding(
                     padding: const EdgeInsets.only(top: 12.0),
                     sliver: SliverToBoxAdapter(
+                      child: SearchBar(
+                        leading: Icon(Icons.search),
+                        onTapOutside: (PointerDownEvent event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        onChanged: (search) {
+                          bloc.add(ProductsFetched(search: search));
+                        },
+                      ),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    sliver: SliverToBoxAdapter(
                       child: Text(
                         'productsScreen.categories'.tr(),
                         style: textTheme.titleMedium,

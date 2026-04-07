@@ -65,15 +65,15 @@ class AppTheme {
     dropdownMenuTheme: DropdownMenuThemeData(
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.white),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.white),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.blue),
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -114,6 +114,19 @@ class AppTheme {
       foregroundColor: Colors.white,
       enableFeedback: true,
       elevation: 2,
+    ),
+    searchBarTheme: SearchBarThemeData(
+      shape: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.focused)) {
+          return RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            side: BorderSide(color: Colors.blue),
+          );
+        }
+        return RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        );
+      }),
     ),
   );
 

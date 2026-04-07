@@ -12,6 +12,7 @@ import '../../data/models/product_model.dart';
 abstract class ProductsRepository {
   Future<Either<Failure, List<ProductEntity>>> fetchProducts({
     String? categoryId,
+    String? search,
   });
 
   Future<Either<Failure, List<ProductEntity>>> fetchRelatedById({String? id});

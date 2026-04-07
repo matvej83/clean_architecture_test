@@ -9,7 +9,10 @@ import 'package:injectable/injectable.dart';
 import 'package:path/path.dart' as path;
 
 abstract class ProductsRemoteDataSource {
-  Future<List<ProductModel>?> fetchProducts({String? categoryId});
+  Future<List<ProductModel>?> fetchProducts({
+    String? categoryId,
+    String? search,
+  });
 
   Future<List<ProductModel>?> fetchRelatedById({String? id});
 
@@ -35,12 +38,23 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
   ProductsRemoteDataSourceImpl(this.dio);
 
   @override
-  Future<List<ProductModel>?> fetchProducts({String? categoryId}) async {
+  Future<List<ProductModel>?> fetchProducts({
+    String? categoryId,
+    String? search,
+  }) async {
     try {
-      final endPoint = categoryId?.isNotEmpty == true
-          ? 'categories/$categoryId/products'
-          : 'products';
-      final response = await dio.get(endPoint);
+      final Map<String, dynamic> queryParameters = {};
+      if (categoryId?.isNotEmpty == true) {
+        queryParameters.addAll({'categoryId': categoryId});
+      }
+      if (search?.isNotEmpty == true) {
+        queryParameters.addAll({'title': search});
+      }
+
+      final response = await dio.get(
+        'products',
+        queryParameters: queryParameters,
+      );
       if (response.data != null) {
         return ProductModel.fromList(response.data);
       }
