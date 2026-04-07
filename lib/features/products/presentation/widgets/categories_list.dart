@@ -12,7 +12,7 @@ class CategoriesList extends StatelessWidget {
 
   final List<CategoryEntity> categories;
   final String selectedCategoryId;
-  final Function(String) onTap;
+  final Function(CategoryEntity) onTap;
   final Function(String)? onDeleteTap;
 
   @override
@@ -31,7 +31,7 @@ class CategoriesList extends StatelessWidget {
             key: ValueKey(category.id),
             isSelected: isSelected,
             onTap: () {
-              onTap(isSelected ? '' : category.id);
+              onTap(category);
             },
             onDeleteTap: () {
               onDeleteTap?.call(category.id);

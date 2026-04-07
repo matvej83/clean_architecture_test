@@ -19,6 +19,8 @@ class FetchProductsUseCase
     return await repository.fetchProducts(
       categoryId: params.categoryId,
       search: params.search,
+      priceMin: params.priceMin,
+      priceMax: params.priceMax,
     );
   }
 }
@@ -26,6 +28,13 @@ class FetchProductsUseCase
 class FetchProductsParams {
   final String? categoryId;
   final String? search;
+  final int? priceMin;
+  final int? priceMax;
 
-  FetchProductsParams({this.categoryId, this.search});
+  FetchProductsParams({
+    this.categoryId,
+    this.search,
+    this.priceMin,
+    this.priceMax,
+  });
 }

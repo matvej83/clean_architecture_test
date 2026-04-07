@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:clean_architecture_test/core/constants/app_strings.dart';
+import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
 import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/create_category_usecase.dart';
@@ -12,6 +14,7 @@ import 'package:clean_architecture_test/features/products/domain/usecases/upload
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_state.dart';
 import 'package:clean_architecture_test/features/products/utils.dart';
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,7 +49,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<ProductFetched>(_onProductFetched);
     on<CategoriesFetched>(_onCategoriesFetched);
     on<RelatedByIdFetched>(_onRelatedByIdFetched);
-    on<CategorySelected>(_onCategorySelected);
     on<CreatedProductCategorySelected>(_onCreatedProductCategorySelected);
     on<ImagePicked>(_onImagePicked);
     on<ImageRemoved>(_onImageRemoved);
@@ -56,6 +58,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<ProductDeleted>(_onProductDeleted);
     on<CategoryCreated>(_onCategoryCreated);
     on<CategoryDeleted>(_onCategoryDeleted);
+    on<FilterAdded>(_onFilterAdded);
+    on<FilterRemoved>(_onFilterRemoved);
+    on<FiltersSaved>(_onFiltersSaved);
   }
 
   FutureOr<void> _onProductsFetched(
@@ -68,6 +73,17 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     if (event.categoryId != null) {
       emit(state.copyWith(selectedCategoryId: event.categoryId));
     }
+    int? priceMin;
+    int? priceMax;
+
+    if (state.filters.isNotEmpty == true) {
+      priceMin = state.filters
+          .firstWhereOrNull((e) => e.identifier == AppStrings.amountMin)
+          ?.apiValue;
+      priceMax = state.filters
+          .firstWhereOrNull((e) => e.identifier == AppStrings.amountMax)
+          ?.apiValue;
+    }
 
     final result = await fetchProductsUseCase(
       FetchProductsParams(
@@ -75,6 +91,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
             ? state.selectedCategoryId
             : null,
         search: event.search,
+        priceMin: priceMin,
+        priceMax: priceMax,
       ),
     );
 
@@ -159,22 +177,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onCategorySelected(
-    CategorySelected event,
-    Emitter<ProductsState> emit,
-  ) async {
-    if (event.categoryId != null) {
-      emit(state.copyWith(selectedCategoryId: event.categoryId));
-    }
-  }
-
   FutureOr<void> _onCreatedProductCategorySelected(
     CreatedProductCategorySelected event,
     Emitter<ProductsState> emit,
   ) async {
-    if (event.categoryId != null) {
-      emit(state.copyWith(createdProductCategoryId: event.categoryId));
-    }
+    emit(state.copyWith(createdProductCategoryId: event.categoryId));
   }
 
   FutureOr<void> _onImagePicked(
@@ -388,5 +395,32 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         pickedImages: [],
       ),
     );
+  }
+
+  FutureOr<void> _onFilterAdded(
+    FilterAdded event,
+    Emitter<ProductsState> emit,
+  ) async {
+    final filters = List<AvailabilityFilterEntity>.from(state.filters);
+    filters.add(event.filter);
+    emit(state.copyWith(filters: filters));
+  }
+
+  FutureOr<void> _onFilterRemoved(
+    FilterRemoved event,
+    Emitter<ProductsState> emit,
+  ) async {
+    final filters = List<AvailabilityFilterEntity>.from(state.filters);
+    filters.remove(event.filter);
+    emit(state.copyWith(filters: filters));
+    add(ProductsFetched());
+  }
+
+  FutureOr<void> _onFiltersSaved(
+    FiltersSaved event,
+    Emitter<ProductsState> emit,
+  ) async {
+    emit(state.copyWith(filters: event.filters));
+    add(ProductsFetched());
   }
 }

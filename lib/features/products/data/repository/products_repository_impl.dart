@@ -24,11 +24,15 @@ class ProductsRepositoryImpl implements ProductsRepository {
   Future<Either<Failure, List<ProductEntity>>> fetchProducts({
     String? categoryId,
     String? search,
+    int? priceMin,
+    int? priceMax,
   }) async {
     try {
       final products = await productsRemoteDataSource.fetchProducts(
         categoryId: categoryId,
         search: search,
+        priceMin: priceMin,
+        priceMax: priceMax,
       );
       final list = products?.map((e) => e.toEntity()).toList() ?? [];
       return Right(list);

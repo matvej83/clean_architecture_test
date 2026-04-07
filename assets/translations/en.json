@@ -68,10 +68,19 @@
     "list": "List",
     "map": "Map"
   },
+  "filtersModal": {
+    "modalName": "Filters",
+    "amount": "Amount",
+    "from": "From",
+    "to": "To",
+    "btnConfirm": "Confirm",
+    "btnReset": "Reset filters"
+  },
   "fieldValidation": {
     "enterEmail": "Enter email",
     "enterPassword": "Enter password",
-    "notEmpty": "Must be not empty"
+    "notEmpty": "Must be not empty",
+    "maxAmount": "Max amount should be greater then min"
   },
   "errors": {
     "authError": "Auth error",

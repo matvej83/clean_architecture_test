@@ -12,6 +12,8 @@ abstract class ProductsRemoteDataSource {
   Future<List<ProductModel>?> fetchProducts({
     String? categoryId,
     String? search,
+    int? priceMin,
+    int? priceMax,
   });
 
   Future<List<ProductModel>?> fetchRelatedById({String? id});
@@ -41,6 +43,8 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
   Future<List<ProductModel>?> fetchProducts({
     String? categoryId,
     String? search,
+    int? priceMin,
+    int? priceMax,
   }) async {
     try {
       final Map<String, dynamic> queryParameters = {};
@@ -49,6 +53,12 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
       }
       if (search?.isNotEmpty == true) {
         queryParameters.addAll({'title': search});
+      }
+      if (priceMin != null) {
+        queryParameters.addAll({'price_min': priceMin});
+      }
+      if (priceMax != null) {
+        queryParameters.addAll({'price_max': priceMax});
       }
 
       final response = await dio.get(

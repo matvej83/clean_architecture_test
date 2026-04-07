@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class ProductsEvent extends Equatable {
@@ -45,19 +46,10 @@ class RelatedByIdFetched extends ProductsEvent {
   List<Object?> get props => [id];
 }
 
-class CategorySelected extends ProductsEvent {
-  final String? categoryId;
-
-  CategorySelected({this.categoryId});
-
-  @override
-  List<Object?> get props => [categoryId];
-}
-
 class CreatedProductCategorySelected extends ProductsEvent {
-  final String? categoryId;
+  final String categoryId;
 
-  CreatedProductCategorySelected({this.categoryId});
+  CreatedProductCategorySelected({required this.categoryId});
 
   @override
   List<Object?> get props => [categoryId];
@@ -126,3 +118,30 @@ class ImageUploaded extends ProductsEvent {
 }
 
 class DataRemoved extends ProductsEvent {}
+
+class FilterAdded extends ProductsEvent {
+  final AvailabilityFilterEntity filter;
+
+  FilterAdded({required this.filter});
+
+  @override
+  List<Object?> get props => [filter];
+}
+
+class FilterRemoved extends ProductsEvent {
+  final AvailabilityFilterEntity filter;
+
+  FilterRemoved({required this.filter});
+
+  @override
+  List<Object?> get props => [filter];
+}
+
+class FiltersSaved extends ProductsEvent {
+  final List<AvailabilityFilterEntity> filters;
+
+  FiltersSaved({required this.filters});
+
+  @override
+  List<Object?> get props => [filters];
+}

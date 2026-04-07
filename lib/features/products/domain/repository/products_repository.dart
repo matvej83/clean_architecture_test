@@ -13,6 +13,8 @@ abstract class ProductsRepository {
   Future<Either<Failure, List<ProductEntity>>> fetchProducts({
     String? categoryId,
     String? search,
+    int? priceMin,
+    int? priceMax,
   });
 
   Future<Either<Failure, List<ProductEntity>>> fetchRelatedById({String? id});

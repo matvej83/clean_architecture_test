@@ -68,10 +68,19 @@
     "list": "Список",
     "map": "Карта"
   },
+  "filtersModal": {
+    "modalName": "Фильтры",
+    "amount": "Сумма",
+    "from": "От",
+    "to": "До",
+    "btnConfirm": "Подтвердить",
+    "btnReset": "Сбросить фильтры"
+  },
   "fieldValidation": {
     "enterEmail": "Введите email",
     "enterPassword": "Введите пароль",
-    "notEmpty": "Введите значение"
+    "notEmpty": "Введите значение",
+    "maxAmount": "Max должно быть больше чем min"
   },
   "errors": {
     "authError": "Ошибка авторизации",
