@@ -15,16 +15,18 @@
   },
   "productsScreen": {
     "screenName": "Товары",
-    "categories": "Категории"
+    "categories": "Категории",
+    "delete": "Удалить",
+    "deleteProduct": "Удалить товар",
+    "deleteCategory": "Удалить категорию",
+    "areYouSureProduct": "Вы уверены, что хотитет удалить товар?",
+    "areYouSureCategory": "Вы уверены, что хотите удалить категорию?",
+    "okText": "Да",
+    "cancelText": "Отмена"
   },
   "productScreen": {
     "screenName": "Товар",
-    "relatedProducts": "Похожие товары",
-    "delete": "Удалить",
-    "deleteProduct": "Удалить товар",
-    "areYouSure": "Вы действительно хотите удалить товар?",
-    "okText": "Да",
-    "cancelText": "Отмена"
+    "relatedProducts": "Похожие товары"
   },
   "addProductScreen": {
     "screenName": "Добавить товар",
@@ -66,10 +68,19 @@
     "list": "Список",
     "map": "Карта"
   },
+  "filtersModal": {
+    "modalName": "Фильтры",
+    "amount": "Сумма",
+    "from": "От",
+    "to": "До",
+    "btnConfirm": "Подтвердить",
+    "btnReset": "Сбросить фильтры"
+  },
   "fieldValidation": {
     "enterEmail": "Введите email",
     "enterPassword": "Введите пароль",
-    "notEmpty": "Введите значение"
+    "notEmpty": "Введите значение",
+    "maxAmount": "Max должно быть больше чем min"
   },
   "errors": {
     "authError": "Ошибка авторизации",

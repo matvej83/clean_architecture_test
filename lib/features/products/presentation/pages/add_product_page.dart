@@ -138,10 +138,12 @@ class _AddProductPageState extends State<AddProductPage> {
                   CategoriesList(
                     categories: state.categories,
                     selectedCategoryId: state.createdProductCategoryId,
-                    onTap: (id) {
+                    onTap: (category) {
                       if (!isLoading) {
                         bloc.add(
-                          CreatedProductCategorySelected(categoryId: id),
+                          CreatedProductCategorySelected(
+                            categoryId: category.id,
+                          ),
                         );
                       }
                     },

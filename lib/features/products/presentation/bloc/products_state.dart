@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/category_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
 import 'package:equatable/equatable.dart';
@@ -18,6 +19,7 @@ class ProductsState extends Equatable {
   final String createdProductCategoryId;
   final List<File>? pickedImages;
   final List<String>? uploadedImages;
+  final List<AvailabilityFilterEntity> filters;
 
   const ProductsState({
     this.isLoading = false,
@@ -33,6 +35,7 @@ class ProductsState extends Equatable {
     this.createdProductCategoryId = '',
     this.pickedImages,
     this.uploadedImages,
+    this.filters = const [],
   });
 
   ProductsState copyWith({
@@ -49,6 +52,7 @@ class ProductsState extends Equatable {
     String? createdProductCategoryId,
     List<File>? pickedImages,
     List<String>? uploadedImages,
+    List<AvailabilityFilterEntity>? filters,
   }) {
     return ProductsState(
       isLoading: isLoading ?? this.isLoading,
@@ -65,6 +69,7 @@ class ProductsState extends Equatable {
           createdProductCategoryId ?? this.createdProductCategoryId,
       pickedImages: pickedImages ?? this.pickedImages,
       uploadedImages: uploadedImages ?? this.uploadedImages,
+      filters: filters ?? this.filters,
     );
   }
 
@@ -83,5 +88,6 @@ class ProductsState extends Equatable {
     createdProductCategoryId,
     pickedImages,
     uploadedImages,
+    filters,
   ];
 }

@@ -63,4 +63,22 @@ class ProductsUtils {
       debugPrint('deleting file error: $e');
     }
   }
+
+  static Widget getFilterButton(
+    BuildContext context, {
+    required VoidCallback onTap,
+    bool isActive = false,
+  }) {
+    return IconButton(
+      style: IconButton.styleFrom(
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+      onPressed: onTap,
+      icon: Icon(
+        isActive ? Icons.filter_alt : Icons.filter_alt_outlined,
+        color: isActive ? Colors.white : null,
+        size: 24.0,
+      ),
+    );
+  }
 }

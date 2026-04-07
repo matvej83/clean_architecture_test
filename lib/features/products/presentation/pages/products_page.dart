@@ -1,12 +1,15 @@
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_state.dart';
 import 'package:clean_architecture_test/features/products/presentation/widgets/categories_list.dart';
+import 'package:clean_architecture_test/features/products/presentation/widgets/filter_modal.dart';
 import 'package:clean_architecture_test/features/products/presentation/widgets/products_list.dart';
+import 'package:clean_architecture_test/features/products/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/presentation/widgets/app_dialog.dart';
+import '../../../../core/presentation/widgets/availability_filters_list.dart';
 import '../bloc/products_event.dart';
 
 class ProductsPage extends StatelessWidget {
@@ -26,6 +29,38 @@ class ProductsPage extends StatelessWidget {
                   SliverPadding(
                     padding: const EdgeInsets.only(top: 12.0),
                     sliver: SliverToBoxAdapter(
+                      child: Row(
+                        spacing: 8.0,
+                        children: [
+                          Flexible(
+                            child: SearchBar(
+                              leading: Icon(Icons.search),
+                              onTapOutside: (PointerDownEvent event) {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              onChanged: (search) {
+                                bloc.add(ProductsFetched(search: search));
+                              },
+                            ),
+                          ),
+                          ProductsUtils.getFilterButton(
+                            context,
+                            isActive: state.filters.isNotEmpty,
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    Dialog(child: FilterModal()),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(top: 12.0),
+                    sliver: SliverToBoxAdapter(
                       child: Text(
                         'productsScreen.categories'.tr(),
                         style: textTheme.titleMedium,
@@ -38,16 +73,22 @@ class ProductsPage extends StatelessWidget {
                       child: CategoriesList(
                         categories: state.categories,
                         selectedCategoryId: state.selectedCategoryId,
-                        onTap: (id) {
-                          bloc.add(ProductsFetched(categoryId: id));
+                        onTap: (category) {
+                          final isSelected =
+                              category.id == state.selectedCategoryId;
+                          bloc.add(
+                            ProductsFetched(
+                              categoryId: isSelected ? '' : category.id,
+                            ),
+                          );
                         },
                         onDeleteTap: (id) async {
                           final result = await AppDialog.show(
                             context,
-                            title: 'productScreen.deleteProduct'.tr(),
-                            text: 'productScreen.areYouSure'.tr(),
-                            cancelText: 'productScreen.cancelText'.tr(),
-                            okText: 'productScreen.okText'.tr(),
+                            title: 'productsScreen.deleteCategory'.tr(),
+                            text: 'productsScreen.areYouSureCategory'.tr(),
+                            cancelText: 'productsScreen.cancelText'.tr(),
+                            okText: 'productsScreen.okText'.tr(),
                           );
                           if (result) {
                             bloc.add(
@@ -58,6 +99,25 @@ class ProductsPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (state.filters.isNotEmpty == true)
+                    SliverPadding(
+                      padding: const EdgeInsets.only(top: 24.0),
+                      sliver: SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: AvailabilityFiltersList(
+                              availabilityFilters: state.filters,
+                              onTap: (filter) {
+                                bloc.add(FilterRemoved(filter: filter));
+                              },
+                              filterBackgroundColor: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   SliverPadding(
                     padding: const EdgeInsets.only(top: 24.0),
                     sliver: ProductsList(products: state.products),

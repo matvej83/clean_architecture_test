@@ -16,12 +16,25 @@ class FetchProductsUseCase
   Future<Either<Failure, List<ProductEntity>>> call(
     FetchProductsParams params,
   ) async {
-    return await repository.fetchProducts(categoryId: params.categoryId);
+    return await repository.fetchProducts(
+      categoryId: params.categoryId,
+      search: params.search,
+      priceMin: params.priceMin,
+      priceMax: params.priceMax,
+    );
   }
 }
 
 class FetchProductsParams {
   final String? categoryId;
+  final String? search;
+  final int? priceMin;
+  final int? priceMax;
 
-  FetchProductsParams({this.categoryId});
+  FetchProductsParams({
+    this.categoryId,
+    this.search,
+    this.priceMin,
+    this.priceMax,
+  });
 }
