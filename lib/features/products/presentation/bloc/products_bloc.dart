@@ -90,7 +90,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
           state.copyWith(
             products: r,
             isLoading: false,
-            selectedCategoryId: event.categoryId,
           ),
         );
       },
@@ -366,6 +365,10 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         );
       },
       (r) {
+        if (state.selectedCategoryId == event.id.toString()) {
+          emit(state.copyWith(selectedCategoryId: ''));
+          add(ProductsFetched());
+        }
         add(CategoriesFetched());
       },
     );

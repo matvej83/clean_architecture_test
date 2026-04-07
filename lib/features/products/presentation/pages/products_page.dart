@@ -44,10 +44,10 @@ class ProductsPage extends StatelessWidget {
                         onDeleteTap: (id) async {
                           final result = await AppDialog.show(
                             context,
-                            title: 'productScreen.deleteProduct'.tr(),
-                            text: 'productScreen.areYouSure'.tr(),
-                            cancelText: 'productScreen.cancelText'.tr(),
-                            okText: 'productScreen.okText'.tr(),
+                            title: 'productsScreen.deleteCategory'.tr(),
+                            text: 'productsScreen.areYouSureCategory'.tr(),
+                            cancelText: 'productsScreen.cancelText'.tr(),
+                            okText: 'productsScreen.okText'.tr(),
                           );
                           if (result) {
                             bloc.add(

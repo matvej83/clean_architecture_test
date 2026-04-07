@@ -30,10 +30,10 @@ class ProductsList extends StatelessWidget {
                 onPressed: (context) async {
                   final result = await AppDialog.show(
                     context,
-                    title: 'productScreen.deleteProduct'.tr(),
-                    text: 'productScreen.areYouSure'.tr(),
-                    cancelText: 'productScreen.cancelText'.tr(),
-                    okText: 'productScreen.okText'.tr(),
+                    title: 'productsScreen.deleteProduct'.tr(),
+                    text: 'productsScreen.areYouSureProduct'.tr(),
+                    cancelText: 'productsScreen.cancelText'.tr(),
+                    okText: 'productsScreen.okText'.tr(),
                   );
                   if (result) {
                     final id = int.tryParse(item.id) ?? 0;
@@ -43,7 +43,7 @@ class ProductsList extends StatelessWidget {
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
                 icon: Icons.delete_forever,
-                label: 'productScreen.delete'.tr(),
+                label: 'productsScreen.delete'.tr(),
                 borderRadius: BorderRadius.circular(12.0),
               ),
             ],

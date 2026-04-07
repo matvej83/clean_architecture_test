@@ -17,8 +17,10 @@
     "screenName": "Products",
     "categories": "Categories",
     "delete": "Delete",
-    "deleteProduct": "Delete Product",
-    "areYouSure": "Are you sure you want to delete product?",
+    "deleteProduct": "Delete product",
+    "deleteCategory": "Delete category",
+    "areYouSureProduct": "Are you sure you want to delete product?",
+    "areYouSureCategory": "Are you sure you want to delete category?",
     "okText": "OK",
     "cancelText": "Cancel"
   },
