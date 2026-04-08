@@ -69,14 +69,21 @@ class ProductsUtils {
     required VoidCallback onTap,
     bool isActive = false,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark
+        ? Colors.grey.shade600
+        : Colors.grey.shade400;
     return IconButton(
       style: IconButton.styleFrom(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
       ),
       onPressed: onTap,
       icon: Icon(
         isActive ? Icons.filter_alt : Icons.filter_alt_outlined,
-        color: isActive ? Colors.white : null,
+        color: isActive ? Colors.blue : Colors.white,
         size: 24.0,
       ),
     );

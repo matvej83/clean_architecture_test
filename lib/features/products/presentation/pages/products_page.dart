@@ -34,7 +34,7 @@ class ProductsPage extends StatelessWidget {
                         children: [
                           Flexible(
                             child: SearchBar(
-                              leading: Icon(Icons.search),
+                              leading: Icon(Icons.search, color: Colors.white),
                               onTapOutside: (PointerDownEvent event) {
                                 FocusManager.instance.primaryFocus?.unfocus();
                               },
@@ -49,8 +49,17 @@ class ProductsPage extends StatelessWidget {
                             onTap: () {
                               showDialog(
                                 context: context,
-                                builder: (context) =>
-                                    Dialog(child: FilterModal()),
+                                builder: (context) => Material(
+                                  color: Colors.transparent,
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                      ),
+                                      child: FilterModal(),
+                                    ),
+                                  ),
+                                ),
                               );
                             },
                           ),
@@ -112,7 +121,6 @@ class ProductsPage extends StatelessWidget {
                               onTap: (filter) {
                                 bloc.add(FilterRemoved(filter: filter));
                               },
-                              filterBackgroundColor: Colors.grey,
                             ),
                           ),
                         ),

@@ -63,70 +63,72 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         builder: (context, state) {
           final isLoading = state.isLoading;
-          return SingleChildScrollView(
-            padding: EdgeInsetsGeometry.only(
-              top: 24.0,
-              left: 24.0,
-              right: 24.0,
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                spacing: 16.0,
-                children: [
-                  Icon(
-                    Icons.lock_outline,
-                    size: 80.0,
-                    color: theme.primaryColor,
-                  ),
-                  const SizedBox(height: 40.0),
-                  AppTextFormField(
-                    controller: _emailController,
-                    enabled: !isLoading,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelText: 'loginScreen.fieldNameEmail'.tr(),
-                      prefix: Icon(Icons.email),
+          return Center(
+            child: SingleChildScrollView(
+              padding: EdgeInsetsGeometry.only(
+                top: 24.0,
+                left: 24.0,
+                right: 24.0,
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: 16.0,
+                  children: [
+                    Icon(
+                      Icons.lock_outline,
+                      size: 80.0,
+                      color: theme.primaryColor,
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'fieldValidation.enterPassword'.tr();
-                      }
-                      return null;
-                    },
-                  ),
-                  AppTextFormField(
-                    controller: _passwordController,
-                    enabled: !isLoading,
-                    obscureText: obscure,
-                    decoration: InputDecoration(
-                      labelText: 'loginScreen.fieldNamePassword'.tr(),
-                      prefix: GestureDetector(
-                        onTap: obscureIcon,
-                        child: Icon(obscure ? Icons.lock : Icons.lock_open),
+                    const SizedBox(height: 40.0),
+                    AppTextFormField(
+                      controller: _emailController,
+                      enabled: !isLoading,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        labelText: 'loginScreen.fieldNameEmail'.tr(),
+                        prefix: Icon(Icons.email),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'fieldValidation.enterPassword'.tr();
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'fieldValidation.enterPassword'.tr();
-                      }
-                      return null;
-                    },
-                  ),
-                  ElevatedButton(
-                    onPressed: isLoading ? null : handleLogin,
-                    child: isLoading
-                        ? SizedBox(
-                            width: 20.0,
-                            height: 20.0,
-                            child: CircularProgressIndicator(strokeWidth: 2.0),
-                          )
-                        : Text('loginScreen.btnLogin'.tr()),
-                  ),
-                ],
+                    AppTextFormField(
+                      controller: _passwordController,
+                      enabled: !isLoading,
+                      obscureText: obscure,
+                      decoration: InputDecoration(
+                        labelText: 'loginScreen.fieldNamePassword'.tr(),
+                        prefix: GestureDetector(
+                          onTap: obscureIcon,
+                          child: Icon(obscure ? Icons.lock : Icons.lock_open),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'fieldValidation.enterPassword'.tr();
+                        }
+                        return null;
+                      },
+                    ),
+                    ElevatedButton(
+                      onPressed: isLoading ? null : handleLogin,
+                      child: isLoading
+                          ? SizedBox(
+                              width: 20.0,
+                              height: 20.0,
+                              child: CircularProgressIndicator(strokeWidth: 2.0),
+                            )
+                          : Text('loginScreen.btnLogin'.tr()),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

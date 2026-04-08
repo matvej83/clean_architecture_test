@@ -45,7 +45,10 @@ class AmountFilterBlock extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   onPressed: onRemoveAmountFilters,
-                  icon: Icon(Icons.indeterminate_check_box),
+                  icon: Icon(
+                    Icons.indeterminate_check_box,
+                    color: Colors.grey.shade400,
+                  ),
                 ),
               ),
           ],
@@ -68,6 +71,7 @@ class AmountFilterBlock extends StatelessWidget {
                       AppTextFormField(
                         controller: amountMinController,
                         keyboardType: TextInputType.number,
+                        unfocusOnTapOutside: false,
                       ),
                     ],
                   ),
@@ -85,6 +89,7 @@ class AmountFilterBlock extends StatelessWidget {
                       AppTextFormField(
                         controller: amountMaxController,
                         keyboardType: TextInputType.number,
+                        unfocusOnTapOutside: false,
                       ),
                     ],
                   ),

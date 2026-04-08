@@ -29,7 +29,7 @@ class FilterModalHeader extends StatelessWidget {
               IconButton(
                 onPressed: onResetTap,
                 style: IconButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Colors.grey.shade400,
                 ),
                 icon: Icon(
                   Icons.filter_alt_off,
