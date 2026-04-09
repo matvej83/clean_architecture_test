@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
+import 'package:clean_architecture_test/features/products/domain/entity/app_image_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/category_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
 import 'package:equatable/equatable.dart';
@@ -17,7 +16,7 @@ class ProductsState extends Equatable {
   final List<CategoryEntity> categories;
   final String selectedCategoryId;
   final String createdProductCategoryId;
-  final List<File>? pickedImages;
+  final List<AppImageEntity>? pickedImages;
   final List<String>? uploadedImages;
   final List<AvailabilityFilterEntity> filters;
 
@@ -50,7 +49,7 @@ class ProductsState extends Equatable {
     List<CategoryEntity>? categories,
     String? selectedCategoryId,
     String? createdProductCategoryId,
-    List<File>? pickedImages,
+    List<AppImageEntity>? pickedImages,
     List<String>? uploadedImages,
     List<AvailabilityFilterEntity>? filters,
   }) {

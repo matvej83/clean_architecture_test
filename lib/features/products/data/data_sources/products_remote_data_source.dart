@@ -1,12 +1,11 @@
-import 'dart:io';
-
 import 'package:clean_architecture_test/core/error/exception.dart';
 import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
 import 'package:clean_architecture_test/features/products/data/models/image_model.dart';
 import 'package:clean_architecture_test/features/products/data/models/product_model.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:path/path.dart' as path;
+
+import '../../domain/entity/app_image_entity.dart';
 
 abstract class ProductsRemoteDataSource {
   Future<List<ProductModel>?> fetchProducts({
@@ -30,7 +29,7 @@ abstract class ProductsRemoteDataSource {
 
   Future<CategoryModel?> createCategory({required CategoryModel product});
 
-  Future<ImageModel?> uploadImage({required File imageFile});
+  Future<ImageModel?> uploadImage({required AppImageEntity imageFile});
 }
 
 @LazySingleton(as: ProductsRemoteDataSource)
@@ -130,12 +129,12 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
   }
 
   @override
-  Future<ImageModel?> uploadImage({required File imageFile}) async {
+  Future<ImageModel?> uploadImage({required AppImageEntity imageFile}) async {
     try {
       final formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(
-          imageFile.path,
-          filename: path.basename(imageFile.path),
+        'file': MultipartFile.fromBytes(
+          imageFile.bytes,
+          filename: imageFile.name,
         ),
       });
       final response = await dio.post('files/upload', data: formData);

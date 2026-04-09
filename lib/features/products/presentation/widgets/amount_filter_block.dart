@@ -57,7 +57,7 @@ class AmountFilterBlock extends StatelessWidget {
           spacing: 6,
           children: [
             Row(
-              spacing: 4,
+              spacing: 12.0,
               children: [
                 Expanded(
                   child: Column(
@@ -76,7 +76,6 @@ class AmountFilterBlock extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text('-', style: textTheme.bodyMedium),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

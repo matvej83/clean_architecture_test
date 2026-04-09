@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:clean_architecture_test/core/error/failure.dart';
 import 'package:clean_architecture_test/core/error/mapper.dart';
 import 'package:clean_architecture_test/features/products/data/data_sources/products_remote_data_source.dart';
@@ -12,6 +10,7 @@ import 'package:clean_architecture_test/features/products/domain/repository/prod
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../domain/entity/app_image_entity.dart';
 import '../models/category_model.dart';
 
 @LazySingleton(as: ProductsRepository)
@@ -109,7 +108,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
 
   @override
   Future<Either<Failure, ImageEntity>> uploadImage({
-    required File imageFile,
+    required AppImageEntity imageFile,
   }) async {
     try {
       final result = await productsRemoteDataSource.uploadImage(

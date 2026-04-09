@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:clean_architecture_test/core/error/failure.dart';
 import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/category_entity.dart';
@@ -8,6 +6,7 @@ import 'package:clean_architecture_test/features/products/domain/entity/product_
 import 'package:dartz/dartz.dart';
 
 import '../../data/models/product_model.dart';
+import '../entity/app_image_entity.dart';
 
 abstract class ProductsRepository {
   Future<Either<Failure, List<ProductEntity>>> fetchProducts({
@@ -35,5 +34,7 @@ abstract class ProductsRepository {
     required CategoryModel category,
   });
 
-  Future<Either<Failure, ImageEntity>> uploadImage({required File imageFile});
+  Future<Either<Failure, ImageEntity>> uploadImage({
+    required AppImageEntity imageFile,
+  });
 }

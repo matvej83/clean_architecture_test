@@ -201,8 +201,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     var images = [...?state.pickedImages];
-    images.remove(event.file);
-    await ProductsUtils.removeImage(event.file);
+    images.remove(event.image);
 
     emit(state.copyWith(pickedImages: images));
   }
@@ -381,11 +380,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     DataRemoved event,
     Emitter<ProductsState> emit,
   ) async {
-    if (state.pickedImages?.isNotEmpty == true) {
-      for (final file in state.pickedImages!) {
-        await ProductsUtils.removeImage(file);
-      }
-    }
     emit(
       state.copyWith(
         isCreating: false,

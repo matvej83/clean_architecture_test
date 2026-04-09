@@ -1,6 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+
+import '../../domain/entity/app_image_entity.dart';
 
 class ImagesList extends StatelessWidget {
   const ImagesList({
@@ -11,15 +11,15 @@ class ImagesList extends StatelessWidget {
     required this.onRemove,
   });
 
-  final List<File> images;
+  final List<AppImageEntity> images;
   final VoidCallback onTap;
-  final Function(File) onRemove;
+  final Function(AppImageEntity) onRemove;
   final int maxLength;
 
   @override
   Widget build(BuildContext context) {
     final widgets = images.map(
-      (e) => ListItem(key: ValueKey(e.path), image: e, onRemove: onRemove),
+      (e) => ListItem(key: ValueKey(e.name), image: e, onRemove: onRemove),
     );
     return SingleChildScrollView(
       physics: ClampingScrollPhysics(),
@@ -39,8 +39,8 @@ class ImagesList extends StatelessWidget {
 class ListItem extends StatelessWidget {
   const ListItem({super.key, required this.image, required this.onRemove});
 
-  final File image;
-  final Function(File) onRemove;
+  final AppImageEntity image;
+  final Function(AppImageEntity) onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +55,8 @@ class ListItem extends StatelessWidget {
           height: 120.0,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.file(
-              image,
+            child: Image.memory(
+              image.bytes,
               errorBuilder: (context, o, s) => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
