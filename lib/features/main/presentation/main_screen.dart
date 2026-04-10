@@ -5,10 +5,13 @@ import 'package:clean_architecture_test/features/main/presentation/widgets/botto
 import 'package:clean_architecture_test/features/main/utils.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/di/injection.dart';
+import '../../../core/services/geolocation_service.dart';
 import '../../../navigation/pages.dart';
 
 class MainScreen extends StatefulWidget {
@@ -21,11 +24,15 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  late LocationsBloc locationsBloc;
+  final geolocationService = getIt<GeolocationService>();
+
   @override
   void initState() {
     context.read<ProductsBloc>().add(ProductsFetched(loadSilent: false));
     context.read<ProductsBloc>().add(CategoriesFetched());
-    context.read<LocationsBloc>().add(LocationsFetched(loadSilent: false));
+    locationsBloc = context.read<LocationsBloc>();
+    locationsBloc.add(LocationsFetched(loadSilent: false));
     super.initState();
   }
 
@@ -70,6 +77,17 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 onAddCategoryTap: () {
                   context.push(Pages.addCategory);
+                },
+              )
+            : widget.navigationShell.currentIndex == 2 && kIsWeb
+            ? FloatingActionButton(
+                child: const Icon(Icons.location_searching),
+                onPressed: () async {
+                  final granted = await geolocationService.requestPermission();
+                  if (granted) {
+                    await geolocationService.startTracking();
+                    locationsBloc.add(LocationsFetched());
+                  }
                 },
               )
             : null,
