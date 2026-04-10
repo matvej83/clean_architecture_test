@@ -1,4 +1,5 @@
 import 'package:clean_architecture_test/features/products/domain/entity/category_entity.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesList extends StatelessWidget {
@@ -19,27 +20,32 @@ class CategoriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 160.0,
-      child: ListView.separated(
-        itemCount: categories.length,
-        physics: const ClampingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.zero,
-        itemBuilder: (context, index) {
-          final category = categories[index];
-          final isSelected = selectedCategoryId == category.id;
-          return ListItem(
-            key: ValueKey(category.id),
-            isSelected: isSelected,
-            onTap: () {
-              onTap(category);
-            },
-            onDeleteTap: () {
-              onDeleteTap?.call(category.id);
-            },
-            category: category,
-          );
-        },
-        separatorBuilder: (context, index) => SizedBox(width: 8.0),
+      child: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(
+          dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse},
+        ),
+        child: ListView.separated(
+          itemCount: categories.length,
+          physics: const ClampingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.zero,
+          itemBuilder: (context, index) {
+            final category = categories[index];
+            final isSelected = selectedCategoryId == category.id;
+            return ListItem(
+              key: ValueKey(category.id),
+              isSelected: isSelected,
+              onTap: () {
+                onTap(category);
+              },
+              onDeleteTap: () {
+                onDeleteTap?.call(category.id);
+              },
+              category: category,
+            );
+          },
+          separatorBuilder: (context, index) => SizedBox(width: 8.0),
+        ),
       ),
     );
   }

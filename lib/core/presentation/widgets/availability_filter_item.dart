@@ -14,13 +14,17 @@ class AvailabilityFilterItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final defaultBackgroundColor = isDark
+        ? Colors.grey.shade600
+        : Colors.grey.shade400;
     return Container(
       constraints: BoxConstraints(maxWidth: 120.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: backgroundColor ?? theme.scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(8.0),
+        color: backgroundColor ?? defaultBackgroundColor,
       ),
-      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
       child: Row(
         spacing: 4,
         mainAxisSize: MainAxisSize.min,
@@ -30,7 +34,9 @@ class AvailabilityFilterItem extends StatelessWidget {
               filter.value.isNotEmpty
                   ? '${filter.displayName} (${filter.value})'
                   : filter.displayName,
-              style: theme.textTheme.bodySmall,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: isDark ? Colors.white : Colors.black,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ),

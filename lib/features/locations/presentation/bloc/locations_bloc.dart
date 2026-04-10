@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clean_architecture_test/core/services/geolocation_service.dart';
 import 'package:clean_architecture_test/features/locations/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -28,7 +29,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     on<LocationSelected>(_onLocationSelected);
     on<LocationUpdated>(_onLocationUpdated);
     WidgetsBinding.instance.addObserver(this);
-    geolocationService.startTracking();
+    geolocationService.init();
     _locationSub = geolocationService.onLocationChanged.listen((position) {
       add(LocationUpdated(position));
     });
@@ -51,8 +52,10 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     if (!event.loadSilent) {
       emit(state.copyWith(isLoading: true));
     }
-    if (position == null && !locationAsked) {
-      position = await geolocationService.getCurrentPosition();
+    if (!kIsWeb && position == null && !locationAsked) {
+      if (await geolocationService.hasPermission()) {
+        position = await geolocationService.getCurrentPosition();
+      }
       locationAsked = true;
     }
     final result = await fetchLocationsUseCase(
@@ -136,7 +139,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
 
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed && !kIsWeb) {
       final pos = await geolocationService.getCurrentPosition();
       if (pos != null) {
         add(LocationUpdated(pos));

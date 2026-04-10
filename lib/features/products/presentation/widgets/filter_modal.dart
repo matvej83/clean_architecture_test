@@ -48,12 +48,14 @@ class _FilterModalState extends State<FilterModal> {
         amountMinController.text =
             availabilityFilters
                 .firstWhereOrNull((e) => e.identifier == amountMin)
-                ?.apiValue ??
+                ?.apiValue
+                ?.toString() ??
             '';
         amountMaxController.text =
             availabilityFilters
                 .firstWhereOrNull((e) => e.identifier == amountMax)
-                ?.apiValue ??
+                ?.apiValue
+                ?.toString() ??
             '';
       }
     }
@@ -110,7 +112,7 @@ class _FilterModalState extends State<FilterModal> {
         addFilter(
           AvailabilityFilterEntity(
             groupName: amountsGroupName,
-            displayName: 'From: \$$min',
+            displayName: '${'filtersModal.from'.tr()}: \$$min',
             value: '',
             apiValue: int.tryParse(min),
             identifier: amountMin,
@@ -123,7 +125,7 @@ class _FilterModalState extends State<FilterModal> {
         addFilter(
           AvailabilityFilterEntity(
             groupName: amountsGroupName,
-            displayName: 'To: \$$max',
+            displayName: '${'filtersModal.to'.tr()}: \$$max',
             value: '',
             apiValue: int.tryParse(max),
             identifier: amountMax,
@@ -132,8 +134,8 @@ class _FilterModalState extends State<FilterModal> {
       } else {
         availabilityFilters.removeWhere((e) => e.identifier == amountMax);
       }
-      setState(() {});
     }
+    setState(() {});
   }
 
   @override

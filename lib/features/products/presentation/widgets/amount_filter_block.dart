@@ -45,7 +45,10 @@ class AmountFilterBlock extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   onPressed: onRemoveAmountFilters,
-                  icon: Icon(Icons.indeterminate_check_box),
+                  icon: Icon(
+                    Icons.indeterminate_check_box,
+                    color: Colors.grey.shade400,
+                  ),
                 ),
               ),
           ],
@@ -54,7 +57,7 @@ class AmountFilterBlock extends StatelessWidget {
           spacing: 6,
           children: [
             Row(
-              spacing: 4,
+              spacing: 12.0,
               children: [
                 Expanded(
                   child: Column(
@@ -68,11 +71,11 @@ class AmountFilterBlock extends StatelessWidget {
                       AppTextFormField(
                         controller: amountMinController,
                         keyboardType: TextInputType.number,
+                        unfocusOnTapOutside: false,
                       ),
                     ],
                   ),
                 ),
-                Text('-', style: textTheme.bodyMedium),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,6 +88,7 @@ class AmountFilterBlock extends StatelessWidget {
                       AppTextFormField(
                         controller: amountMaxController,
                         keyboardType: TextInputType.number,
+                        unfocusOnTapOutside: false,
                       ),
                     ],
                   ),

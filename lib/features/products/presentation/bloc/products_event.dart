@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../domain/entity/app_image_entity.dart';
 
 abstract class ProductsEvent extends Equatable {
   @override
@@ -100,16 +100,16 @@ class CategoryDeleted extends ProductsEvent {
 class ImagePicked extends ProductsEvent {}
 
 class ImageRemoved extends ProductsEvent {
-  final File file;
+  final AppImageEntity image;
 
-  ImageRemoved({required this.file});
+  ImageRemoved({required this.image});
 
   @override
-  List<Object?> get props => [file];
+  List<Object?> get props => [image];
 }
 
 class ImageUploaded extends ProductsEvent {
-  final File image;
+  final AppImageEntity image;
 
   ImageUploaded({required this.image});
 

@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:clean_architecture_test/core/error/failure.dart';
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
+import 'package:clean_architecture_test/features/products/domain/entity/app_image_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/image_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/repository/products_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -20,7 +19,7 @@ class UploadImageUseCase implements UseCase<ImageEntity, UploadImageParams> {
 }
 
 class UploadImageParams {
-  final File image;
+  final AppImageEntity image;
 
   UploadImageParams({required this.image});
 }

@@ -1,67 +1,77 @@
-import 'dart:io';
+import 'dart:developer';
 import 'dart:typed_data';
+import 'package:clean_architecture_test/features/products/domain/entity/app_image_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as path;
 
 class ProductsUtils {
-  static Future<File?> getImageFromGallery() async {
+  static Future<AppImageEntity?> getImageFromGallery() async {
     final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+
     if (picked == null) return null;
-    return _normalizeImage(File(picked.path));
+
+    try {
+      final bytes = await picked.readAsBytes();
+
+      final normalizedBytes = await _normalizeImage(
+        bytes,
+        originalName: picked.name,
+      );
+
+      final fileName = _normalizeFileName(picked.name);
+
+      return AppImageEntity(bytes: normalizedBytes, name: fileName);
+    } catch (e) {
+      log('getImageFromGallery error: $e');
+      return null;
+    }
   }
 
-  static Future<File> _normalizeImage(File file) async {
+  static Future<Uint8List> _normalizeImage(
+    Uint8List bytes, {
+    String? originalName,
+  }) async {
     try {
-      final bytes = await file.readAsBytes();
       final image = img.decodeImage(bytes);
-      if (image == null) return file;
+      if (image == null) return bytes;
 
       final normalized = img.bakeOrientation(image);
-      final ext = path.extension(file.path).toLowerCase();
-      final encoder = _getEncoder(ext);
-      final resultBytes = encoder(normalized);
 
-      final newPath = path.join(
-        path.dirname(file.path),
-        '${path.basenameWithoutExtension(file.path)}_normalized$ext',
-      );
-      final newFile = await File(
-        newPath,
-      ).writeAsBytes(resultBytes, flush: true);
+      final ext = _getExtension(originalName);
 
-      // removing the old file
-      await removeImage(file);
-
-      return newFile;
+      return _encode(normalized, ext);
     } catch (e) {
-      debugPrint('normalizeImage error: $e');
-      return file;
+      log('normalizeImage error: $e');
+      return bytes;
     }
   }
 
-  static Uint8List Function(img.Image image) _getEncoder(String ext) {
+  static Uint8List _encode(img.Image image, String ext) {
     switch (ext) {
       case '.png':
-        return img.encodePng;
+        return Uint8List.fromList(img.encodePng(image));
       case '.bmp':
-        return img.encodeBmp;
+        return Uint8List.fromList(img.encodeBmp(image));
       case '.gif':
-        return img.encodeGif;
+        return Uint8List.fromList(img.encodeGif(image));
       default:
-        return img.encodeJpg;
+        return Uint8List.fromList(img.encodeJpg(image, quality: 90));
     }
   }
 
-  static Future<void> removeImage(File file) async {
-    try {
-      if (await file.exists()) {
-        await file.delete();
-      }
-    } catch (e) {
-      debugPrint('deleting file error: $e');
+  static String _getExtension(String? name) {
+    if (name == null || !name.contains('.')) {
+      return '.jpg';
     }
+
+    return '.${name.split('.').last.toLowerCase()}';
+  }
+
+  static String _normalizeFileName(String originalName) {
+    final base = originalName.split('.').first;
+    final ext = _getExtension(originalName);
+    return '$base$ext';
   }
 
   static Widget getFilterButton(
@@ -69,14 +79,21 @@ class ProductsUtils {
     required VoidCallback onTap,
     bool isActive = false,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDark
+        ? Colors.grey.shade600
+        : Colors.grey.shade400;
     return IconButton(
       style: IconButton.styleFrom(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
       ),
       onPressed: onTap,
       icon: Icon(
         isActive ? Icons.filter_alt : Icons.filter_alt_outlined,
-        color: isActive ? Colors.white : null,
+        color: isActive ? Colors.blue : Colors.white,
         size: 24.0,
       ),
     );

@@ -127,9 +127,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                         bloc.add(ImagePicked());
                       }
                     },
-                    onRemove: (file) {
+                    onRemove: (image) {
                       if (!isLoading) {
-                        bloc.add(ImageRemoved(file: file));
+                        bloc.add(ImageRemoved(image: image));
                       }
                     },
                   ),

@@ -11,6 +11,9 @@ class AppTextFormField extends StatelessWidget {
     this.labelText,
     this.decoration,
     this.prefix,
+    this.onTap,
+    this.focusNode,
+    this.unfocusOnTapOutside = true,
   });
 
   final TextEditingController controller;
@@ -21,20 +24,27 @@ class AppTextFormField extends StatelessWidget {
   final String? labelText;
   final InputDecoration? decoration;
   final Widget? prefix;
+  final VoidCallback? onTap;
+  final FocusNode? focusNode;
+  final bool unfocusOnTapOutside;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       controller: controller,
       obscureText: obscureText ?? false,
       enabled: enabled,
+      onTap: onTap,
       keyboardType: keyboardType,
       textAlignVertical: TextAlignVertical.center,
       decoration:
           decoration ?? InputDecoration(labelText: labelText, prefix: prefix),
-      onTapOutside: (PointerDownEvent event) {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
+      onTapOutside: unfocusOnTapOutside
+          ? (PointerDownEvent event) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
+          : null,
       validator: validator,
     );
   }

@@ -21,7 +21,7 @@ class GeolocationService {
   ///     on<GeolocationUpdated>(_onUpdateGeolocation);
   ///     ...
   ///     WidgetsBinding.instance.addObserver(this);
-  ///     geolocationService.startTracking();
+  ///     geolocationService.init();
   ///     _locationSub = geolocationService.onLocationChanged.listen((position) {
   ///       add(GeolocationUpdated(position));
   ///     });
@@ -46,7 +46,7 @@ class GeolocationService {
   ///
   /// @override
   ///   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-  ///     if (state == AppLifecycleState.resumed) {
+  ///     if (state == AppLifecycleState.resumed && !kIsWeb) {
   ///       final pos = await geolocationService.getCurrentPosition();
   ///       if (pos != null) {
   ///         add(GeolocationUpdated(pos));
@@ -62,54 +62,68 @@ class GeolocationService {
   StreamSubscription<Position>? _positionSub;
 
   bool _isTracking = false;
-  bool _isRestarting = false;
-  int _attempts = 0;
   DateTime? _lastEmit;
 
-  static const LocationSettings _locationSettings = LocationSettings(
+  static const _locationSettings = LocationSettings(
     accuracy: LocationAccuracy.high,
     distanceFilter: 20,
   );
 
+  Future<void> init() async {
+    if (kIsWeb) {
+      return;
+    }
+
+    final granted = await requestPermission();
+    if (granted) {
+      await startTracking();
+    }
+  }
+
+  /// Add this action to button
+  Future<bool> requestPermission() async {
+    if (!await Geolocator.isLocationServiceEnabled()) {
+      return false;
+    }
+
+    final permission = await Geolocator.requestPermission();
+
+    return permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always;
+  }
+
+  Future<bool> hasPermission() async {
+    final permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.deniedForever) {
+      if (!kIsWeb) {
+        return await Geolocator.openAppSettings();
+      }
+      return false;
+    }
+
+    return permission == LocationPermission.whileInUse ||
+        permission == LocationPermission.always;
+  }
+
   Future<void> startTracking() async {
     if (_isTracking) return;
 
-    final hasPermission = await _ensurePermission();
-    if (!hasPermission) return;
+    final hasGeoPermission = await hasPermission();
+    if (!hasGeoPermission) {
+      log('Geolocation: no permission, tracking not started');
+      return;
+    }
 
     try {
-      _positionSub =
-          Geolocator.getPositionStream(
-            locationSettings: _locationSettings,
-          ).listen(
-            (position) {
-              _attempts = 0;
-              if (!_controller.isClosed) {
-                final now = DateTime.now();
+      _positionSub = Geolocator.getPositionStream(
+        locationSettings: _locationSettings,
+      ).listen(_onPosition, onError: _onError);
 
-                if (_lastEmit == null ||
-                    now.difference(_lastEmit!) > const Duration(seconds: 2)) {
-                  _lastEmit = now;
-                  _controller.add(position);
-                }
-              }
-            },
-            onError: (e) async {
-              log(e.toString());
-              if (_isRestarting) return;
-
-              if (_attempts < 2) {
-                _attempts++;
-                _isRestarting = true;
-                await restartTracking();
-                _isRestarting = false;
-              }
-            },
-          );
       _isTracking = true;
     } catch (e) {
+      log('Geolocation start error: $e');
       _isTracking = false;
-      rethrow;
     }
   }
 
@@ -120,14 +134,17 @@ class GeolocationService {
   }
 
   Future<void> restartTracking() async {
-    _lastEmit = null;
+    if (kIsWeb) {
+      return;
+    }
+
     await stopTracking();
     await startTracking();
   }
 
   Future<Position?> getCurrentPosition() async {
-    final hasPermission = await _ensurePermission();
-    if (!hasPermission) return null;
+    final hasGeoPermission = await hasPermission();
+    if (!hasGeoPermission) return null;
 
     try {
       return await Geolocator.getCurrentPosition(
@@ -136,40 +153,40 @@ class GeolocationService {
           timeLimit: Duration(seconds: 10),
         ),
       );
-    } catch (_) {
-      if (kIsWeb) {
-        return null;
-      }
+    } catch (e) {
+      log('Geolocation getCurrentPosition error: $e');
+
+      if (kIsWeb) return null;
+
       return await Geolocator.getLastKnownPosition();
     }
   }
 
-  Future<bool> isLocationEnabled() {
-    return Geolocator.isLocationServiceEnabled();
+  void _onPosition(Position position) {
+    final now = DateTime.now();
+
+    if (_lastEmit != null &&
+        now.difference(_lastEmit!) < const Duration(seconds: 2)) {
+      return;
+    }
+
+    _lastEmit = now;
+
+    if (!_controller.isClosed) {
+      _controller.add(position);
+    }
   }
 
-  Future<bool> _ensurePermission() async {
-    if (!await Geolocator.isLocationServiceEnabled()) {
-      return false;
-    }
+  Future<void> _onError(Object error) async {
+    log('Geolocation stream error: $error');
 
-    var permission = await Geolocator.checkPermission();
+    if (kIsWeb) return;
 
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-    }
+    await restartTracking();
+  }
 
-    if (permission == LocationPermission.denied) {
-      return false;
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      if (!kIsWeb) {
-        await Geolocator.openAppSettings();
-      }
-      return false;
-    }
-
-    return true;
+  Future<void> dispose() async {
+    await stopTracking();
+    await _controller.close();
   }
 }

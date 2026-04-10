@@ -26,7 +26,6 @@ class SelectedFiltersBlock extends StatelessWidget {
                   child: AvailabilityFiltersList(
                     key: ValueKey(selectedFilters.length),
                     availabilityFilters: selectedFilters,
-                    filterBackgroundColor: Colors.grey,
                     onTap: onFilterRemove,
                   ),
                 ),

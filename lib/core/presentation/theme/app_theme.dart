@@ -124,6 +124,10 @@ class AppTheme {
       elevation: 2,
     ),
     searchBarTheme: SearchBarThemeData(
+      backgroundColor: WidgetStateProperty.all(Colors.grey.shade600),
+      shadowColor: WidgetStateProperty.all(Colors.transparent),
+      elevation: WidgetStateProperty.all(0),
+      surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
       shape: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.focused)) {
           return RoundedRectangleBorder(
@@ -260,6 +264,10 @@ class AppTheme {
       elevation: 2,
     ),
     searchBarTheme: SearchBarThemeData(
+      backgroundColor: WidgetStateProperty.all(Colors.grey.shade400),
+      shadowColor: WidgetStateProperty.all(Colors.transparent),
+      elevation: WidgetStateProperty.all(0),
+      surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
       shape: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.focused)) {
           return RoundedRectangleBorder(
