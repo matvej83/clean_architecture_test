@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:clean_architecture_test/core/constants/app_strings.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart';
@@ -10,9 +11,11 @@ import 'package:clean_architecture_test/features/theme/cubit/state.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_architecture_test/navigation/router.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 
 import 'core/di/injection.dart';
 import 'core/services/auth_session_manager.dart';
@@ -34,6 +37,13 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await dotenv.load(fileName: '.env');
   await configureDependencies();
+
+  if (!kIsWeb) {
+    await FMTCObjectBoxBackend().initialise();
+    final store = FMTCStore(AppStrings.mapStoreName);
+    await store.manage.create();
+  }
+
   runApp(
     EasyLocalization(
       supportedLocales: [Locale('en'), Locale('ru')],

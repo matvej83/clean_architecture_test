@@ -1,10 +1,14 @@
 import 'package:clean_architecture_test/features/locations/domain/entity/location_entity.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:clean_architecture_test/features/locations/utils.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
+
+import '../../../../core/constants/app_strings.dart';
 
 class LocationsMap extends StatefulWidget {
   const LocationsMap({super.key});
@@ -14,9 +18,23 @@ class LocationsMap extends StatefulWidget {
 }
 
 class _LocationsMapState extends State<LocationsMap> {
+  late final FMTCTileProvider _tileProvider;
   final MapController _mapController = MapController();
   Marker? _selectedMarker;
   LocationEntity? _tappedLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!kIsWeb) {
+      _tileProvider = FMTCTileProvider(
+        stores: const {
+          AppStrings.mapStoreName: BrowseStoreStrategy.readUpdateCreate,
+        },
+        loadingStrategy: BrowseLoadingStrategy.cacheFirst,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +61,7 @@ class _LocationsMapState extends State<LocationsMap> {
             TileLayer(
               urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               userAgentPackageName: 'com.vladimir.dev.cleanarchitecturetest',
+              tileProvider: kIsWeb ? null : _tileProvider,
             ),
             RichAttributionWidget(
               attributions: [
