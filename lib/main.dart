@@ -34,6 +34,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await dotenv.load(fileName: '.env');
   await configureDependencies();
+
   runApp(
     EasyLocalization(
       supportedLocales: [Locale('en'), Locale('ru')],
