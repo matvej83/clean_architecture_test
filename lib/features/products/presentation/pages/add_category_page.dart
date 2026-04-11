@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/widgets/app_message.dart';
 import 'package:clean_architecture_test/features/products/data/models/product_model.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
@@ -29,11 +30,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
       if (state.pickedImages?.isNotEmpty == true) {
         bloc.add(CategoryCreated(name: _nameController.text));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${'addCategoryScreen.addImage'.tr()}!'),
-            backgroundColor: Colors.redAccent,
-          ),
+        AppMessage.error(
+          context,
+          message: '${'addCategoryScreen.addImage'.tr()}!',
         );
       }
     }
@@ -86,23 +85,16 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
         },
         listener: (context, state) {
           if (state.createdSuccessful) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('${'addCategoryScreen.createdSuccess'.tr()}!'),
-                backgroundColor: Colors.green,
-              ),
+            AppMessage.success(
+              context,
+              message: '${'addCategoryScreen.createdSuccess'.tr()}!',
             );
             bloc.add(DataRemoved());
             _nameController.text = '';
             bloc.add(CategoriesFetched());
           }
           if (state.error?.isNotEmpty == true) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error!),
-                backgroundColor: Colors.red,
-              ),
-            );
+            AppMessage.error(context, message: state.error!);
           }
         },
         builder: (context, state) {

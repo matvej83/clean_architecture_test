@@ -1,4 +1,5 @@
 import 'package:clean_architecture_test/core/presentation/theme/app_theme.dart';
+import 'package:clean_architecture_test/core/presentation/theme/app_theme_colors.dart';
 import 'package:clean_architecture_test/features/theme/cubit/state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,13 +21,23 @@ class ThemeCubit extends Cubit<ThemeState> {
     final mode = getThemeUseCase.repository.getTheme();
     mode.fold(
       (l) {
-        emit(state.copyWith(mode: AppThemeMode.dark, theme: AppTheme.dark));
+        emit(
+          state.copyWith(
+            mode: AppThemeMode.dark,
+            theme: AppTheme.dark(DarkThemeColors()),
+          ),
+        );
       },
       (r) {
         if (r != null) {
           emit(state.copyWith(theme: _mapToFlutter(r), mode: r));
         } else {
-          emit(state.copyWith(mode: AppThemeMode.dark, theme: AppTheme.dark));
+          emit(
+            state.copyWith(
+              mode: AppThemeMode.dark,
+              theme: AppTheme.dark(DarkThemeColors()),
+            ),
+          );
         }
       },
     );
@@ -40,9 +51,9 @@ class ThemeCubit extends Cubit<ThemeState> {
   ThemeData _mapToFlutter(AppThemeMode mode) {
     switch (mode) {
       case AppThemeMode.light:
-        return AppTheme.light;
+        return AppTheme.light(LightThemeColors());
       case AppThemeMode.dark:
-        return AppTheme.dark;
+        return AppTheme.dark(DarkThemeColors());
     }
   }
 }
