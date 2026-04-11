@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/widgets/app_message.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_event.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_state.dart';
@@ -123,7 +124,9 @@ class _LoginPageState extends State<LoginPage> {
                           ? SizedBox(
                               width: 20.0,
                               height: 20.0,
-                              child: CircularProgressIndicator(strokeWidth: 2.0),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.0,
+                              ),
                             )
                           : Text('loginScreen.btnLogin'.tr()),
                     ),
@@ -135,12 +138,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         listener: (context, state) {
           if (state.error?.isNotEmpty == true) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error!),
-                backgroundColor: Colors.redAccent,
-              ),
-            );
+            AppMessage.error(context, message: state.error!);
           }
         },
       ),

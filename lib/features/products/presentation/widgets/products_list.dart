@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/theme/app_colors.dart';
 import 'package:clean_architecture_test/core/presentation/widgets/app_dialog.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
@@ -40,7 +41,7 @@ class ProductsList extends StatelessWidget {
                     bloc.add(ProductDeleted(id: id));
                   }
                 },
-                backgroundColor: Colors.red,
+                backgroundColor: AppColors.error,
                 foregroundColor: Colors.white,
                 icon: Icons.delete_forever,
                 label: 'productsScreen.delete'.tr(),

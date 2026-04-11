@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entity/app_image_entity.dart';
@@ -74,7 +75,7 @@ class ListItem extends StatelessWidget {
             shape: CircleBorder(),
             backgroundColor: Colors.cyan.withValues(alpha: 0.4),
           ),
-          icon: Icon(Icons.delete_forever, size: 24.0, color: Colors.red),
+          icon: Icon(Icons.delete_forever, size: 24.0, color: AppColors.error),
         ),
       ],
     );

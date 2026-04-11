@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/widgets/app_message.dart';
 import 'package:clean_architecture_test/features/products/data/models/product_model.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
@@ -42,11 +43,9 @@ class _AddProductPageState extends State<AddProductPage> {
         final message = (state.pickedImages ?? []).isEmpty
             ? 'addImages'
             : 'selectCategory';
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${'addProductScreen.$message'.tr()}!'),
-            backgroundColor: Colors.redAccent,
-          ),
+        AppMessage.error(
+          context,
+          message: '${'addProductScreen.$message'.tr()}!',
         );
       }
     }
@@ -101,11 +100,9 @@ class _AddProductPageState extends State<AddProductPage> {
         },
         listener: (context, state) {
           if (state.createdSuccessful) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('${'addProductScreen.createdSuccess'.tr()}!'),
-                backgroundColor: Colors.green,
-              ),
+            AppMessage.success(
+              context,
+              message: '${'addProductScreen.createdSuccess'.tr()}!',
             );
             bloc.add(DataRemoved());
             _titleController.text = '';
@@ -113,12 +110,7 @@ class _AddProductPageState extends State<AddProductPage> {
             _priceController.text = '';
           }
           if (state.error?.isNotEmpty == true) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error!),
-                backgroundColor: Colors.red,
-              ),
-            );
+            AppMessage.error(context, message: state.error!);
           }
         },
         builder: (context, state) {

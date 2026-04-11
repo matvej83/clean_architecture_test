@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/theme/app_colors.dart';
 import 'package:clean_architecture_test/features/locations/domain/entity/location_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -32,7 +33,7 @@ class LocationsUtil {
           point: LatLng(e.latitude, e.longitude),
           child: Icon(
             Icons.location_pin,
-            color: isSelected ? Colors.red : Colors.blue,
+            color: isSelected ? AppColors.error : AppColors.primary,
             size: 40,
           ),
         ),
