@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 
-import '../../../../core/constants/app_strings.dart';
+import '../../../../core/di/injection.dart';
+import '../../../../core/services/tile_cache/tile_cache_service.dart';
 
 class LocationsMap extends StatefulWidget {
   const LocationsMap({super.key});
@@ -18,7 +18,7 @@ class LocationsMap extends StatefulWidget {
 }
 
 class _LocationsMapState extends State<LocationsMap> {
-  late final FMTCTileProvider _tileProvider;
+  late final TileProvider? _tileProvider;
   final MapController _mapController = MapController();
   Marker? _selectedMarker;
   LocationEntity? _tappedLocation;
@@ -26,14 +26,7 @@ class _LocationsMapState extends State<LocationsMap> {
   @override
   void initState() {
     super.initState();
-    if (!kIsWeb) {
-      _tileProvider = FMTCTileProvider(
-        stores: const {
-          AppStrings.mapStoreName: BrowseStoreStrategy.readUpdateCreate,
-        },
-        loadingStrategy: BrowseLoadingStrategy.cacheFirst,
-      );
-    }
+    _tileProvider = getIt<TileCacheService>().getTileProvider();
   }
 
   @override
