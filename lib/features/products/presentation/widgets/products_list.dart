@@ -1,4 +1,3 @@
-import 'package:clean_architecture_test/core/presentation/theme/app_colors.dart';
 import 'package:clean_architecture_test/core/presentation/widgets/app_dialog.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
@@ -16,6 +15,7 @@ class ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final screenSize = MediaQuery.sizeOf(context);
     final bloc = context.read<ProductsBloc>();
     return SliverGrid(
@@ -41,8 +41,8 @@ class ProductsList extends StatelessWidget {
                     bloc.add(ProductDeleted(id: id));
                   }
                 },
-                backgroundColor: AppColors.error,
-                foregroundColor: Colors.white,
+                backgroundColor: colorScheme.error,
+                foregroundColor: colorScheme.onError,
                 icon: Icons.delete_forever,
                 label: 'productsScreen.delete'.tr(),
                 borderRadius: BorderRadius.circular(12.0),

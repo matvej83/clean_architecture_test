@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
+import '../theme/app_semantic_colors.dart';
 
 class AppMessage {
   static void show(
@@ -17,15 +17,12 @@ class AppMessage {
     AppMessage.show(
       context,
       message: message,
-      backgroundColor: AppColors.error,
+      backgroundColor: Theme.of(context).colorScheme.error,
     );
   }
 
   static void success(BuildContext context, {required String message}) {
-    AppMessage.show(
-      context,
-      message: message,
-      backgroundColor: AppColors.success,
-    );
+    final colors = Theme.of(context).extension<AppSemanticColors>()!;
+    AppMessage.show(context, message: message, backgroundColor: colors.success);
   }
 }

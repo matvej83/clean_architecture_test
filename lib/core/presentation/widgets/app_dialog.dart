@@ -1,4 +1,3 @@
-import 'package:clean_architecture_test/core/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,7 +9,8 @@ class AppDialog {
     required String cancelText,
     required String okText,
   }) async {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -23,7 +23,9 @@ class AppDialog {
             child: Text(cancelText, style: textTheme.bodyLarge),
           ),
           TextButton(
-            style: TextButton.styleFrom(backgroundColor: AppColors.error),
+            style: TextButton.styleFrom(
+              backgroundColor: theme.colorScheme.error,
+            ),
             onPressed: () => context.pop(true),
             child: Text(okText, style: textTheme.bodyLarge),
           ),
