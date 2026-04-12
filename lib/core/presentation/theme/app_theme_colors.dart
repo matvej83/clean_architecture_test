@@ -1,95 +1,79 @@
 import 'package:flutter/material.dart';
 
-abstract class AppThemeColors {
-  Color get scaffoldBackground;
+class AppThemeColors {
+  const AppThemeColors({
+    required this.primary,
+    required this.onPrimary,
+    required this.error,
+    required this.onError,
+    required this.success,
+    required this.scaffoldBackground,
+    required this.unselectedWidget,
+    required this.canvas,
+    required this.splash,
+    required this.surfaceTint,
+    required this.bottomBarBackground,
+    required this.fieldBorder,
+    required this.fieldBorderFocussed,
+    required this.fieldBorderDisabled,
+    required this.primaryText,
+    required this.secondaryText,
+  });
 
-  Color get unselectedWidget;
-
-  Color get canvas;
-
-  Color get splash;
-
-  Color get surfaceTint;
-
-  Color get bottomBarBackground;
-
-  Color get fieldBorder;
-
-  Color get fieldBorderFocussed;
-
-  Color get fieldBorderDisabled;
-
-  Color get primaryText;
-
-  Color get secondaryText;
+  final Color primary;
+  final Color onPrimary;
+  final Color error;
+  final Color onError;
+  final Color success;
+  final Color scaffoldBackground;
+  final Color unselectedWidget;
+  final Color canvas;
+  final Color splash;
+  final Color surfaceTint;
+  final Color bottomBarBackground;
+  final Color fieldBorder;
+  final Color fieldBorderFocussed;
+  final Color fieldBorderDisabled;
+  final Color primaryText;
+  final Color secondaryText;
 }
 
-class DarkThemeColors implements AppThemeColors {
-  @override
-  Color get bottomBarBackground => Color(0xFF222222);
+class AppColorSchemes {
+  static final dark = AppThemeColors(
+    primary: Colors.blue,
+    onPrimary: Colors.white,
+    error: Colors.red,
+    onError: Colors.white,
+    success: Colors.green,
+    scaffoldBackground: Colors.black,
+    unselectedWidget: Colors.grey.shade400,
+    canvas: Colors.black,
+    splash: Colors.black,
+    surfaceTint: Colors.transparent,
+    bottomBarBackground: Color(0xFF222222),
+    fieldBorder: Colors.grey,
+    fieldBorderFocussed: Colors.blue,
+    fieldBorderDisabled: Colors.blueGrey,
+    primaryText: Colors.black,
+    secondaryText: Colors.grey.shade600,
+  );
 
-  @override
-  Color get canvas => Colors.black;
-
-  @override
-  Color get fieldBorder => Colors.grey;
-
-  @override
-  Color get fieldBorderDisabled => Colors.blueGrey;
-
-  @override
-  Color get fieldBorderFocussed => Colors.blue;
-
-  @override
-  Color get primaryText => Colors.white;
-
-  @override
-  Color get scaffoldBackground => Colors.black;
-
-  @override
-  Color get secondaryText => Colors.grey.shade600;
-
-  @override
-  Color get splash => Colors.black;
-
-  @override
-  Color get surfaceTint => Colors.transparent;
-
-  @override
-  Color get unselectedWidget => Colors.grey.shade400;
-}
-
-class LightThemeColors implements AppThemeColors {
-  @override
-  Color get bottomBarBackground => Colors.grey;
-
-  @override
-  Color get canvas => Colors.white;
-
-  @override
-  Color get fieldBorder => Colors.grey;
-
-  @override
-  Color get fieldBorderDisabled => Colors.blueGrey;
-
-  @override
-  Color get fieldBorderFocussed => Colors.blue;
-
-  @override
-  Color get primaryText => Colors.black;
-
-  @override
-  Color get scaffoldBackground => Colors.white;
-
-  @override
-  Color get secondaryText => Colors.grey.shade600;
-
-  @override
-  Color get splash => Colors.white;
-
-  @override
-  Color get surfaceTint => Colors.transparent;
-
-  @override
-  Color get unselectedWidget => Colors.grey.shade400;
+  static final light = AppThemeColors(
+    primary: Colors.blue,
+    onPrimary: Colors.white,
+    error: Colors.red,
+    onError: Colors.white,
+    success: Colors.green,
+    scaffoldBackground: Colors.white,
+    unselectedWidget: Colors.grey.shade400,
+    canvas: Colors.white,
+    splash: Colors.white,
+    surfaceTint: Colors.transparent,
+    bottomBarBackground: Colors.grey,
+    fieldBorder: Colors.grey,
+    fieldBorderFocussed: Colors.blue,
+    fieldBorderDisabled: Colors.blueGrey,
+    primaryText: Colors.black,
+    secondaryText: Colors.grey.shade600,
+  );
 }

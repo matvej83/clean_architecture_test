@@ -80,9 +80,11 @@ class _LoginPageState extends State<LoginPage> {
                   spacing: 16.0,
                   children: [
                     Icon(
-                      Icons.lock_outline,
+                      state.status == AuthStatus.unauthenticated
+                          ? Icons.lock_outline
+                          : Icons.lock_open_outlined,
                       size: 80.0,
-                      color: theme.primaryColor,
+                      color: theme.colorScheme.onPrimary,
                     ),
                     const SizedBox(height: 40.0),
                     AppTextFormField(

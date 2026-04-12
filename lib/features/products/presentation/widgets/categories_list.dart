@@ -102,7 +102,7 @@ class ListItem extends StatelessWidget {
             Text(
               category.name,
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: isSelected ? theme.primaryColor : null,
+                color: isSelected ? theme.colorScheme.primary : null,
               ),
               softWrap: true,
               overflow: TextOverflow.ellipsis,

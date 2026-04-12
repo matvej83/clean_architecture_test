@@ -1,5 +1,4 @@
 import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
-import 'package:clean_architecture_test/core/presentation/theme/app_colors.dart';
 import 'package:clean_architecture_test/core/presentation/widgets/app_text_form_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,8 @@ class AmountFilterBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
     return Column(
       spacing: 12,
       children: [
@@ -105,7 +105,7 @@ class AmountFilterBlock extends StatelessWidget {
                         child: Text(
                           value,
                           style: textTheme.bodyMedium?.copyWith(
-                            color: AppColors.error,
+                            color: theme.colorScheme.error,
                           ),
                         ),
                       )
