@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:clean_architecture_test/core/presentation/widgets/image_box.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_event.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_state.dart';
@@ -40,11 +41,7 @@ class _UserPageState extends State<UserPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       spacing: 24.0,
                       children: [
-                        Image.network(
-                          state.user?.avatar ?? '',
-                          errorBuilder: (context, o, s) =>
-                              Container(color: Colors.white24),
-                        ),
+                        ImageBox(imageUrl: state.user?.avatar ?? ''),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 8.0,

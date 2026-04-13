@@ -29,7 +29,8 @@ class AppTheme {
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       backgroundColor: appColors.bottomBarBackground,
-      selectedItemColor: appColors.primaryText,
+      selectedItemColor: appColors.onPrimary,
+      unselectedItemColor: appColors.unselectedWidget,
       showSelectedLabels: true,
       showUnselectedLabels: false,
     ),
@@ -185,7 +186,8 @@ class AppTheme {
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       type: BottomNavigationBarType.fixed,
       backgroundColor: appColors.bottomBarBackground,
-      selectedItemColor: appColors.primaryText,
+      selectedItemColor: appColors.onPrimary,
+      unselectedItemColor: appColors.unselectedWidget,
       showSelectedLabels: true,
       showUnselectedLabels: false,
     ),
