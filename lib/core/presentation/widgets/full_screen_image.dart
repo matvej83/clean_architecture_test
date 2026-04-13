@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'image_box.dart';
+
 class FullScreenImage extends StatelessWidget {
   const FullScreenImage({super.key, required this.imageUrl});
 
@@ -24,7 +26,7 @@ class FullScreenImage extends StatelessWidget {
         InteractiveViewer(
           minScale: 1,
           maxScale: 4,
-          child: Image.network(imageUrl),
+          child: ImageBox(imageUrl: imageUrl),
         ),
         Positioned(
           top: 0,

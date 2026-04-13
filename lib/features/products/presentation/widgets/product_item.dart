@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/widgets/image_box.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,11 +24,9 @@ class ProductItem extends StatelessWidget {
             Positioned.fill(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12.0),
-                child: Image.network(
-                  product.images.first,
+                child: ImageBox(
+                  imageUrl: product.images.first,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, o, s) =>
-                      Container(color: Colors.white24),
                 ),
               ),
             ),

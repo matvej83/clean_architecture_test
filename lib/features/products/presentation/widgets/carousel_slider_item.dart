@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/presentation/widgets/image_box.dart';
 import 'package:flutter/material.dart';
 
 class CarouselSliderItem extends StatelessWidget {
@@ -14,14 +15,7 @@ class CarouselSliderItem extends StatelessWidget {
         ? Stack(
             alignment: AlignmentDirectional.bottomCenter,
             children: [
-              AspectRatio(
-                aspectRatio: 1.0,
-                child: Image.network(
-                  image!,
-                  errorBuilder: (context, o, s) =>
-                      Container(color: Colors.white24),
-                ),
-              ),
+              AspectRatio(aspectRatio: 1.0, child: ImageBox(imageUrl: image!)),
               if (current != null && total != null)
                 Align(
                   alignment: Alignment.bottomCenter,

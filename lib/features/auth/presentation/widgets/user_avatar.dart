@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:clean_architecture_test/core/presentation/widgets/image_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class UserAvatar extends StatelessWidget {
@@ -9,8 +11,8 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: 40.0,
-      backgroundImage: NetworkImage(avatar),
-      onBackgroundImageError: (o, s) => const SizedBox(),
+      backgroundImage: CachedNetworkImageProvider(avatar),
+      onBackgroundImageError: (o, s) => ImagePlaceholder(),
     );
   }
 }

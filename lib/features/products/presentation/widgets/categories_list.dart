@@ -2,6 +2,8 @@ import 'package:clean_architecture_test/features/products/domain/entity/category
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/presentation/widgets/image_box.dart';
+
 class CategoriesList extends StatelessWidget {
   const CategoriesList({
     super.key,
@@ -86,17 +88,9 @@ class ListItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                category.image,
+              child: SizedBox(
                 height: 104.0,
-                fit: BoxFit.fill,
-                errorBuilder: (context, o, s) => Container(
-                  height: 104.0,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: theme.unselectedWidgetColor,
-                  ),
-                ),
+                child: ImageBox(imageUrl: category.image, fit: BoxFit.fill),
               ),
             ),
             Text(
