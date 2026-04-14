@@ -66,7 +66,9 @@
     "latitude": "latitude:",
     "longitude": "longitude:",
     "list": "List",
-    "map": "Map"
+    "map": "Map",
+    "modalTitle": "Geolocation is not available",
+    "modalText": "Open the Settings to allow it?"
   },
   "filtersModal": {
     "modalName": "Filters",

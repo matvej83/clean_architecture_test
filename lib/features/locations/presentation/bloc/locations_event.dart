@@ -33,3 +33,7 @@ class LocationUpdated extends LocationsEvent {
 
   LocationUpdated(this.position);
 }
+
+class GeoStatusChecked extends LocationsEvent {}
+
+class GeoStatusModalDisabled extends LocationsEvent {}

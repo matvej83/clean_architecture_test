@@ -5,8 +5,11 @@ import 'package:clean_architecture_test/features/locations/presentation/widgets/
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 
+import '../../../../core/presentation/widgets/app_dialog.dart';
 import '../../../../core/presentation/widgets/custom_tab_bar.dart';
+import '../bloc/locations_event.dart';
 
 class LocationsPage extends StatefulWidget {
   const LocationsPage({super.key});
@@ -18,6 +21,7 @@ class LocationsPage extends StatefulWidget {
 class _LocationsPageState extends State<LocationsPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  late LocationsBloc bloc;
   int? initialIndex;
   int _currentIndex = 0;
   final int tabCount = 2;
@@ -50,6 +54,8 @@ class _LocationsPageState extends State<LocationsPage>
   @override
   void initState() {
     super.initState();
+    bloc = context.read<LocationsBloc>();
+    bloc.add(GeoStatusChecked());
     _tabController = TabController(
       initialIndex: initialIndex ?? 0,
       length: tabCount,
@@ -67,7 +73,22 @@ class _LocationsPageState extends State<LocationsPage>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocBuilder<LocationsBloc, LocationsState>(
+    return BlocConsumer<LocationsBloc, LocationsState>(
+      listenWhen: (prev, curr) =>
+          prev.showGeoModal != curr.showGeoModal && curr.showGeoModal,
+      listener: (context, state) async {
+        final result = await AppDialog.show(
+          context,
+          title: 'locationsScreen.modalTitle'.tr(),
+          text: 'locationsScreen.modalText'.tr(),
+          cancelText: 'productsScreen.cancelText'.tr(),
+          okText: 'productsScreen.okText'.tr(),
+        );
+        if (result) {
+          await Geolocator.openAppSettings();
+        }
+        bloc.add(GeoStatusModalDisabled());
+      },
       builder: (context, state) {
         return Column(
           children: [
@@ -87,7 +108,7 @@ class _LocationsPageState extends State<LocationsPage>
                   buttonBorderRadius: 12.0,
                   buttonColor: theme.unselectedWidgetColor,
                   labelColor: theme.disabledColor,
-                  selectedButtonColor: theme.primaryColor,
+                  selectedButtonColor: theme.colorScheme.primary,
                   selectedLabelColor: Colors.white,
                   separator: const SizedBox(),
                 );

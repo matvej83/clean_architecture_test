@@ -28,6 +28,8 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     on<LocationsFetched>(_onLocationsFetched);
     on<LocationSelected>(_onLocationSelected);
     on<LocationUpdated>(_onLocationUpdated);
+    on<GeoStatusChecked>(_onGeoStatusChecked);
+    on<GeoStatusModalDisabled>(_onGeoStatusModalDisabled);
     WidgetsBinding.instance.addObserver(this);
     geolocationService.init();
     _locationSub = geolocationService.onLocationChanged.listen((position) {
@@ -135,6 +137,23 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
 
       emit(state.copyWith(locations: updatedLocations));
     }
+  }
+
+  Future<void> _onGeoStatusChecked(
+    GeoStatusChecked event,
+    Emitter<LocationsState> emit,
+  ) async {
+    final permissionStatus = await Geolocator.checkPermission();
+    if (permissionStatus == LocationPermission.deniedForever) {
+      emit(state.copyWith(showGeoModal: true));
+    }
+  }
+
+  Future<void> _onGeoStatusModalDisabled(
+    GeoStatusModalDisabled event,
+    Emitter<LocationsState> emit,
+  ) async {
+    emit(state.copyWith(showGeoModal: false));
   }
 
   @override
