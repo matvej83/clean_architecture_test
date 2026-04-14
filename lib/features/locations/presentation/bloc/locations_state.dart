@@ -6,6 +6,7 @@ import '../../domain/entity/location_entity.dart';
 
 class LocationsState extends Equatable {
   final bool isLoading;
+  final bool showGeoModal;
   final String? error;
   final List<LocationEntity> locations;
   final String? selectedLocationId;
@@ -15,6 +16,7 @@ class LocationsState extends Equatable {
 
   const LocationsState({
     this.isLoading = false,
+    this.showGeoModal = false,
     this.error,
     this.locations = const [],
     this.selectedLocationId,
@@ -25,6 +27,7 @@ class LocationsState extends Equatable {
 
   LocationsState copyWith({
     bool? isLoading,
+    bool? showGeoModal,
     String? error,
     List<LocationEntity>? locations,
     String? selectedLocationId,
@@ -34,6 +37,7 @@ class LocationsState extends Equatable {
   }) {
     return LocationsState(
       isLoading: isLoading ?? this.isLoading,
+      showGeoModal: showGeoModal ?? this.showGeoModal,
       error: error,
       locations: locations ?? this.locations,
       selectedLocationId: selectedLocationId ?? this.selectedLocationId,
@@ -46,6 +50,7 @@ class LocationsState extends Equatable {
   @override
   List<Object?> get props => [
     isLoading,
+    showGeoModal,
     error,
     locations,
     selectedLocationId,

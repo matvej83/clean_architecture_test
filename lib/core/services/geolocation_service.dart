@@ -96,9 +96,6 @@ class GeolocationService {
     final permission = await Geolocator.checkPermission();
 
     if (permission == LocationPermission.deniedForever) {
-      if (!kIsWeb) {
-        return await Geolocator.openAppSettings();
-      }
       return false;
     }
 
