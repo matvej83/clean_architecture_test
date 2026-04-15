@@ -45,25 +45,30 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     required this.createCategoryUseCase,
     required this.deleteCategoryUseCase,
   }) : super(const ProductsState()) {
-    on<ProductsFetched>(_onProductsFetched);
-    on<ProductFetched>(_onProductFetched);
-    on<CategoriesFetched>(_onCategoriesFetched);
-    on<RelatedByIdFetched>(_onRelatedByIdFetched);
-    on<CreatedProductCategorySelected>(_onCreatedProductCategorySelected);
-    on<ImagePicked>(_onImagePicked);
-    on<ImageRemoved>(_onImageRemoved);
-    on<ImageUploaded>(_onImageUploaded);
-    on<ProductCreated>(_onProductCreated);
-    on<DataRemoved>(_onDataRemoved);
-    on<ProductDeleted>(_onProductDeleted);
-    on<CategoryCreated>(_onCategoryCreated);
-    on<CategoryDeleted>(_onCategoryDeleted);
-    on<FilterAdded>(_onFilterAdded);
-    on<FilterRemoved>(_onFilterRemoved);
-    on<FiltersSaved>(_onFiltersSaved);
+    on<ProductsEvent>((event, emit) async {
+      await event.map(
+        productsFetched: (e) => _onProductsFetched(e, emit),
+        productFetched: (e) => _onProductFetched(e, emit),
+        categoriesFetched: (e) => _onCategoriesFetched(e, emit),
+        relatedByIdFetched: (e) => _onRelatedByIdFetched(e, emit),
+        createdProductCategorySelected: (e) =>
+            _onCreatedProductCategorySelected(e, emit),
+        imagePicked: (e) => _onImagePicked(e, emit),
+        imageRemoved: (e) => _onImageRemoved(e, emit),
+        imageUploaded: (e) => _onImageUploaded(e, emit),
+        productCreated: (e) => _onProductCreated(e, emit),
+        dataRemoved: (e) => _onDataRemoved(e, emit),
+        productDeleted: (e) => _onProductDeleted(e, emit),
+        categoryCreated: (e) => _onCategoryCreated(e, emit),
+        categoryDeleted: (e) => _onCategoryDeleted(e, emit),
+        filterAdded: (e) => _onFilterAdded(e, emit),
+        filterRemoved: (e) => _onFilterRemoved(e, emit),
+        filtersSaved: (e) => _onFiltersSaved(e, emit),
+      );
+    });
   }
 
-  FutureOr<void> _onProductsFetched(
+  Future<void> _onProductsFetched(
     ProductsFetched event,
     Emitter<ProductsState> emit,
   ) async {
@@ -71,7 +76,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       emit(state.copyWith(isLoading: true));
     }
     if (event.categoryId != null) {
-      emit(state.copyWith(selectedCategoryId: event.categoryId));
+      emit(state.copyWith(selectedCategoryId: event.categoryId!));
     }
     int? priceMin;
     int? priceMax;
@@ -110,7 +115,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onProductFetched(
+  Future<void> _onProductFetched(
     ProductFetched event,
     Emitter<ProductsState> emit,
   ) async {
@@ -132,7 +137,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onCategoriesFetched(
+  Future<void> _onCategoriesFetched(
     CategoriesFetched event,
     Emitter<ProductsState> emit,
   ) async {
@@ -155,7 +160,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onRelatedByIdFetched(
+  Future<void> _onRelatedByIdFetched(
     RelatedByIdFetched event,
     Emitter<ProductsState> emit,
   ) async {
@@ -177,14 +182,14 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onCreatedProductCategorySelected(
+  Future<void> _onCreatedProductCategorySelected(
     CreatedProductCategorySelected event,
     Emitter<ProductsState> emit,
   ) async {
     emit(state.copyWith(createdProductCategoryId: event.categoryId));
   }
 
-  FutureOr<void> _onImagePicked(
+  Future<void> _onImagePicked(
     ImagePicked event,
     Emitter<ProductsState> emit,
   ) async {
@@ -196,7 +201,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     }
   }
 
-  FutureOr<void> _onImageRemoved(
+  Future<void> _onImageRemoved(
     ImageRemoved event,
     Emitter<ProductsState> emit,
   ) async {
@@ -206,7 +211,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     emit(state.copyWith(pickedImages: images));
   }
 
-  FutureOr<void> _onImageUploaded(
+  Future<void> _onImageUploaded(
     ImageUploaded event,
     Emitter<ProductsState> emit,
   ) async {
@@ -230,7 +235,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onProductCreated(
+  Future<void> _onProductCreated(
     ProductCreated event,
     Emitter<ProductsState> emit,
   ) async {
@@ -290,7 +295,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onProductDeleted(
+  Future<void> _onProductDeleted(
     ProductDeleted event,
     Emitter<ProductsState> emit,
   ) async {
@@ -309,7 +314,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onCategoryCreated(
+  Future<void> _onCategoryCreated(
     CategoryCreated event,
     Emitter<ProductsState> emit,
   ) async {
@@ -353,7 +358,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onCategoryDeleted(
+  Future<void> _onCategoryDeleted(
     CategoryDeleted event,
     Emitter<ProductsState> emit,
   ) async {
@@ -376,7 +381,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onDataRemoved(
+  Future<void> _onDataRemoved(
     DataRemoved event,
     Emitter<ProductsState> emit,
   ) async {
@@ -391,7 +396,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  FutureOr<void> _onFilterAdded(
+  Future<void> _onFilterAdded(
     FilterAdded event,
     Emitter<ProductsState> emit,
   ) async {
@@ -400,7 +405,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     emit(state.copyWith(filters: filters));
   }
 
-  FutureOr<void> _onFilterRemoved(
+  Future<void> _onFilterRemoved(
     FilterRemoved event,
     Emitter<ProductsState> emit,
   ) async {
@@ -410,7 +415,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     add(ProductsFetched());
   }
 
-  FutureOr<void> _onFiltersSaved(
+  Future<void> _onFiltersSaved(
     FiltersSaved event,
     Emitter<ProductsState> emit,
   ) async {

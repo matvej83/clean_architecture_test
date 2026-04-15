@@ -24,14 +24,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.logoutUseCase,
     required this.checkAuthUseCase,
     required this.getUserProfileUseCase,
-  }) : super(AuthState.initial()) {
-    on<AuthCheckRequested>(_onAuthCheckRequested);
-    on<AuthLoginRequested>(_onAuthLoginRequested);
-    on<AuthUserProfileRequested>(_onAuthUserProfileRequested);
-    on<AuthLogoutRequested>(_onAuthLogoutRequested);
+  }) : super(const AuthState()) {
+    on<AuthEvent>((event, emit) async {
+      await event.map(
+        checkRequested: (e) => _onAuthCheckRequested(e, emit),
+        loginRequested: (e) => _onAuthLoginRequested(e, emit),
+        userProfileRequested: (e) => _onAuthUserProfileRequested(e, emit),
+        logoutRequested: (e) => _onAuthLogoutRequested(e, emit),
+      );
+    });
   }
 
-  FutureOr<void> _onAuthCheckRequested(
+  Future<void> _onAuthCheckRequested(
     AuthCheckRequested event,
     Emitter<AuthState> emit,
   ) async {
@@ -56,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  FutureOr<void> _onAuthLoginRequested(
+  Future<void> _onAuthLoginRequested(
     AuthLoginRequested event,
     Emitter<AuthState> emit,
   ) async {
@@ -83,7 +87,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  FutureOr<void> _onAuthUserProfileRequested(
+  Future<void> _onAuthUserProfileRequested(
     AuthUserProfileRequested event,
     Emitter<AuthState> emit,
   ) async {
@@ -103,7 +107,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  FutureOr<void> _onAuthLogoutRequested(
+  Future<void> _onAuthLogoutRequested(
     AuthLogoutRequested event,
     Emitter<AuthState> emit,
   ) async {

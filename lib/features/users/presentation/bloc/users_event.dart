@@ -1,17 +1,10 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class UsersEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
+part 'users_event.freezed.dart';
 
-class UsersFetched extends UsersEvent {}
+@freezed
+class UsersEvent with _$UsersEvent {
+  const factory UsersEvent.usersFetched() = UsersFetched;
 
-class UserFetched extends UsersEvent {
-  final String id;
-
-  UserFetched(this.id);
-
-  @override
-  List<Object?> get props => [id];
+  const factory UsersEvent.userFetched(String id) = UserFetched;
 }

@@ -1,60 +1,21 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../domain/entity/location_entity.dart';
 
-class LocationsState extends Equatable {
-  final bool isLoading;
-  final bool showGeoModal;
-  final String? error;
-  final List<LocationEntity> locations;
-  final String? selectedLocationId;
-  final LocationEntity? selectedLocation;
-  final List<Marker> markers;
-  final LatLng center;
+part 'locations_state.freezed.dart';
 
-  const LocationsState({
-    this.isLoading = false,
-    this.showGeoModal = false,
-    this.error,
-    this.locations = const [],
-    this.selectedLocationId,
-    this.selectedLocation,
-    this.markers = const [],
-    this.center = const LatLng(50.4501, 30.5234),
-  });
-
-  LocationsState copyWith({
-    bool? isLoading,
-    bool? showGeoModal,
+@freezed
+abstract class LocationsState with _$LocationsState {
+  const factory LocationsState({
+    @Default(false) bool isLoading,
+    @Default(false) bool showGeoModal,
     String? error,
-    List<LocationEntity>? locations,
+    @Default([]) List<LocationEntity> locations,
     String? selectedLocationId,
     LocationEntity? selectedLocation,
-    List<Marker>? markers,
-    LatLng? center,
-  }) {
-    return LocationsState(
-      isLoading: isLoading ?? this.isLoading,
-      showGeoModal: showGeoModal ?? this.showGeoModal,
-      error: error,
-      locations: locations ?? this.locations,
-      selectedLocationId: selectedLocationId ?? this.selectedLocationId,
-      selectedLocation: selectedLocation ?? this.selectedLocation,
-      markers: markers ?? this.markers,
-      center: center ?? this.center,
-    );
-  }
-
-  @override
-  List<Object?> get props => [
-    isLoading,
-    showGeoModal,
-    error,
-    locations,
-    selectedLocationId,
-    selectedLocation,
-    markers,
-  ];
+    @Default([]) List<Marker> markers,
+    @Default(LatLng(50.4501, 30.5234)) LatLng center,
+  }) = _LocationsState;
 }

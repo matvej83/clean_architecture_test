@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                           ? Icons.lock_outline
                           : Icons.lock_open_outlined,
                       size: 80.0,
-                      color: theme.colorScheme.onPrimary,
+                      color: theme.colorScheme.primary,
                     ),
                     const SizedBox(height: 40.0),
                     AppTextFormField(
