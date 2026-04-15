@@ -16,11 +16,15 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
   UsersBloc({required this.fetchUsersUseCase, required this.fetchUserUseCase})
     : super(const UsersState()) {
-    on<UsersFetched>(_onUsersFetched);
-    on<UserFetched>(_onUserFetched);
+    on<UsersEvent>((event, emit) async {
+      await event.map(
+        usersFetched: (e) => _onUsersFetched(e, emit),
+        userFetched: (e) => _onUserFetched(e, emit),
+      );
+    });
   }
 
-  FutureOr<void> _onUsersFetched(
+  Future<void> _onUsersFetched(
     UsersFetched event,
     Emitter<UsersState> emit,
   ) async {
@@ -42,7 +46,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     );
   }
 
-  FutureOr<void> _onUserFetched(
+  Future<void> _onUserFetched(
     UserFetched event,
     Emitter<UsersState> emit,
   ) async {

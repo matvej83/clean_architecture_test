@@ -25,15 +25,19 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     required this.fetchLocationsUseCase,
     required this.geolocationService,
   }) : super(const LocationsState()) {
-    on<LocationsFetched>(_onLocationsFetched);
-    on<LocationSelected>(_onLocationSelected);
-    on<LocationUpdated>(_onLocationUpdated);
-    on<GeoStatusChecked>(_onGeoStatusChecked);
-    on<GeoStatusModalDisabled>(_onGeoStatusModalDisabled);
+    on<LocationsEvent>((event, emit) async {
+      await event.map(
+        locationsFetched: (e) => _onLocationsFetched(e, emit),
+        locationSelected: (e) => _onLocationSelected(e, emit),
+        locationUpdated: (e) => _onLocationUpdated(e, emit),
+        geoStatusChecked: (e) => _onGeoStatusChecked(e, emit),
+        geoStatusModalDisabled: (e) => _onGeoStatusModalDisabled(e, emit),
+      );
+    });
     WidgetsBinding.instance.addObserver(this);
     geolocationService.init();
     _locationSub = geolocationService.onLocationChanged.listen((position) {
-      add(LocationUpdated(position));
+      add(LocationUpdated(position: position));
     });
   }
 
@@ -47,7 +51,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
   Position? position;
   var locationAsked = false;
 
-  FutureOr<void> _onLocationsFetched(
+  Future<void> _onLocationsFetched(
     LocationsFetched event,
     Emitter<LocationsState> emit,
   ) async {
@@ -103,7 +107,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     );
   }
 
-  FutureOr<void> _onLocationSelected(
+  Future<void> _onLocationSelected(
     LocationSelected event,
     Emitter<LocationsState> emit,
   ) async {
@@ -122,10 +126,10 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     );
   }
 
-  FutureOr<void> _onLocationUpdated(
+  Future<void> _onLocationUpdated(
     LocationUpdated event,
     Emitter<LocationsState> emit,
-  ) {
+  ) async {
     if (state.locations.isNotEmpty &&
         (position == null ||
             !LocationsUtil.isSamePosition(position!, event.position))) {
@@ -161,7 +165,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     if (state == AppLifecycleState.resumed && !kIsWeb) {
       final pos = await geolocationService.getCurrentPosition();
       if (pos != null) {
-        add(LocationUpdated(pos));
+        add(LocationUpdated(position: pos));
       }
     }
   }

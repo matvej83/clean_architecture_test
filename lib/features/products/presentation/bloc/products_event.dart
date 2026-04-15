@@ -1,147 +1,65 @@
 import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain/entity/app_image_entity.dart';
 
-abstract class ProductsEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
+part 'products_event.freezed.dart';
 
-class ProductsFetched extends ProductsEvent {
-  final String? categoryId;
-  final String? search;
-  final bool loadSilent;
+@freezed
+class ProductsEvent with _$ProductsEvent {
+  const factory ProductsEvent.productsFetched({
+    String? categoryId,
+    String? search,
+    @Default(true) bool loadSilent,
+  }) = ProductsFetched;
 
-  ProductsFetched({this.categoryId, this.search, this.loadSilent = true});
+  const factory ProductsEvent.categoriesFetched({
+    @Default(true) bool loadSilent,
+  }) = CategoriesFetched;
 
-  @override
-  List<Object?> get props => [categoryId, search, loadSilent];
-}
+  const factory ProductsEvent.productFetched(String id) = ProductFetched;
 
-class CategoriesFetched extends ProductsEvent {
-  final bool loadSilent;
+  const factory ProductsEvent.relatedByIdFetched(String id) =
+      RelatedByIdFetched;
 
-  CategoriesFetched({this.loadSilent = true});
+  const factory ProductsEvent.createdProductCategorySelected({
+    required String categoryId,
+  }) = CreatedProductCategorySelected;
 
-  @override
-  List<Object?> get props => [loadSilent];
-}
+  const factory ProductsEvent.productCreated({
+    required String title,
+    required String description,
+    required int price,
+  }) = ProductCreated;
 
-class ProductFetched extends ProductsEvent {
-  final String id;
+  const factory ProductsEvent.productDeleted({required int id}) =
+      ProductDeleted;
 
-  ProductFetched(this.id);
+  const factory ProductsEvent.categoryCreated({required String name}) =
+      CategoryCreated;
 
-  @override
-  List<Object?> get props => [id];
-}
+  const factory ProductsEvent.categoryDeleted({required int id}) =
+      CategoryDeleted;
 
-class RelatedByIdFetched extends ProductsEvent {
-  final String id;
+  const factory ProductsEvent.imagePicked() = ImagePicked;
 
-  RelatedByIdFetched(this.id);
+  const factory ProductsEvent.imageRemoved({required AppImageEntity image}) =
+      ImageRemoved;
 
-  @override
-  List<Object?> get props => [id];
-}
+  const factory ProductsEvent.imageUploaded({required AppImageEntity image}) =
+      ImageUploaded;
 
-class CreatedProductCategorySelected extends ProductsEvent {
-  final String categoryId;
+  const factory ProductsEvent.dataRemoved() = DataRemoved;
 
-  CreatedProductCategorySelected({required this.categoryId});
+  const factory ProductsEvent.filterAdded({
+    required AvailabilityFilterEntity filter,
+  }) = FilterAdded;
 
-  @override
-  List<Object?> get props => [categoryId];
-}
+  const factory ProductsEvent.filterRemoved({
+    required AvailabilityFilterEntity filter,
+  }) = FilterRemoved;
 
-class ProductCreated extends ProductsEvent {
-  final String title;
-  final String description;
-  final int price;
-
-  ProductCreated({
-    required this.title,
-    required this.description,
-    required this.price,
-  });
-
-  @override
-  List<Object?> get props => [title, description, price];
-}
-
-class ProductDeleted extends ProductsEvent {
-  final int id;
-
-  ProductDeleted({required this.id});
-
-  @override
-  List<Object?> get props => [id];
-}
-
-class CategoryCreated extends ProductsEvent {
-  final String name;
-
-  CategoryCreated({required this.name});
-
-  @override
-  List<Object?> get props => [name];
-}
-
-class CategoryDeleted extends ProductsEvent {
-  final int id;
-
-  CategoryDeleted({required this.id});
-
-  @override
-  List<Object?> get props => [id];
-}
-
-class ImagePicked extends ProductsEvent {}
-
-class ImageRemoved extends ProductsEvent {
-  final AppImageEntity image;
-
-  ImageRemoved({required this.image});
-
-  @override
-  List<Object?> get props => [image];
-}
-
-class ImageUploaded extends ProductsEvent {
-  final AppImageEntity image;
-
-  ImageUploaded({required this.image});
-
-  @override
-  List<Object?> get props => [image];
-}
-
-class DataRemoved extends ProductsEvent {}
-
-class FilterAdded extends ProductsEvent {
-  final AvailabilityFilterEntity filter;
-
-  FilterAdded({required this.filter});
-
-  @override
-  List<Object?> get props => [filter];
-}
-
-class FilterRemoved extends ProductsEvent {
-  final AvailabilityFilterEntity filter;
-
-  FilterRemoved({required this.filter});
-
-  @override
-  List<Object?> get props => [filter];
-}
-
-class FiltersSaved extends ProductsEvent {
-  final List<AvailabilityFilterEntity> filters;
-
-  FiltersSaved({required this.filters});
-
-  @override
-  List<Object?> get props => [filters];
+  const factory ProductsEvent.filtersSaved({
+    required List<AvailabilityFilterEntity> filters,
+  }) = FiltersSaved;
 }
