@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -6,10 +7,10 @@ class ProfileUtils {
     var assetName = '';
     switch (code) {
       case 'en':
-        assetName = 'assets/svg_icons/flag_us.svg';
+        assetName = AppStrings.flagUsa;
         break;
       case 'ru':
-        assetName = 'assets/svg_icons/flag_ru.svg';
+        assetName = AppStrings.flagRu;
         break;
       default:
         assetName = '';

@@ -1,3 +1,4 @@
+import 'package:clean_architecture_test/core/constants/app_strings.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_event.dart';
 import 'package:flutter/material.dart';
@@ -29,8 +30,8 @@ class _SplashPageState extends State<SplashPage> {
         child: InfiniteScrollingBackground(
           animationHeight: 250.0,
           foregroundImageSize: 160.0,
-          backgroundImage: 'assets/images/wall.png',
-          foregroundImage: 'assets/images/cart.png',
+          backgroundImage: AppStrings.wall,
+          foregroundImage: AppStrings.cart,
         ),
       ),
     );
