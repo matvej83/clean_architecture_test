@@ -38,12 +38,11 @@ class _UserPageState extends State<UserPage> {
                   child: SingleChildScrollView(
                     physics: ClampingScrollPhysics(),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       spacing: 24.0,
                       children: [
                         ImageBox(imageUrl: state.user?.avatar ?? ''),
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           spacing: 8.0,
                           children: [
                             Text(

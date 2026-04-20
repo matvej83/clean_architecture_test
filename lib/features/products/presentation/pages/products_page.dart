@@ -35,17 +35,20 @@ class ProductsPage extends StatelessWidget {
                           spacing: 8.0,
                           children: [
                             Expanded(
-                              child: SearchBar(
-                                leading: Icon(
-                                  Icons.search,
-                                  color: Colors.white,
+                              child: SizedBox(
+                                height: 40.0,
+                                child: SearchBar(
+                                  leading: Icon(
+                                    Icons.search,
+                                    color: Colors.white,
+                                  ),
+                                  onTapOutside: (PointerDownEvent event) {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                  },
+                                  onChanged: (search) {
+                                    bloc.add(ProductsFetched(search: search));
+                                  },
                                 ),
-                                onTapOutside: (PointerDownEvent event) {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                },
-                                onChanged: (search) {
-                                  bloc.add(ProductsFetched(search: search));
-                                },
                               ),
                             ),
                             ProductsUtils.getFilterButton(

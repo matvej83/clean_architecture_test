@@ -134,6 +134,7 @@ class AppTheme {
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         ),
+        padding: WidgetStateProperty.all(EdgeInsets.all(8.0)),
       ),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -148,6 +149,9 @@ class AppTheme {
       shadowColor: WidgetStateProperty.all(appColors.surfaceTint),
       elevation: WidgetStateProperty.all(0),
       surfaceTintColor: WidgetStateProperty.all(appColors.surfaceTint),
+      padding: WidgetStateProperty.all(
+        EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+      ),
       shape: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.focused)) {
           return RoundedRectangleBorder(
@@ -291,6 +295,7 @@ class AppTheme {
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         ),
+        padding: WidgetStateProperty.all(EdgeInsets.all(8.0)),
       ),
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -305,6 +310,9 @@ class AppTheme {
       shadowColor: WidgetStateProperty.all(appColors.surfaceTint),
       elevation: WidgetStateProperty.all(0),
       surfaceTintColor: WidgetStateProperty.all(appColors.surfaceTint),
+      padding: WidgetStateProperty.all(
+        EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+      ),
       shape: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.focused)) {
           return RoundedRectangleBorder(
