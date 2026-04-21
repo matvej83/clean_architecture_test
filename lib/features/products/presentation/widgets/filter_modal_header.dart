@@ -31,7 +31,7 @@ class FilterModalHeader extends StatelessWidget {
                 style: IconButton.styleFrom(
                   backgroundColor: Colors.grey.shade400,
                 ),
-                icon: Icon(
+                icon: const Icon(
                   Icons.filter_alt_off,
                   size: 20.0,
                   color: Colors.white,
@@ -41,7 +41,7 @@ class FilterModalHeader extends StatelessWidget {
         ),
         GestureDetector(
           onTap: onCloseTap,
-          child: Icon(Icons.close, size: 24, color: Colors.grey),
+          child: const Icon(Icons.close, size: 24, color: Colors.grey),
         ),
       ],
     );

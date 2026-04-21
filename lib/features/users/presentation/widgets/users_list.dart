@@ -19,7 +19,7 @@ class UsersList extends StatelessWidget {
     return ListView.separated(
       itemCount: state.users.length,
       physics: const ClampingScrollPhysics(),
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       itemBuilder: (context, index) {
         final user = state.users[index];
         return ListItem(
@@ -32,7 +32,7 @@ class UsersList extends StatelessWidget {
         );
       },
       separatorBuilder: (context, index) =>
-          Divider(height: 16.0, thickness: 1.0, color: Colors.white70),
+          const Divider(height: 16.0, thickness: 1.0, color: Colors.white70),
     );
   }
 }
@@ -54,6 +54,7 @@ class ListItem extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.translucent,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Row(

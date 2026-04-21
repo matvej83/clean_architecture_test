@@ -8,9 +8,9 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class FetchProductUseCase
     implements UseCase<ProductEntity, FetchProductParams> {
-  final ProductsRepository repository;
-
   FetchProductUseCase(this.repository);
+
+  final ProductsRepository repository;
 
   @override
   Future<Either<Failure, ProductEntity>> call(FetchProductParams params) async {
@@ -19,7 +19,7 @@ class FetchProductUseCase
 }
 
 class FetchProductParams {
-  final String? id;
-
   FetchProductParams({this.id});
+
+  final String? id;
 }

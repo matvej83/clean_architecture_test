@@ -12,9 +12,9 @@ abstract class UsersRemoteDataSource {
 
 @LazySingleton(as: UsersRemoteDataSource)
 class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
-  final Dio dio;
-
   UsersRemoteDataSourceImpl(this.dio);
+
+  final Dio dio;
 
   @override
   Future<List<UserModel>?> fetchUsers() async {

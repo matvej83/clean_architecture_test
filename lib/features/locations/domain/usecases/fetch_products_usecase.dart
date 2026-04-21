@@ -9,9 +9,9 @@ import '../repository/locations_repository.dart';
 @lazySingleton
 class FetchLocationsUseCase
     implements UseCase<List<LocationEntity>, FetchLocationsParams> {
-  final LocationsRepository repository;
-
   FetchLocationsUseCase(this.repository);
+
+  final LocationsRepository repository;
 
   @override
   Future<Either<Failure, List<LocationEntity>>> call(
@@ -25,8 +25,8 @@ class FetchLocationsUseCase
 }
 
 class FetchLocationsParams {
+  FetchLocationsParams({this.origin, this.radius});
+
   final List<double>? origin;
   final int? radius;
-
-  FetchLocationsParams({this.origin, this.radius});
 }

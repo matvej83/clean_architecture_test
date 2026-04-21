@@ -50,7 +50,7 @@ class AppColorSchemes {
     canvas: Colors.black,
     splash: Colors.black,
     surfaceTint: Colors.transparent,
-    bottomBarBackground: Color(0xFF222222),
+    bottomBarBackground: const Color(0xFF222222),
     fieldBorder: Colors.grey,
     fieldBorderFocussed: Colors.blue,
     fieldBorderDisabled: Colors.blueGrey,

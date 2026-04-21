@@ -6,9 +6,9 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class CheckAuthUseCase implements UseCase<bool, NoParams> {
-  final AuthRepository repository;
-
   CheckAuthUseCase(this.repository);
+
+  final AuthRepository repository;
 
   @override
   Future<Either<Failure, bool>> call(NoParams params) async {

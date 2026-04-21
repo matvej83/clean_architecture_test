@@ -1,9 +1,9 @@
 import 'package:clean_architecture_test/features/locations/domain/entity/location_entity.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:collection/collection.dart';
 
 class LocationsUtil {
   static LocationEntity? getLocationByLatLong({
@@ -42,7 +42,7 @@ class LocationsUtil {
   }
 
   static double getDistance(LatLng from, LatLng to) =>
-      Distance().as(LengthUnit.Kilometer, from, to);
+      const Distance().as(LengthUnit.Kilometer, from, to);
 
   static List<LocationEntity> addGeolocationToList({
     required List<LocationEntity> locations,

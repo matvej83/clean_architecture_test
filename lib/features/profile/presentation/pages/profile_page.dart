@@ -57,10 +57,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: textTheme.bodyLarge,
                 ),
                 if (_showSelector) ...[
-                  ThemeSelector(),
-                  LanguageSelector(),
+                  const ThemeSelector(),
+                  const LanguageSelector(),
                 ] else
-                  SizedBox(),
+                  const SizedBox(),
                 Row(
                   spacing: 8.0,
                   mainAxisSize: MainAxisSize.min,
@@ -71,9 +71,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     IconButton(
                       onPressed: () {
-                        context.read<AuthBloc>().add(AuthLogoutRequested());
+                        context.read<AuthBloc>().add(
+                          const AuthLogoutRequested(),
+                        );
                       },
-                      icon: Icon(Icons.logout, size: 28.0, color: Colors.blue),
+                      icon: const Icon(
+                        Icons.logout,
+                        size: 28.0,
+                        color: Colors.blue,
+                      ),
                     ),
                   ],
                 ),
@@ -81,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
         }
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       },
     );
   }

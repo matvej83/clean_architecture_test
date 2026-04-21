@@ -82,11 +82,11 @@ class CustomTabBar extends StatelessWidget {
                     counter: counters != null ? counters![i] : null,
                     icon: icons != null ? icons![i] : null,
                     buttonColor: selectedIndex == i
-                        ? selectedButtonColor ?? Color(0xFF222222)
+                        ? selectedButtonColor ?? const Color(0xFF222222)
                         : buttonColor ?? Colors.transparent,
                     labelColor: selectedIndex == i
                         ? selectedLabelColor ?? Colors.grey
-                        : labelColor ?? Color(0xFFA7A6AB),
+                        : labelColor ?? const Color(0xFFA7A6AB),
                     onTap: () => onTap(i),
                     padding: buttonPadding,
                     borderRadius: getBorder(i),
@@ -99,11 +99,11 @@ class CustomTabBar extends StatelessWidget {
                   counter: counters != null ? counters![i] : null,
                   icon: icons != null ? icons![i] : null,
                   buttonColor: selectedIndex == i
-                      ? selectedButtonColor ?? Color(0xFF222222)
+                      ? selectedButtonColor ?? const Color(0xFF222222)
                       : buttonColor ?? Colors.transparent,
                   labelColor: selectedIndex == i
                       ? selectedLabelColor ?? Colors.grey
-                      : labelColor ?? Color(0xFFA7A6AB),
+                      : labelColor ?? const Color(0xFFA7A6AB),
                   onTap: () => onTap(i),
                   padding: buttonPadding,
                   borderRadius: getBorder(i),
@@ -120,9 +120,9 @@ class CustomTabBar extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Color(0xFF434343).withValues(alpha: 0),
-                        Color(0xFF434343),
-                        Color(0xFF434343).withValues(alpha: 0),
+                        const Color(0xFF434343).withValues(alpha: 0),
+                        const Color(0xFF434343),
+                        const Color(0xFF434343).withValues(alpha: 0),
                       ],
                     ),
                   ),
@@ -150,7 +150,9 @@ class CustomTabBar extends StatelessWidget {
           BoxDecoration(
             color: const Color(0xFF191919),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: barBorderColor ?? Color(0xFF222222)),
+            border: Border.all(
+              color: barBorderColor ?? const Color(0xFF222222),
+            ),
           ),
       child: row,
     );
@@ -276,7 +278,8 @@ class CustomTab extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 100),
         padding:
-            padding ?? EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+            padding ??
+            const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
         decoration: BoxDecoration(
           color: buttonColor,
           borderRadius: borderRadius ?? BorderRadius.circular(8),

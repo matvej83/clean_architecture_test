@@ -4,16 +4,16 @@ import 'package:clean_architecture_test/features/auth/domain/entity/user_entity.
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_event.dart';
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_state.dart';
-import 'package:clean_architecture_test/features/profile/presentation/pages/profile_page.dart';
 import 'package:clean_architecture_test/features/auth/presentation/widgets/user_avatar.dart';
+import 'package:clean_architecture_test/features/profile/presentation/pages/profile_page.dart';
 import 'package:clean_architecture_test/features/profile/presentation/widgets/language_selector.dart';
 import 'package:clean_architecture_test/features/profile/presentation/widgets/theme_selector.dart';
 import 'package:clean_architecture_test/features/theme/cubit/cubit.dart';
 import 'package:clean_architecture_test/features/theme/cubit/state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 // Mocks
@@ -52,7 +52,7 @@ void main() {
   testWidgets('ProfilePage displays user info and logout button', (
     WidgetTester tester,
   ) async {
-    final userState = AuthState(
+    final userState = const AuthState(
       status: AuthStatus.authenticated,
       user: UserEntity(
         id: '1',
@@ -67,8 +67,10 @@ void main() {
     when(() => authBloc.state).thenReturn(userState);
     when(() => authBloc.stream).thenAnswer((_) => controller.stream);
 
-    when(() => themeCubit.state).thenReturn(ThemeState());
-    when(() => themeCubit.stream).thenAnswer((_) => Stream<ThemeState>.empty());
+    when(() => themeCubit.state).thenReturn(const ThemeState());
+    when(
+      () => themeCubit.stream,
+    ).thenAnswer((_) => const Stream<ThemeState>.empty());
 
     // Set screen size inside a test
     await tester.binding.setSurfaceSize(const Size(800, 600));
@@ -80,11 +82,11 @@ void main() {
           BlocProvider<ThemeCubit>.value(value: themeCubit),
         ],
         child: EasyLocalization(
-          supportedLocales: [Locale('en')],
-          startLocale: Locale('en'),
+          supportedLocales: const [Locale('en')],
+          startLocale: const Locale('en'),
           path: 'assets/translations/en.json',
-          fallbackLocale: Locale('en'),
-          child: MaterialApp(home: Scaffold(body: ProfilePage())),
+          fallbackLocale: const Locale('en'),
+          child: const MaterialApp(home: Scaffold(body: ProfilePage())),
         ),
       ),
     );

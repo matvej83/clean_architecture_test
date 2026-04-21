@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:clean_architecture_test/core/constants/app_strings.dart';
 import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
 import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
+import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/create_category_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/delete_product_usecase.dart';
@@ -14,7 +14,6 @@ import 'package:clean_architecture_test/features/products/domain/usecases/upload
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_state.dart';
 import 'package:clean_architecture_test/features/products/utils.dart';
-import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,16 +23,6 @@ import '../../domain/usecases/delete_category_usecase.dart';
 import '../../domain/usecases/fetch_product_usecase.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final FetchProductsUseCase fetchProductsUseCase;
-  final FetchProductUseCase fetchProductUseCase;
-  final FetchCategoriesUseCase fetchCategoriesUseCase;
-  final FetchRelatedByIdUseCase fetchRelatedByIdUseCase;
-  final UploadImageUseCase uploadImageUseCase;
-  final CreateProductUseCase createProductUseCase;
-  final DeleteProductUseCase deleteProductUseCase;
-  final CreateCategoryUseCase createCategoryUseCase;
-  final DeleteCategoryUseCase deleteCategoryUseCase;
-
   ProductsBloc({
     required this.fetchProductsUseCase,
     required this.fetchCategoriesUseCase,
@@ -48,6 +37,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<ProductsEvent>((event, emit) async {
       await event.map(
         productsFetched: (e) => _onProductsFetched(e, emit),
+        nextProductsFetched: (e) => _onNextProductsFetched(e, emit),
+        productsSearchStarted: (e) => _onProductsSearchStarted(e, emit),
+        productsCategorySelected: (e) => _onProductsCategorySelected(e, emit),
         productFetched: (e) => _onProductFetched(e, emit),
         categoriesFetched: (e) => _onCategoriesFetched(e, emit),
         relatedByIdFetched: (e) => _onRelatedByIdFetched(e, emit),
@@ -55,7 +47,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
             _onCreatedProductCategorySelected(e, emit),
         imagePicked: (e) => _onImagePicked(e, emit),
         imageRemoved: (e) => _onImageRemoved(e, emit),
-        imageUploaded: (e) => _onImageUploaded(e, emit),
         productCreated: (e) => _onProductCreated(e, emit),
         dataRemoved: (e) => _onDataRemoved(e, emit),
         productDeleted: (e) => _onProductDeleted(e, emit),
@@ -68,6 +59,17 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     });
   }
 
+  final FetchProductsUseCase fetchProductsUseCase;
+  final FetchProductUseCase fetchProductUseCase;
+  final FetchCategoriesUseCase fetchCategoriesUseCase;
+  final FetchRelatedByIdUseCase fetchRelatedByIdUseCase;
+  final UploadImageUseCase uploadImageUseCase;
+  final CreateProductUseCase createProductUseCase;
+  final DeleteProductUseCase deleteProductUseCase;
+  final CreateCategoryUseCase createCategoryUseCase;
+  final DeleteCategoryUseCase deleteCategoryUseCase;
+
+  /// Products list
   Future<void> _onProductsFetched(
     ProductsFetched event,
     Emitter<ProductsState> emit,
@@ -75,29 +77,19 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     if (!event.loadSilent) {
       emit(state.copyWith(isLoading: true));
     }
-    if (event.categoryId != null) {
-      emit(state.copyWith(selectedCategoryId: event.categoryId!));
-    }
-    int? priceMin;
-    int? priceMax;
 
-    if (state.filters.isNotEmpty == true) {
-      priceMin = state.filters
-          .firstWhereOrNull((e) => e.identifier == AppStrings.amountMin)
-          ?.apiValue;
-      priceMax = state.filters
-          .firstWhereOrNull((e) => e.identifier == AppStrings.amountMax)
-          ?.apiValue;
-    }
+    final (min, max) = ProductsUtils.getPriceFilters(state.filters);
 
     final result = await fetchProductsUseCase(
       FetchProductsParams(
         categoryId: state.selectedCategoryId.isNotEmpty
             ? state.selectedCategoryId
             : null,
-        search: event.search,
-        priceMin: priceMin,
-        priceMax: priceMax,
+        search: state.search,
+        priceMin: min,
+        priceMax: max,
+        offset: state.products.isEmpty ? 0 : state.products.length - 10,
+        limit: 10,
       ),
     );
 
@@ -115,6 +107,76 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Load more products
+  Future<void> _onNextProductsFetched(
+    NextProductsFetched event,
+    Emitter<ProductsState> emit,
+  ) async {
+    if (state.hasReachedMaxProducts) return;
+    emit(state.copyWith(isShowProductLoader: true));
+
+    final (min, max) = ProductsUtils.getPriceFilters(state.filters);
+
+    final result = await fetchProductsUseCase(
+      FetchProductsParams(
+        categoryId: state.selectedCategoryId.isNotEmpty
+            ? state.selectedCategoryId
+            : null,
+        search: state.search,
+        priceMin: min,
+        priceMax: max,
+        offset: state.products.length,
+        limit: 10,
+      ),
+    );
+
+    result.fold(
+      (l) {
+        String message = 'errors.serverError'.tr();
+        if (l is InvalidCredentialsFailure) {
+          message = 'errors.wrongEmailOrPassword'.tr();
+        }
+        emit(state.copyWith(error: message, isShowProductLoader: false));
+      },
+      (r) {
+        if (r.isEmpty) {
+          return emit(
+            state.copyWith(
+              isShowProductLoader: false,
+              hasReachedMaxProducts: true,
+            ),
+          );
+        }
+        final products = <ProductEntity>[...state.products, ...r];
+        emit(state.copyWith(products: products, isShowProductLoader: false));
+      },
+    );
+  }
+
+  /// Search products
+  Future<void> _onProductsSearchStarted(
+    ProductsSearchStarted event,
+    Emitter<ProductsState> emit,
+  ) async {
+    emit(state.copyWith(search: event.search));
+    add(const ProductsFetched());
+  }
+
+  /// Filter products by category
+  Future<void> _onProductsCategorySelected(
+    ProductsCategorySelected event,
+    Emitter<ProductsState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        selectedCategoryId: event.categoryId ?? '',
+        hasReachedMaxProducts: false,
+      ),
+    );
+    add(const ProductsFetched());
+  }
+
+  /// Single product
   Future<void> _onProductFetched(
     ProductFetched event,
     Emitter<ProductsState> emit,
@@ -137,6 +199,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Categories
   Future<void> _onCategoriesFetched(
     CategoriesFetched event,
     Emitter<ProductsState> emit,
@@ -160,6 +223,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Similar products
   Future<void> _onRelatedByIdFetched(
     RelatedByIdFetched event,
     Emitter<ProductsState> emit,
@@ -182,11 +246,17 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Select category ID when the new product is creating
   Future<void> _onCreatedProductCategorySelected(
     CreatedProductCategorySelected event,
     Emitter<ProductsState> emit,
   ) async {
-    emit(state.copyWith(createdProductCategoryId: event.categoryId));
+    emit(
+      state.copyWith(
+        createdProductCategoryId: event.categoryId,
+        hasReachedMaxProducts: false,
+      ),
+    );
   }
 
   Future<void> _onImagePicked(
@@ -201,6 +271,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     }
   }
 
+  /// Remove selected image from the memory
   Future<void> _onImageRemoved(
     ImageRemoved event,
     Emitter<ProductsState> emit,
@@ -209,30 +280,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     images.remove(event.image);
 
     emit(state.copyWith(pickedImages: images));
-  }
-
-  Future<void> _onImageUploaded(
-    ImageUploaded event,
-    Emitter<ProductsState> emit,
-  ) async {
-    final result = await uploadImageUseCase(
-      UploadImageParams(image: event.image),
-    );
-
-    result.fold(
-      (l) {
-        String message = 'errors.serverError'.tr();
-        if (l is InvalidCredentialsFailure) {
-          message = 'errors.wrongEmailOrPassword'.tr();
-        }
-        emit(state.copyWith(error: message));
-      },
-      (r) {
-        var list = [...?state.uploadedImages];
-        list.add(r.location);
-        emit(state.copyWith(uploadedImages: list));
-      },
-    );
   }
 
   Future<void> _onProductCreated(
@@ -295,6 +342,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Delete partial product
   Future<void> _onProductDeleted(
     ProductDeleted event,
     Emitter<ProductsState> emit,
@@ -309,11 +357,12 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         );
       },
       (r) {
-        add(ProductsFetched());
+        add(const ProductsFetched());
       },
     );
   }
 
+  /// Create category
   Future<void> _onCategoryCreated(
     CategoryCreated event,
     Emitter<ProductsState> emit,
@@ -358,6 +407,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Delete partial category
   Future<void> _onCategoryDeleted(
     CategoryDeleted event,
     Emitter<ProductsState> emit,
@@ -374,13 +424,14 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       (r) {
         if (state.selectedCategoryId == event.id.toString()) {
           emit(state.copyWith(selectedCategoryId: ''));
-          add(ProductsFetched());
+          add(const ProductsFetched());
         }
-        add(CategoriesFetched());
+        add(const CategoriesFetched());
       },
     );
   }
 
+  /// Clear data when the product is created
   Future<void> _onDataRemoved(
     DataRemoved event,
     Emitter<ProductsState> emit,
@@ -396,13 +447,14 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Filters actions
   Future<void> _onFilterAdded(
     FilterAdded event,
     Emitter<ProductsState> emit,
   ) async {
     final filters = List<AvailabilityFilterEntity>.from(state.filters);
     filters.add(event.filter);
-    emit(state.copyWith(filters: filters));
+    emit(state.copyWith(filters: filters, hasReachedMaxProducts: false));
   }
 
   Future<void> _onFilterRemoved(
@@ -411,15 +463,15 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ) async {
     final filters = List<AvailabilityFilterEntity>.from(state.filters);
     filters.remove(event.filter);
-    emit(state.copyWith(filters: filters));
-    add(ProductsFetched());
+    emit(state.copyWith(filters: filters, hasReachedMaxProducts: false));
+    add(const ProductsFetched());
   }
 
   Future<void> _onFiltersSaved(
     FiltersSaved event,
     Emitter<ProductsState> emit,
   ) async {
-    emit(state.copyWith(filters: event.filters));
-    add(ProductsFetched());
+    emit(state.copyWith(filters: event.filters, hasReachedMaxProducts: false));
+    add(const ProductsFetched());
   }
 }

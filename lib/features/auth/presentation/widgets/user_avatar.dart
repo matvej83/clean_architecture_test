@@ -12,7 +12,7 @@ class UserAvatar extends StatelessWidget {
     return CircleAvatar(
       radius: 40.0,
       backgroundImage: CachedNetworkImageProvider(avatar),
-      onBackgroundImageError: (o, s) => ImagePlaceholder(),
+      onBackgroundImageError: (o, s) => const ImagePlaceholder(),
     );
   }
 }

@@ -14,9 +14,9 @@ abstract class AuthLocalDataSource {
 
 @LazySingleton(as: AuthLocalDataSource)
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  final SharedPreferences sharedPreferences;
-
   AuthLocalDataSourceImpl(this.sharedPreferences);
+
+  final SharedPreferences sharedPreferences;
 
   static const String cachedToken = 'CACHED_TOKEN';
 

@@ -47,7 +47,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
 
   @override
   void deactivate() {
-    bloc.add(DataRemoved());
+    bloc.add(const DataRemoved());
     super.deactivate();
   }
 
@@ -89,9 +89,9 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
               context,
               message: '${'addCategoryScreen.createdSuccess'.tr()}!',
             );
-            bloc.add(DataRemoved());
+            bloc.add(const DataRemoved());
             _nameController.text = '';
-            bloc.add(CategoriesFetched());
+            bloc.add(const CategoriesFetched());
           }
           if (state.error?.isNotEmpty == true) {
             AppMessage.error(context, message: state.error!);
@@ -102,7 +102,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
           return Padding(
             padding: const EdgeInsets.only(top: 16.0, left: 16.0),
             child: SingleChildScrollView(
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               child: Column(
                 spacing: 16.0,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +116,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                     images: state.pickedImages ?? [],
                     onTap: () {
                       if (!isLoading) {
-                        bloc.add(ImagePicked());
+                        bloc.add(const ImagePicked());
                       }
                     },
                     onRemove: (image) {
@@ -155,7 +155,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                                     handleCreateCategory(state);
                                   },
                             child: isLoading
-                                ? SizedBox(
+                                ? const SizedBox(
                                     width: 20.0,
                                     height: 20.0,
                                     child: CircularProgressIndicator(

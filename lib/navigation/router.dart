@@ -12,9 +12,9 @@ import '../features/auth/presentation/bloc/auth_state.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/splash_page.dart';
 import '../features/main/presentation/main_screen.dart';
-import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/products/presentation/pages/product_page.dart';
 import '../features/products/presentation/pages/products_page.dart';
+import '../features/profile/presentation/pages/profile_page.dart';
 import '../features/users/presentation/pages/user_page.dart';
 import '../features/users/presentation/pages/users_page.dart';
 import 'pages.dart';
@@ -23,9 +23,9 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 @lazySingleton
 class AppRouter {
-  final AuthBloc authBloc;
-
   AppRouter(this.authBloc);
+
+  final AuthBloc authBloc;
 
   bool _isFirstNavigation = true;
 
@@ -159,12 +159,12 @@ class AppRouter {
 }
 
 class GoRouterRefreshStream extends ChangeNotifier {
-  late final StreamSubscription<dynamic> _subscription;
-
   GoRouterRefreshStream(Stream<dynamic> stream) {
     notifyListeners();
     _subscription = stream.asBroadcastStream().listen((_) => notifyListeners());
   }
+
+  late final StreamSubscription<dynamic> _subscription;
 
   @override
   void dispose() {

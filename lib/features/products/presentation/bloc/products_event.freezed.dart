@@ -55,11 +55,14 @@ extension ProductsEventPatterns on ProductsEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ProductsFetched value)?  productsFetched,TResult Function( CategoriesFetched value)?  categoriesFetched,TResult Function( ProductFetched value)?  productFetched,TResult Function( RelatedByIdFetched value)?  relatedByIdFetched,TResult Function( CreatedProductCategorySelected value)?  createdProductCategorySelected,TResult Function( ProductCreated value)?  productCreated,TResult Function( ProductDeleted value)?  productDeleted,TResult Function( CategoryCreated value)?  categoryCreated,TResult Function( CategoryDeleted value)?  categoryDeleted,TResult Function( ImagePicked value)?  imagePicked,TResult Function( ImageRemoved value)?  imageRemoved,TResult Function( ImageUploaded value)?  imageUploaded,TResult Function( DataRemoved value)?  dataRemoved,TResult Function( FilterAdded value)?  filterAdded,TResult Function( FilterRemoved value)?  filterRemoved,TResult Function( FiltersSaved value)?  filtersSaved,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ProductsFetched value)?  productsFetched,TResult Function( NextProductsFetched value)?  nextProductsFetched,TResult Function( ProductsSearchStarted value)?  productsSearchStarted,TResult Function( ProductsCategorySelected value)?  productsCategorySelected,TResult Function( CategoriesFetched value)?  categoriesFetched,TResult Function( ProductFetched value)?  productFetched,TResult Function( RelatedByIdFetched value)?  relatedByIdFetched,TResult Function( CreatedProductCategorySelected value)?  createdProductCategorySelected,TResult Function( ProductCreated value)?  productCreated,TResult Function( ProductDeleted value)?  productDeleted,TResult Function( CategoryCreated value)?  categoryCreated,TResult Function( CategoryDeleted value)?  categoryDeleted,TResult Function( ImagePicked value)?  imagePicked,TResult Function( ImageRemoved value)?  imageRemoved,TResult Function( DataRemoved value)?  dataRemoved,TResult Function( FilterAdded value)?  filterAdded,TResult Function( FilterRemoved value)?  filterRemoved,TResult Function( FiltersSaved value)?  filtersSaved,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case ProductsFetched() when productsFetched != null:
-return productsFetched(_that);case CategoriesFetched() when categoriesFetched != null:
+return productsFetched(_that);case NextProductsFetched() when nextProductsFetched != null:
+return nextProductsFetched(_that);case ProductsSearchStarted() when productsSearchStarted != null:
+return productsSearchStarted(_that);case ProductsCategorySelected() when productsCategorySelected != null:
+return productsCategorySelected(_that);case CategoriesFetched() when categoriesFetched != null:
 return categoriesFetched(_that);case ProductFetched() when productFetched != null:
 return productFetched(_that);case RelatedByIdFetched() when relatedByIdFetched != null:
 return relatedByIdFetched(_that);case CreatedProductCategorySelected() when createdProductCategorySelected != null:
@@ -69,8 +72,7 @@ return productDeleted(_that);case CategoryCreated() when categoryCreated != null
 return categoryCreated(_that);case CategoryDeleted() when categoryDeleted != null:
 return categoryDeleted(_that);case ImagePicked() when imagePicked != null:
 return imagePicked(_that);case ImageRemoved() when imageRemoved != null:
-return imageRemoved(_that);case ImageUploaded() when imageUploaded != null:
-return imageUploaded(_that);case DataRemoved() when dataRemoved != null:
+return imageRemoved(_that);case DataRemoved() when dataRemoved != null:
 return dataRemoved(_that);case FilterAdded() when filterAdded != null:
 return filterAdded(_that);case FilterRemoved() when filterRemoved != null:
 return filterRemoved(_that);case FiltersSaved() when filtersSaved != null:
@@ -92,11 +94,14 @@ return filtersSaved(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ProductsFetched value)  productsFetched,required TResult Function( CategoriesFetched value)  categoriesFetched,required TResult Function( ProductFetched value)  productFetched,required TResult Function( RelatedByIdFetched value)  relatedByIdFetched,required TResult Function( CreatedProductCategorySelected value)  createdProductCategorySelected,required TResult Function( ProductCreated value)  productCreated,required TResult Function( ProductDeleted value)  productDeleted,required TResult Function( CategoryCreated value)  categoryCreated,required TResult Function( CategoryDeleted value)  categoryDeleted,required TResult Function( ImagePicked value)  imagePicked,required TResult Function( ImageRemoved value)  imageRemoved,required TResult Function( ImageUploaded value)  imageUploaded,required TResult Function( DataRemoved value)  dataRemoved,required TResult Function( FilterAdded value)  filterAdded,required TResult Function( FilterRemoved value)  filterRemoved,required TResult Function( FiltersSaved value)  filtersSaved,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ProductsFetched value)  productsFetched,required TResult Function( NextProductsFetched value)  nextProductsFetched,required TResult Function( ProductsSearchStarted value)  productsSearchStarted,required TResult Function( ProductsCategorySelected value)  productsCategorySelected,required TResult Function( CategoriesFetched value)  categoriesFetched,required TResult Function( ProductFetched value)  productFetched,required TResult Function( RelatedByIdFetched value)  relatedByIdFetched,required TResult Function( CreatedProductCategorySelected value)  createdProductCategorySelected,required TResult Function( ProductCreated value)  productCreated,required TResult Function( ProductDeleted value)  productDeleted,required TResult Function( CategoryCreated value)  categoryCreated,required TResult Function( CategoryDeleted value)  categoryDeleted,required TResult Function( ImagePicked value)  imagePicked,required TResult Function( ImageRemoved value)  imageRemoved,required TResult Function( DataRemoved value)  dataRemoved,required TResult Function( FilterAdded value)  filterAdded,required TResult Function( FilterRemoved value)  filterRemoved,required TResult Function( FiltersSaved value)  filtersSaved,}){
 final _that = this;
 switch (_that) {
 case ProductsFetched():
-return productsFetched(_that);case CategoriesFetched():
+return productsFetched(_that);case NextProductsFetched():
+return nextProductsFetched(_that);case ProductsSearchStarted():
+return productsSearchStarted(_that);case ProductsCategorySelected():
+return productsCategorySelected(_that);case CategoriesFetched():
 return categoriesFetched(_that);case ProductFetched():
 return productFetched(_that);case RelatedByIdFetched():
 return relatedByIdFetched(_that);case CreatedProductCategorySelected():
@@ -106,8 +111,7 @@ return productDeleted(_that);case CategoryCreated():
 return categoryCreated(_that);case CategoryDeleted():
 return categoryDeleted(_that);case ImagePicked():
 return imagePicked(_that);case ImageRemoved():
-return imageRemoved(_that);case ImageUploaded():
-return imageUploaded(_that);case DataRemoved():
+return imageRemoved(_that);case DataRemoved():
 return dataRemoved(_that);case FilterAdded():
 return filterAdded(_that);case FilterRemoved():
 return filterRemoved(_that);case FiltersSaved():
@@ -128,11 +132,14 @@ return filtersSaved(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ProductsFetched value)?  productsFetched,TResult? Function( CategoriesFetched value)?  categoriesFetched,TResult? Function( ProductFetched value)?  productFetched,TResult? Function( RelatedByIdFetched value)?  relatedByIdFetched,TResult? Function( CreatedProductCategorySelected value)?  createdProductCategorySelected,TResult? Function( ProductCreated value)?  productCreated,TResult? Function( ProductDeleted value)?  productDeleted,TResult? Function( CategoryCreated value)?  categoryCreated,TResult? Function( CategoryDeleted value)?  categoryDeleted,TResult? Function( ImagePicked value)?  imagePicked,TResult? Function( ImageRemoved value)?  imageRemoved,TResult? Function( ImageUploaded value)?  imageUploaded,TResult? Function( DataRemoved value)?  dataRemoved,TResult? Function( FilterAdded value)?  filterAdded,TResult? Function( FilterRemoved value)?  filterRemoved,TResult? Function( FiltersSaved value)?  filtersSaved,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ProductsFetched value)?  productsFetched,TResult? Function( NextProductsFetched value)?  nextProductsFetched,TResult? Function( ProductsSearchStarted value)?  productsSearchStarted,TResult? Function( ProductsCategorySelected value)?  productsCategorySelected,TResult? Function( CategoriesFetched value)?  categoriesFetched,TResult? Function( ProductFetched value)?  productFetched,TResult? Function( RelatedByIdFetched value)?  relatedByIdFetched,TResult? Function( CreatedProductCategorySelected value)?  createdProductCategorySelected,TResult? Function( ProductCreated value)?  productCreated,TResult? Function( ProductDeleted value)?  productDeleted,TResult? Function( CategoryCreated value)?  categoryCreated,TResult? Function( CategoryDeleted value)?  categoryDeleted,TResult? Function( ImagePicked value)?  imagePicked,TResult? Function( ImageRemoved value)?  imageRemoved,TResult? Function( DataRemoved value)?  dataRemoved,TResult? Function( FilterAdded value)?  filterAdded,TResult? Function( FilterRemoved value)?  filterRemoved,TResult? Function( FiltersSaved value)?  filtersSaved,}){
 final _that = this;
 switch (_that) {
 case ProductsFetched() when productsFetched != null:
-return productsFetched(_that);case CategoriesFetched() when categoriesFetched != null:
+return productsFetched(_that);case NextProductsFetched() when nextProductsFetched != null:
+return nextProductsFetched(_that);case ProductsSearchStarted() when productsSearchStarted != null:
+return productsSearchStarted(_that);case ProductsCategorySelected() when productsCategorySelected != null:
+return productsCategorySelected(_that);case CategoriesFetched() when categoriesFetched != null:
 return categoriesFetched(_that);case ProductFetched() when productFetched != null:
 return productFetched(_that);case RelatedByIdFetched() when relatedByIdFetched != null:
 return relatedByIdFetched(_that);case CreatedProductCategorySelected() when createdProductCategorySelected != null:
@@ -142,8 +149,7 @@ return productDeleted(_that);case CategoryCreated() when categoryCreated != null
 return categoryCreated(_that);case CategoryDeleted() when categoryDeleted != null:
 return categoryDeleted(_that);case ImagePicked() when imagePicked != null:
 return imagePicked(_that);case ImageRemoved() when imageRemoved != null:
-return imageRemoved(_that);case ImageUploaded() when imageUploaded != null:
-return imageUploaded(_that);case DataRemoved() when dataRemoved != null:
+return imageRemoved(_that);case DataRemoved() when dataRemoved != null:
 return dataRemoved(_that);case FilterAdded() when filterAdded != null:
 return filterAdded(_that);case FilterRemoved() when filterRemoved != null:
 return filterRemoved(_that);case FiltersSaved() when filtersSaved != null:
@@ -164,10 +170,13 @@ return filtersSaved(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? categoryId,  String? search,  bool loadSilent)?  productsFetched,TResult Function( bool loadSilent)?  categoriesFetched,TResult Function( String id)?  productFetched,TResult Function( String id)?  relatedByIdFetched,TResult Function( String categoryId)?  createdProductCategorySelected,TResult Function( String title,  String description,  int price)?  productCreated,TResult Function( int id)?  productDeleted,TResult Function( String name)?  categoryCreated,TResult Function( int id)?  categoryDeleted,TResult Function()?  imagePicked,TResult Function( AppImageEntity image)?  imageRemoved,TResult Function( AppImageEntity image)?  imageUploaded,TResult Function()?  dataRemoved,TResult Function( AvailabilityFilterEntity filter)?  filterAdded,TResult Function( AvailabilityFilterEntity filter)?  filterRemoved,TResult Function( List<AvailabilityFilterEntity> filters)?  filtersSaved,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( bool loadSilent)?  productsFetched,TResult Function()?  nextProductsFetched,TResult Function( String? search)?  productsSearchStarted,TResult Function( String? categoryId)?  productsCategorySelected,TResult Function( bool loadSilent)?  categoriesFetched,TResult Function( String id)?  productFetched,TResult Function( String id)?  relatedByIdFetched,TResult Function( String categoryId)?  createdProductCategorySelected,TResult Function( String title,  String description,  int price)?  productCreated,TResult Function( int id)?  productDeleted,TResult Function( String name)?  categoryCreated,TResult Function( int id)?  categoryDeleted,TResult Function()?  imagePicked,TResult Function( AppImageEntity image)?  imageRemoved,TResult Function()?  dataRemoved,TResult Function( AvailabilityFilterEntity filter)?  filterAdded,TResult Function( AvailabilityFilterEntity filter)?  filterRemoved,TResult Function( List<AvailabilityFilterEntity> filters)?  filtersSaved,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ProductsFetched() when productsFetched != null:
-return productsFetched(_that.categoryId,_that.search,_that.loadSilent);case CategoriesFetched() when categoriesFetched != null:
+return productsFetched(_that.loadSilent);case NextProductsFetched() when nextProductsFetched != null:
+return nextProductsFetched();case ProductsSearchStarted() when productsSearchStarted != null:
+return productsSearchStarted(_that.search);case ProductsCategorySelected() when productsCategorySelected != null:
+return productsCategorySelected(_that.categoryId);case CategoriesFetched() when categoriesFetched != null:
 return categoriesFetched(_that.loadSilent);case ProductFetched() when productFetched != null:
 return productFetched(_that.id);case RelatedByIdFetched() when relatedByIdFetched != null:
 return relatedByIdFetched(_that.id);case CreatedProductCategorySelected() when createdProductCategorySelected != null:
@@ -177,8 +186,7 @@ return productDeleted(_that.id);case CategoryCreated() when categoryCreated != n
 return categoryCreated(_that.name);case CategoryDeleted() when categoryDeleted != null:
 return categoryDeleted(_that.id);case ImagePicked() when imagePicked != null:
 return imagePicked();case ImageRemoved() when imageRemoved != null:
-return imageRemoved(_that.image);case ImageUploaded() when imageUploaded != null:
-return imageUploaded(_that.image);case DataRemoved() when dataRemoved != null:
+return imageRemoved(_that.image);case DataRemoved() when dataRemoved != null:
 return dataRemoved();case FilterAdded() when filterAdded != null:
 return filterAdded(_that.filter);case FilterRemoved() when filterRemoved != null:
 return filterRemoved(_that.filter);case FiltersSaved() when filtersSaved != null:
@@ -200,10 +208,13 @@ return filtersSaved(_that.filters);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? categoryId,  String? search,  bool loadSilent)  productsFetched,required TResult Function( bool loadSilent)  categoriesFetched,required TResult Function( String id)  productFetched,required TResult Function( String id)  relatedByIdFetched,required TResult Function( String categoryId)  createdProductCategorySelected,required TResult Function( String title,  String description,  int price)  productCreated,required TResult Function( int id)  productDeleted,required TResult Function( String name)  categoryCreated,required TResult Function( int id)  categoryDeleted,required TResult Function()  imagePicked,required TResult Function( AppImageEntity image)  imageRemoved,required TResult Function( AppImageEntity image)  imageUploaded,required TResult Function()  dataRemoved,required TResult Function( AvailabilityFilterEntity filter)  filterAdded,required TResult Function( AvailabilityFilterEntity filter)  filterRemoved,required TResult Function( List<AvailabilityFilterEntity> filters)  filtersSaved,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( bool loadSilent)  productsFetched,required TResult Function()  nextProductsFetched,required TResult Function( String? search)  productsSearchStarted,required TResult Function( String? categoryId)  productsCategorySelected,required TResult Function( bool loadSilent)  categoriesFetched,required TResult Function( String id)  productFetched,required TResult Function( String id)  relatedByIdFetched,required TResult Function( String categoryId)  createdProductCategorySelected,required TResult Function( String title,  String description,  int price)  productCreated,required TResult Function( int id)  productDeleted,required TResult Function( String name)  categoryCreated,required TResult Function( int id)  categoryDeleted,required TResult Function()  imagePicked,required TResult Function( AppImageEntity image)  imageRemoved,required TResult Function()  dataRemoved,required TResult Function( AvailabilityFilterEntity filter)  filterAdded,required TResult Function( AvailabilityFilterEntity filter)  filterRemoved,required TResult Function( List<AvailabilityFilterEntity> filters)  filtersSaved,}) {final _that = this;
 switch (_that) {
 case ProductsFetched():
-return productsFetched(_that.categoryId,_that.search,_that.loadSilent);case CategoriesFetched():
+return productsFetched(_that.loadSilent);case NextProductsFetched():
+return nextProductsFetched();case ProductsSearchStarted():
+return productsSearchStarted(_that.search);case ProductsCategorySelected():
+return productsCategorySelected(_that.categoryId);case CategoriesFetched():
 return categoriesFetched(_that.loadSilent);case ProductFetched():
 return productFetched(_that.id);case RelatedByIdFetched():
 return relatedByIdFetched(_that.id);case CreatedProductCategorySelected():
@@ -213,8 +224,7 @@ return productDeleted(_that.id);case CategoryCreated():
 return categoryCreated(_that.name);case CategoryDeleted():
 return categoryDeleted(_that.id);case ImagePicked():
 return imagePicked();case ImageRemoved():
-return imageRemoved(_that.image);case ImageUploaded():
-return imageUploaded(_that.image);case DataRemoved():
+return imageRemoved(_that.image);case DataRemoved():
 return dataRemoved();case FilterAdded():
 return filterAdded(_that.filter);case FilterRemoved():
 return filterRemoved(_that.filter);case FiltersSaved():
@@ -235,10 +245,13 @@ return filtersSaved(_that.filters);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? categoryId,  String? search,  bool loadSilent)?  productsFetched,TResult? Function( bool loadSilent)?  categoriesFetched,TResult? Function( String id)?  productFetched,TResult? Function( String id)?  relatedByIdFetched,TResult? Function( String categoryId)?  createdProductCategorySelected,TResult? Function( String title,  String description,  int price)?  productCreated,TResult? Function( int id)?  productDeleted,TResult? Function( String name)?  categoryCreated,TResult? Function( int id)?  categoryDeleted,TResult? Function()?  imagePicked,TResult? Function( AppImageEntity image)?  imageRemoved,TResult? Function( AppImageEntity image)?  imageUploaded,TResult? Function()?  dataRemoved,TResult? Function( AvailabilityFilterEntity filter)?  filterAdded,TResult? Function( AvailabilityFilterEntity filter)?  filterRemoved,TResult? Function( List<AvailabilityFilterEntity> filters)?  filtersSaved,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( bool loadSilent)?  productsFetched,TResult? Function()?  nextProductsFetched,TResult? Function( String? search)?  productsSearchStarted,TResult? Function( String? categoryId)?  productsCategorySelected,TResult? Function( bool loadSilent)?  categoriesFetched,TResult? Function( String id)?  productFetched,TResult? Function( String id)?  relatedByIdFetched,TResult? Function( String categoryId)?  createdProductCategorySelected,TResult? Function( String title,  String description,  int price)?  productCreated,TResult? Function( int id)?  productDeleted,TResult? Function( String name)?  categoryCreated,TResult? Function( int id)?  categoryDeleted,TResult? Function()?  imagePicked,TResult? Function( AppImageEntity image)?  imageRemoved,TResult? Function()?  dataRemoved,TResult? Function( AvailabilityFilterEntity filter)?  filterAdded,TResult? Function( AvailabilityFilterEntity filter)?  filterRemoved,TResult? Function( List<AvailabilityFilterEntity> filters)?  filtersSaved,}) {final _that = this;
 switch (_that) {
 case ProductsFetched() when productsFetched != null:
-return productsFetched(_that.categoryId,_that.search,_that.loadSilent);case CategoriesFetched() when categoriesFetched != null:
+return productsFetched(_that.loadSilent);case NextProductsFetched() when nextProductsFetched != null:
+return nextProductsFetched();case ProductsSearchStarted() when productsSearchStarted != null:
+return productsSearchStarted(_that.search);case ProductsCategorySelected() when productsCategorySelected != null:
+return productsCategorySelected(_that.categoryId);case CategoriesFetched() when categoriesFetched != null:
 return categoriesFetched(_that.loadSilent);case ProductFetched() when productFetched != null:
 return productFetched(_that.id);case RelatedByIdFetched() when relatedByIdFetched != null:
 return relatedByIdFetched(_that.id);case CreatedProductCategorySelected() when createdProductCategorySelected != null:
@@ -248,8 +261,7 @@ return productDeleted(_that.id);case CategoryCreated() when categoryCreated != n
 return categoryCreated(_that.name);case CategoryDeleted() when categoryDeleted != null:
 return categoryDeleted(_that.id);case ImagePicked() when imagePicked != null:
 return imagePicked();case ImageRemoved() when imageRemoved != null:
-return imageRemoved(_that.image);case ImageUploaded() when imageUploaded != null:
-return imageUploaded(_that.image);case DataRemoved() when dataRemoved != null:
+return imageRemoved(_that.image);case DataRemoved() when dataRemoved != null:
 return dataRemoved();case FilterAdded() when filterAdded != null:
 return filterAdded(_that.filter);case FilterRemoved() when filterRemoved != null:
 return filterRemoved(_that.filter);case FiltersSaved() when filtersSaved != null:
@@ -265,11 +277,9 @@ return filtersSaved(_that.filters);case _:
 
 
 class ProductsFetched implements ProductsEvent {
-  const ProductsFetched({this.categoryId, this.search, this.loadSilent = true});
+  const ProductsFetched({this.loadSilent = true});
   
 
- final  String? categoryId;
- final  String? search;
 @JsonKey() final  bool loadSilent;
 
 /// Create a copy of ProductsEvent
@@ -282,16 +292,16 @@ $ProductsFetchedCopyWith<ProductsFetched> get copyWith => _$ProductsFetchedCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductsFetched&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.search, search) || other.search == search)&&(identical(other.loadSilent, loadSilent) || other.loadSilent == loadSilent));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductsFetched&&(identical(other.loadSilent, loadSilent) || other.loadSilent == loadSilent));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,categoryId,search,loadSilent);
+int get hashCode => Object.hash(runtimeType,loadSilent);
 
 @override
 String toString() {
-  return 'ProductsEvent.productsFetched(categoryId: $categoryId, search: $search, loadSilent: $loadSilent)';
+  return 'ProductsEvent.productsFetched(loadSilent: $loadSilent)';
 }
 
 
@@ -302,7 +312,7 @@ abstract mixin class $ProductsFetchedCopyWith<$Res> implements $ProductsEventCop
   factory $ProductsFetchedCopyWith(ProductsFetched value, $Res Function(ProductsFetched) _then) = _$ProductsFetchedCopyWithImpl;
 @useResult
 $Res call({
- String? categoryId, String? search, bool loadSilent
+ bool loadSilent
 });
 
 
@@ -319,12 +329,188 @@ class _$ProductsFetchedCopyWithImpl<$Res>
 
 /// Create a copy of ProductsEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? categoryId = freezed,Object? search = freezed,Object? loadSilent = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? loadSilent = null,}) {
   return _then(ProductsFetched(
-categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
-as String?,search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
-as String?,loadSilent: null == loadSilent ? _self.loadSilent : loadSilent // ignore: cast_nullable_to_non_nullable
+loadSilent: null == loadSilent ? _self.loadSilent : loadSilent // ignore: cast_nullable_to_non_nullable
 as bool,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class NextProductsFetched implements ProductsEvent {
+  const NextProductsFetched();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NextProductsFetched);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ProductsEvent.nextProductsFetched()';
+}
+
+
+}
+
+/// @nodoc
+class $NextProductsFetchedCopyWith<$Res> implements $ProductsEventCopyWith<$Res> {
+$NextProductsFetchedCopyWith(NextProductsFetched _, $Res Function(NextProductsFetched) __);
+}
+/// @nodoc
+class _$NextProductsFetchedCopyWithImpl<$Res>
+    implements $NextProductsFetchedCopyWith<$Res> {
+  _$NextProductsFetchedCopyWithImpl(this._self, this._then);
+
+  final NextProductsFetched _self;
+  final $Res Function(NextProductsFetched) _then;
+
+
+
+
+}
+
+/// @nodoc
+
+
+class ProductsSearchStarted implements ProductsEvent {
+  const ProductsSearchStarted({this.search});
+  
+
+ final  String? search;
+
+/// Create a copy of ProductsEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProductsSearchStartedCopyWith<ProductsSearchStarted> get copyWith => _$ProductsSearchStartedCopyWithImpl<ProductsSearchStarted>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductsSearchStarted&&(identical(other.search, search) || other.search == search));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,search);
+
+@override
+String toString() {
+  return 'ProductsEvent.productsSearchStarted(search: $search)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ProductsSearchStartedCopyWith<$Res> implements $ProductsEventCopyWith<$Res> {
+  factory $ProductsSearchStartedCopyWith(ProductsSearchStarted value, $Res Function(ProductsSearchStarted) _then) = _$ProductsSearchStartedCopyWithImpl;
+@useResult
+$Res call({
+ String? search
+});
+
+
+
+
+}
+/// @nodoc
+class _$ProductsSearchStartedCopyWithImpl<$Res>
+    implements $ProductsSearchStartedCopyWith<$Res> {
+  _$ProductsSearchStartedCopyWithImpl(this._self, this._then);
+
+  final ProductsSearchStarted _self;
+  final $Res Function(ProductsSearchStarted) _then;
+
+/// Create a copy of ProductsEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? search = freezed,}) {
+  return _then(ProductsSearchStarted(
+search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ProductsCategorySelected implements ProductsEvent {
+  const ProductsCategorySelected({this.categoryId});
+  
+
+ final  String? categoryId;
+
+/// Create a copy of ProductsEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProductsCategorySelectedCopyWith<ProductsCategorySelected> get copyWith => _$ProductsCategorySelectedCopyWithImpl<ProductsCategorySelected>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductsCategorySelected&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,categoryId);
+
+@override
+String toString() {
+  return 'ProductsEvent.productsCategorySelected(categoryId: $categoryId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ProductsCategorySelectedCopyWith<$Res> implements $ProductsEventCopyWith<$Res> {
+  factory $ProductsCategorySelectedCopyWith(ProductsCategorySelected value, $Res Function(ProductsCategorySelected) _then) = _$ProductsCategorySelectedCopyWithImpl;
+@useResult
+$Res call({
+ String? categoryId
+});
+
+
+
+
+}
+/// @nodoc
+class _$ProductsCategorySelectedCopyWithImpl<$Res>
+    implements $ProductsCategorySelectedCopyWith<$Res> {
+  _$ProductsCategorySelectedCopyWithImpl(this._self, this._then);
+
+  final ProductsCategorySelected _self;
+  final $Res Function(ProductsCategorySelected) _then;
+
+/// Create a copy of ProductsEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? categoryId = freezed,}) {
+  return _then(ProductsCategorySelected(
+categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -967,72 +1153,6 @@ class _$ImageRemovedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? image = null,}) {
   return _then(ImageRemoved(
-image: null == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
-as AppImageEntity,
-  ));
-}
-
-
-}
-
-/// @nodoc
-
-
-class ImageUploaded implements ProductsEvent {
-  const ImageUploaded({required this.image});
-  
-
- final  AppImageEntity image;
-
-/// Create a copy of ProductsEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$ImageUploadedCopyWith<ImageUploaded> get copyWith => _$ImageUploadedCopyWithImpl<ImageUploaded>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ImageUploaded&&(identical(other.image, image) || other.image == image));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,image);
-
-@override
-String toString() {
-  return 'ProductsEvent.imageUploaded(image: $image)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $ImageUploadedCopyWith<$Res> implements $ProductsEventCopyWith<$Res> {
-  factory $ImageUploadedCopyWith(ImageUploaded value, $Res Function(ImageUploaded) _then) = _$ImageUploadedCopyWithImpl;
-@useResult
-$Res call({
- AppImageEntity image
-});
-
-
-
-
-}
-/// @nodoc
-class _$ImageUploadedCopyWithImpl<$Res>
-    implements $ImageUploadedCopyWith<$Res> {
-  _$ImageUploadedCopyWithImpl(this._self, this._then);
-
-  final ImageUploaded _self;
-  final $Res Function(ImageUploaded) _then;
-
-/// Create a copy of ProductsEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? image = null,}) {
-  return _then(ImageUploaded(
 image: null == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
 as AppImageEntity,
   ));

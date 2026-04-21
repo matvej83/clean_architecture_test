@@ -16,11 +16,6 @@ import 'locations_state.dart';
 
 class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     with WidgetsBindingObserver {
-  final FetchLocationsUseCase fetchLocationsUseCase;
-  final GeolocationService geolocationService;
-
-  StreamSubscription? _locationSub;
-
   LocationsBloc({
     required this.fetchLocationsUseCase,
     required this.geolocationService,
@@ -40,6 +35,11 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
       add(LocationUpdated(position: position));
     });
   }
+
+  final FetchLocationsUseCase fetchLocationsUseCase;
+  final GeolocationService geolocationService;
+
+  StreamSubscription? _locationSub;
 
   @override
   Future<void> close() {

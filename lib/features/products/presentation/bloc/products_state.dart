@@ -11,9 +11,15 @@ abstract class ProductsState with _$ProductsState {
   const factory ProductsState({
     @Default(false) bool isLoading,
     @Default(false) bool isProductLoading,
+
+    /// pagination
+    @Default(false) bool isShowProductLoader,
+    @Default(false) bool hasReachedMaxProducts,
+
     @Default(false) bool createdSuccessful,
     @Default(false) bool isCreating,
     String? error,
+    String? search,
     @Default([]) List<ProductEntity> products,
     @Default([]) List<ProductEntity> relatedById,
     ProductEntity? product,

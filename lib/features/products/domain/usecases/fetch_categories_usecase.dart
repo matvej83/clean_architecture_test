@@ -8,9 +8,9 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class FetchCategoriesUseCase
     implements UseCase<List<CategoryEntity>, NoParams> {
-  final ProductsRepository repository;
-
   FetchCategoriesUseCase(this.repository);
+
+  final ProductsRepository repository;
 
   @override
   Future<Either<Failure, List<CategoryEntity>>> call(NoParams params) async {

@@ -25,15 +25,15 @@ class BottomNavBar extends StatelessWidget {
               label: 'bottomNavBar.homeTab'.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.group),
+              icon: const Icon(Icons.group),
               label: 'bottomNavBar.usersTab'.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.place_rounded),
+              icon: const Icon(Icons.place_rounded),
               label: 'bottomNavBar.locationsTab'.tr(),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
+              icon: const Icon(Icons.account_circle),
               label: 'bottomNavBar.profileTab'.tr(),
             ),
           ],

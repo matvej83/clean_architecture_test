@@ -56,7 +56,7 @@ class _LocationsMapState extends State<LocationsMap> {
               userAgentPackageName: 'com.vladimir.dev.cleanarchitecturetest',
               tileProvider: kIsWeb ? null : _tileProvider,
             ),
-            RichAttributionWidget(
+            const RichAttributionWidget(
               attributions: [
                 TextSourceAttribution('OpenStreetMap contributors'),
               ],
@@ -64,12 +64,12 @@ class _LocationsMapState extends State<LocationsMap> {
             MarkerClusterLayerWidget(
               options: MarkerClusterLayerOptions(
                 maxClusterRadius: 45,
-                size: Size(40, 40),
+                size: const Size(40, 40),
                 markers: state.markers,
                 builder: (context, cluster) {
                   return Container(
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.blue,
                       shape: BoxShape.circle,
                     ),
@@ -104,15 +104,15 @@ class _LocationsMapState extends State<LocationsMap> {
 }
 
 class _MapPopup extends StatelessWidget {
-  final Marker marker;
-  final LocationEntity? location;
-  final MapController mapController;
-
   const _MapPopup({
     required this.marker,
     required this.mapController,
     required this.location,
   });
+
+  final Marker marker;
+  final LocationEntity? location;
+  final MapController mapController;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +135,7 @@ class _MapPopup extends StatelessWidget {
           child: Row(
             spacing: 4.0,
             children: [
-              Icon(Icons.shopping_cart, size: 16.0, color: Colors.blue),
+              const Icon(Icons.shopping_cart, size: 16.0, color: Colors.blue),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

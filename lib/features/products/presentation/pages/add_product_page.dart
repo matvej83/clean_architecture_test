@@ -60,7 +60,7 @@ class _AddProductPageState extends State<AddProductPage> {
 
   @override
   void deactivate() {
-    bloc.add(DataRemoved());
+    bloc.add(const DataRemoved());
     super.deactivate();
   }
 
@@ -104,7 +104,7 @@ class _AddProductPageState extends State<AddProductPage> {
               context,
               message: '${'addProductScreen.createdSuccess'.tr()}!',
             );
-            bloc.add(DataRemoved());
+            bloc.add(const DataRemoved());
             _titleController.text = '';
             _descriptionController.text = '';
             _priceController.text = '';
@@ -118,7 +118,7 @@ class _AddProductPageState extends State<AddProductPage> {
           return Padding(
             padding: const EdgeInsets.only(top: 16.0, left: 16.0),
             child: SingleChildScrollView(
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               child: Column(
                 spacing: 16.0,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,7 +148,7 @@ class _AddProductPageState extends State<AddProductPage> {
                     images: state.pickedImages ?? [],
                     onTap: () {
                       if (!isLoading) {
-                        bloc.add(ImagePicked());
+                        bloc.add(const ImagePicked());
                       }
                     },
                     onRemove: (image) {
@@ -215,7 +215,7 @@ class _AddProductPageState extends State<AddProductPage> {
                                     handleCreateProduct(state);
                                   },
                             child: isLoading
-                                ? SizedBox(
+                                ? const SizedBox(
                                     width: 20.0,
                                     height: 20.0,
                                     child: CircularProgressIndicator(

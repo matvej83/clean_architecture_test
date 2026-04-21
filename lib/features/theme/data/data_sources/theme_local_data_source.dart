@@ -9,9 +9,9 @@ abstract class ThemeLocalDataSource {
 
 @LazySingleton(as: ThemeLocalDataSource)
 class ThemeLocalDataSourceImpl implements ThemeLocalDataSource {
-  final SharedPreferences sharedPreferences;
-
   ThemeLocalDataSourceImpl(this.sharedPreferences);
+
+  final SharedPreferences sharedPreferences;
 
   static const _key = 'theme_mode';
 

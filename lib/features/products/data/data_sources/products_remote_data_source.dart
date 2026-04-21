@@ -13,6 +13,8 @@ abstract class ProductsRemoteDataSource {
     String? search,
     int? priceMin,
     int? priceMax,
+    int? offset,
+    int? limit,
   });
 
   Future<List<ProductModel>?> fetchRelatedById({String? id});
@@ -34,9 +36,9 @@ abstract class ProductsRemoteDataSource {
 
 @LazySingleton(as: ProductsRemoteDataSource)
 class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
-  final Dio dio;
-
   ProductsRemoteDataSourceImpl(this.dio);
+
+  final Dio dio;
 
   @override
   Future<List<ProductModel>?> fetchProducts({
@@ -44,6 +46,8 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
     String? search,
     int? priceMin,
     int? priceMax,
+    int? offset,
+    int? limit,
   }) async {
     try {
       final Map<String, dynamic> queryParameters = {};
@@ -58,6 +62,9 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
       }
       if (priceMax != null) {
         queryParameters.addAll({'price_max': priceMax});
+      }
+      if (offset != null && limit != null) {
+        queryParameters.addAll({'offset': offset, 'limit': limit});
       }
 
       final response = await dio.get(

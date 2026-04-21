@@ -8,9 +8,9 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class FetchRelatedByIdUseCase
     implements UseCase<List<ProductEntity>, FetchRelatedByIdParams> {
-  final ProductsRepository repository;
-
   FetchRelatedByIdUseCase(this.repository);
+
+  final ProductsRepository repository;
 
   @override
   Future<Either<Failure, List<ProductEntity>>> call(
@@ -21,7 +21,7 @@ class FetchRelatedByIdUseCase
 }
 
 class FetchRelatedByIdParams {
-  final String? id;
-
   FetchRelatedByIdParams({this.id});
+
+  final String? id;
 }

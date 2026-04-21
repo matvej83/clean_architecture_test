@@ -13,7 +13,7 @@ class TileCacheServiceImpl implements TileCacheService {
 
     const storeName = AppStrings.mapStoreName;
 
-    final store = FMTCStore(storeName);
+    final store = const FMTCStore(storeName);
     await store.manage.create();
 
     _provider = FMTCTileProvider(

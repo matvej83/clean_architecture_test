@@ -7,9 +7,9 @@ abstract class NetworkException extends AppException {}
 class UnauthorizedException extends NetworkException {}
 
 class ServerException extends NetworkException {
-  final String? message;
-
   ServerException({this.message});
+
+  final String? message;
 }
 
 class TimeoutException extends NetworkException {}
@@ -17,9 +17,9 @@ class TimeoutException extends NetworkException {}
 class NoInternetException extends NetworkException {}
 
 class UnknownException extends NetworkException {
-  final String message;
-
   UnknownException(this.message);
+
+  final String message;
 }
 
 /// CacheException

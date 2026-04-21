@@ -8,9 +8,9 @@ import '../../domain/repository/theme_repository.dart';
 
 @LazySingleton(as: ThemeRepository)
 class ThemeRepositoryImpl implements ThemeRepository {
-  final ThemeLocalDataSource themeLocalDataSource;
-
   ThemeRepositoryImpl({required this.themeLocalDataSource});
+
+  final ThemeLocalDataSource themeLocalDataSource;
 
   @override
   Either<Failure, AppThemeMode?> getTheme() {
@@ -38,7 +38,7 @@ class ThemeRepositoryImpl implements ThemeRepository {
   Future<Either<Failure, void>> setTheme({required AppThemeMode mode}) async {
     try {
       await themeLocalDataSource.setTheme(mode.name);
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(CacheFailure());
     }

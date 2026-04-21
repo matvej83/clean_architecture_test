@@ -14,9 +14,9 @@ abstract class AuthRemoteDataSource {
 
 @LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final Dio dio;
-
   AuthRemoteDataSourceImpl(this.dio);
+
+  final Dio dio;
 
   @override
   Future<AuthTokenModel?> login(String email, String password) async {

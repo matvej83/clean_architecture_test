@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class GetUserProfileUseCase implements UseCase<UserEntity?, NoParams> {
-  final AuthRepository repository;
-
   GetUserProfileUseCase(this.repository);
+
+  final AuthRepository repository;
 
   @override
   Future<Either<Failure, UserEntity?>> call(NoParams params) async {

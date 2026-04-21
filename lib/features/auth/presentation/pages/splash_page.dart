@@ -18,13 +18,13 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<AuthBloc>().add(AuthCheckRequested());
+      context.read<AuthBloc>().add(const AuthCheckRequested());
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.black,
       body: Center(
         child: InfiniteScrollingBackground(

@@ -9,18 +9,20 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class CreateProductUseCase
     implements UseCase<ProductEntity, CreateProductParams> {
-  final ProductsRepository repository;
-
   CreateProductUseCase(this.repository);
 
+  final ProductsRepository repository;
+
   @override
-  Future<Either<Failure, ProductEntity>> call(CreateProductParams params) async {
+  Future<Either<Failure, ProductEntity>> call(
+    CreateProductParams params,
+  ) async {
     return await repository.createProduct(product: params.product);
   }
 }
 
 class CreateProductParams {
-  final ProductModel product;
-
   CreateProductParams({required this.product});
+
+  final ProductModel product;
 }

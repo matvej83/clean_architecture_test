@@ -8,9 +8,9 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class UploadImageUseCase implements UseCase<ImageEntity, UploadImageParams> {
-  final ProductsRepository repository;
-
   UploadImageUseCase(this.repository);
+
+  final ProductsRepository repository;
 
   @override
   Future<Either<Failure, ImageEntity>> call(UploadImageParams params) async {
@@ -19,7 +19,7 @@ class UploadImageUseCase implements UseCase<ImageEntity, UploadImageParams> {
 }
 
 class UploadImageParams {
-  final AppImageEntity image;
-
   UploadImageParams({required this.image});
+
+  final AppImageEntity image;
 }

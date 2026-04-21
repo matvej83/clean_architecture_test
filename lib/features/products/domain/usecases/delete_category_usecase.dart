@@ -6,9 +6,9 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class DeleteCategoryUseCase implements UseCase<bool, DeleteCategoryParams> {
-  final ProductsRepository repository;
-
   DeleteCategoryUseCase(this.repository);
+
+  final ProductsRepository repository;
 
   @override
   Future<Either<Failure, bool>> call(DeleteCategoryParams params) async {
@@ -17,7 +17,7 @@ class DeleteCategoryUseCase implements UseCase<bool, DeleteCategoryParams> {
 }
 
 class DeleteCategoryParams {
-  final int id;
-
   DeleteCategoryParams({required this.id});
+
+  final int id;
 }

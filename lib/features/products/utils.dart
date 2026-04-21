@@ -1,9 +1,13 @@
 import 'dart:developer';
 import 'dart:typed_data';
+import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/app_image_entity.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+
+import '../../core/constants/app_strings.dart';
 
 class ProductsUtils {
   static Future<AppImageEntity?> getImageFromGallery() async {
@@ -97,5 +101,24 @@ class ProductsUtils {
         size: 24.0,
       ),
     );
+  }
+
+  static bool isBottom(ScrollController scrollController) {
+    if (!scrollController.hasClients) return false;
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final currentScroll = scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
+
+  static (int?, int?) getPriceFilters(List<AvailabilityFilterEntity> filters) {
+    final priceMin = filters
+        .firstWhereOrNull((e) => e.identifier == AppStrings.amountMin)
+        ?.apiValue;
+
+    final priceMax = filters
+        .firstWhereOrNull((e) => e.identifier == AppStrings.amountMax)
+        ?.apiValue;
+
+    return (priceMin, priceMax);
   }
 }

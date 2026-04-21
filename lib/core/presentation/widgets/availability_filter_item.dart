@@ -19,12 +19,12 @@ class AvailabilityFilterItem extends StatelessWidget {
         ? Colors.grey.shade600
         : Colors.grey.shade400;
     return Container(
-      constraints: BoxConstraints(maxWidth: 120.0),
+      constraints: const BoxConstraints(maxWidth: 120.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
         color: backgroundColor ?? defaultBackgroundColor,
       ),
-      padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
+      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12.0),
       child: Row(
         spacing: 4,
         mainAxisSize: MainAxisSize.min,
@@ -40,7 +40,7 @@ class AvailabilityFilterItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          Icon(Icons.close, size: 16.0),
+          const Icon(Icons.close, size: 16.0),
         ],
       ),
     );

@@ -12,13 +12,39 @@ import '../../../../core/presentation/widgets/app_dialog.dart';
 import '../../../../core/presentation/widgets/availability_filters_list.dart';
 import '../bloc/products_event.dart';
 
-class ProductsPage extends StatelessWidget {
+class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
+
+  @override
+  State<ProductsPage> createState() => _ProductsPageState();
+}
+
+class _ProductsPageState extends State<ProductsPage> {
+  late ProductsBloc bloc;
+  final _scrollController = ScrollController();
+
+  void _onScroll() {
+    if (ProductsUtils.isBottom(_scrollController)) {
+      bloc.add(const NextProductsFetched());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = context.read<ProductsBloc>();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final bloc = context.read<ProductsBloc>();
     return BlocBuilder<ProductsBloc, ProductsState>(
       builder: (context, state) {
         return state.isLoading
@@ -26,6 +52,7 @@ class ProductsPage extends StatelessWidget {
             : Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: CustomScrollView(
+                  controller: _scrollController,
                   physics: const ClampingScrollPhysics(),
                   slivers: [
                     SliverPadding(
@@ -35,17 +62,23 @@ class ProductsPage extends StatelessWidget {
                           spacing: 8.0,
                           children: [
                             Expanded(
-                              child: SearchBar(
-                                leading: Icon(
-                                  Icons.search,
-                                  color: Colors.white,
+                              child: SizedBox(
+                                height: 40.0,
+                                child: SearchBar(
+                                  leading: const Icon(
+                                    Icons.search,
+                                    color: Colors.white,
+                                  ),
+                                  onTapOutside: (PointerDownEvent event) {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  },
+                                  onChanged: (search) {
+                                    bloc.add(
+                                      ProductsSearchStarted(search: search),
+                                    );
+                                  },
                                 ),
-                                onTapOutside: (PointerDownEvent event) {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                },
-                                onChanged: (search) {
-                                  bloc.add(ProductsFetched(search: search));
-                                },
                               ),
                             ),
                             ProductsUtils.getFilterButton(
@@ -54,11 +87,11 @@ class ProductsPage extends StatelessWidget {
                               onTap: () {
                                 showDialog(
                                   context: context,
-                                  builder: (context) => Material(
+                                  builder: (context) => const Material(
                                     color: Colors.transparent,
                                     child: Center(
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
+                                        padding: EdgeInsets.symmetric(
                                           horizontal: 16.0,
                                         ),
                                         child: FilterModal(),
@@ -91,7 +124,7 @@ class ProductsPage extends StatelessWidget {
                             final isSelected =
                                 category.id == state.selectedCategoryId;
                             bloc.add(
-                              ProductsFetched(
+                              ProductsCategorySelected(
                                 categoryId: isSelected ? '' : category.id,
                               ),
                             );
@@ -135,6 +168,14 @@ class ProductsPage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 24.0, right: 16.0),
                       sliver: ProductsList(products: state.products),
                     ),
+                    if (state.isShowProductLoader)
+                      const SliverToBoxAdapter(
+                        child: SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
                   ],
                 ),
               );

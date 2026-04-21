@@ -20,8 +20,8 @@ class CarouselSliderItem extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 4.0),
-                    padding: EdgeInsets.symmetric(
+                    margin: const EdgeInsets.only(bottom: 4.0),
+                    padding: const EdgeInsets.symmetric(
                       vertical: 4.0,
                       horizontal: 8.0,
                     ),

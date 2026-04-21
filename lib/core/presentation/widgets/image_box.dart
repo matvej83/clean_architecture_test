@@ -11,10 +11,12 @@ class ImageBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      fit: fit,
-      errorWidget: (context, o, s) => ImagePlaceholder(),
-    );
+    return imageUrl.isNotEmpty
+        ? CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: fit,
+            errorWidget: (context, o, s) => const ImagePlaceholder(),
+          )
+        : const ImagePlaceholder();
   }
 }

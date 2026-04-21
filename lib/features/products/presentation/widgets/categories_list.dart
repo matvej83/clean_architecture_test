@@ -46,7 +46,7 @@ class CategoriesList extends StatelessWidget {
               category: category,
             );
           },
-          separatorBuilder: (context, index) => SizedBox(width: 8.0),
+          separatorBuilder: (context, index) => const SizedBox(width: 8.0),
         ),
       ),
     );
@@ -74,7 +74,7 @@ class ListItem extends StatelessWidget {
       onTap: onTap,
       onLongPress: onDeleteTap,
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           borderRadius: isSelected ? BorderRadius.circular(8.0) : null,
           color: isSelected ? theme.unselectedWidgetColor : null,

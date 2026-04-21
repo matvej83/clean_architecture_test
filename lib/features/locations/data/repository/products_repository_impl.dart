@@ -10,9 +10,9 @@ import '../models/location_model.dart';
 
 @LazySingleton(as: LocationsRepository)
 class LocationsRepositoryImpl implements LocationsRepository {
-  final LocationsRemoteDataSource locationsRemoteDataSource;
-
   LocationsRepositoryImpl({required this.locationsRemoteDataSource});
+
+  final LocationsRemoteDataSource locationsRemoteDataSource;
 
   @override
   Future<Either<Failure, List<LocationEntity>>> fetchLocations({

@@ -8,9 +8,9 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class FetchProductsUseCase
     implements UseCase<List<ProductEntity>, FetchProductsParams> {
-  final ProductsRepository repository;
-
   FetchProductsUseCase(this.repository);
+
+  final ProductsRepository repository;
 
   @override
   Future<Either<Failure, List<ProductEntity>>> call(
@@ -21,20 +21,26 @@ class FetchProductsUseCase
       search: params.search,
       priceMin: params.priceMin,
       priceMax: params.priceMax,
+      offset: params.offset,
+      limit: params.limit,
     );
   }
 }
 
 class FetchProductsParams {
-  final String? categoryId;
-  final String? search;
-  final int? priceMin;
-  final int? priceMax;
-
   FetchProductsParams({
     this.categoryId,
     this.search,
     this.priceMin,
     this.priceMax,
+    this.offset,
+    this.limit,
   });
+
+  final String? categoryId;
+  final String? search;
+  final int? priceMin;
+  final int? priceMax;
+  final int? offset;
+  final int? limit;
 }
