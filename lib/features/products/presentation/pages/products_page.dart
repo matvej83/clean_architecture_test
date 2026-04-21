@@ -47,7 +47,9 @@ class ProductsPage extends StatelessWidget {
                                         ?.unfocus();
                                   },
                                   onChanged: (search) {
-                                    bloc.add(ProductsFetched(search: search));
+                                    bloc.add(
+                                      ProductsSearchStarted(search: search),
+                                    );
                                   },
                                 ),
                               ),
@@ -95,7 +97,7 @@ class ProductsPage extends StatelessWidget {
                             final isSelected =
                                 category.id == state.selectedCategoryId;
                             bloc.add(
-                              ProductsFetched(
+                              ProductsCategorySelected(
                                 categoryId: isSelected ? '' : category.id,
                               ),
                             );

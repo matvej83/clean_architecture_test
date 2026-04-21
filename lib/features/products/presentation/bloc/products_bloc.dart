@@ -38,6 +38,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<ProductsEvent>((event, emit) async {
       await event.map(
         productsFetched: (e) => _onProductsFetched(e, emit),
+        productsSearchStarted: (e) => _onProductsSearchStarted(e, emit),
+        productsCategorySelected: (e) => _onProductsCategorySelected(e, emit),
         productFetched: (e) => _onProductFetched(e, emit),
         categoriesFetched: (e) => _onCategoriesFetched(e, emit),
         relatedByIdFetched: (e) => _onRelatedByIdFetched(e, emit),
@@ -45,7 +47,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
             _onCreatedProductCategorySelected(e, emit),
         imagePicked: (e) => _onImagePicked(e, emit),
         imageRemoved: (e) => _onImageRemoved(e, emit),
-        imageUploaded: (e) => _onImageUploaded(e, emit),
         productCreated: (e) => _onProductCreated(e, emit),
         dataRemoved: (e) => _onDataRemoved(e, emit),
         productDeleted: (e) => _onProductDeleted(e, emit),
@@ -68,6 +69,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final CreateCategoryUseCase createCategoryUseCase;
   final DeleteCategoryUseCase deleteCategoryUseCase;
 
+  /// Products list
   Future<void> _onProductsFetched(
     ProductsFetched event,
     Emitter<ProductsState> emit,
@@ -75,9 +77,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     if (!event.loadSilent) {
       emit(state.copyWith(isLoading: true));
     }
-    if (event.categoryId != null) {
-      emit(state.copyWith(selectedCategoryId: event.categoryId!));
-    }
+
     int? priceMin;
     int? priceMax;
 
@@ -95,7 +95,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         categoryId: state.selectedCategoryId.isNotEmpty
             ? state.selectedCategoryId
             : null,
-        search: event.search,
+        search: state.search,
         priceMin: priceMin,
         priceMax: priceMax,
       ),
@@ -115,6 +115,25 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Search products
+  Future<void> _onProductsSearchStarted(
+    ProductsSearchStarted event,
+    Emitter<ProductsState> emit,
+  ) async {
+    emit(state.copyWith(search: event.search));
+    add(const ProductsFetched());
+  }
+
+  /// Filter products by category
+  Future<void> _onProductsCategorySelected(
+    ProductsCategorySelected event,
+    Emitter<ProductsState> emit,
+  ) async {
+    emit(state.copyWith(selectedCategoryId: event.categoryId ?? ''));
+    add(const ProductsFetched());
+  }
+
+  /// Single product
   Future<void> _onProductFetched(
     ProductFetched event,
     Emitter<ProductsState> emit,
@@ -137,6 +156,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Categories
   Future<void> _onCategoriesFetched(
     CategoriesFetched event,
     Emitter<ProductsState> emit,
@@ -160,6 +180,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Similar products
   Future<void> _onRelatedByIdFetched(
     RelatedByIdFetched event,
     Emitter<ProductsState> emit,
@@ -182,6 +203,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Select category ID when the new product is creating
   Future<void> _onCreatedProductCategorySelected(
     CreatedProductCategorySelected event,
     Emitter<ProductsState> emit,
@@ -201,6 +223,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     }
   }
 
+  /// Remove selected image from the memory
   Future<void> _onImageRemoved(
     ImageRemoved event,
     Emitter<ProductsState> emit,
@@ -209,30 +232,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     images.remove(event.image);
 
     emit(state.copyWith(pickedImages: images));
-  }
-
-  Future<void> _onImageUploaded(
-    ImageUploaded event,
-    Emitter<ProductsState> emit,
-  ) async {
-    final result = await uploadImageUseCase(
-      UploadImageParams(image: event.image),
-    );
-
-    result.fold(
-      (l) {
-        String message = 'errors.serverError'.tr();
-        if (l is InvalidCredentialsFailure) {
-          message = 'errors.wrongEmailOrPassword'.tr();
-        }
-        emit(state.copyWith(error: message));
-      },
-      (r) {
-        var list = [...?state.uploadedImages];
-        list.add(r.location);
-        emit(state.copyWith(uploadedImages: list));
-      },
-    );
   }
 
   Future<void> _onProductCreated(
@@ -295,6 +294,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Delete partial product
   Future<void> _onProductDeleted(
     ProductDeleted event,
     Emitter<ProductsState> emit,
@@ -314,6 +314,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Create category
   Future<void> _onCategoryCreated(
     CategoryCreated event,
     Emitter<ProductsState> emit,
@@ -358,6 +359,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Delete partial category
   Future<void> _onCategoryDeleted(
     CategoryDeleted event,
     Emitter<ProductsState> emit,
@@ -381,6 +383,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Clear data when the product is created
   Future<void> _onDataRemoved(
     DataRemoved event,
     Emitter<ProductsState> emit,
@@ -396,6 +399,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
+  /// Filters actions
   Future<void> _onFilterAdded(
     FilterAdded event,
     Emitter<ProductsState> emit,

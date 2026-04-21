@@ -14,6 +14,7 @@ abstract class ProductsState with _$ProductsState {
     @Default(false) bool createdSuccessful,
     @Default(false) bool isCreating,
     String? error,
+    String? search,
     @Default([]) List<ProductEntity> products,
     @Default([]) List<ProductEntity> relatedById,
     ProductEntity? product,

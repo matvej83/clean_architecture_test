@@ -8,10 +8,14 @@ part 'products_event.freezed.dart';
 @freezed
 class ProductsEvent with _$ProductsEvent {
   const factory ProductsEvent.productsFetched({
-    String? categoryId,
-    String? search,
     @Default(true) bool loadSilent,
   }) = ProductsFetched;
+
+  const factory ProductsEvent.productsSearchStarted({String? search}) =
+      ProductsSearchStarted;
+
+  const factory ProductsEvent.productsCategorySelected({String? categoryId}) =
+      ProductsCategorySelected;
 
   const factory ProductsEvent.categoriesFetched({
     @Default(true) bool loadSilent,
@@ -45,9 +49,6 @@ class ProductsEvent with _$ProductsEvent {
 
   const factory ProductsEvent.imageRemoved({required AppImageEntity image}) =
       ImageRemoved;
-
-  const factory ProductsEvent.imageUploaded({required AppImageEntity image}) =
-      ImageUploaded;
 
   const factory ProductsEvent.dataRemoved() = DataRemoved;
 
