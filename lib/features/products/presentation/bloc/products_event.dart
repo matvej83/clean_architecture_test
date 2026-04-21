@@ -11,6 +11,8 @@ class ProductsEvent with _$ProductsEvent {
     @Default(true) bool loadSilent,
   }) = ProductsFetched;
 
+  const factory ProductsEvent.nextProductsFetched() = NextProductsFetched;
+
   const factory ProductsEvent.productsSearchStarted({String? search}) =
       ProductsSearchStarted;
 

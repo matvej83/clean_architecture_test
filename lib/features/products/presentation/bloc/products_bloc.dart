@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:clean_architecture_test/core/constants/app_strings.dart';
 import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
 import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
+import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/create_category_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart';
 import 'package:clean_architecture_test/features/products/domain/usecases/delete_product_usecase.dart';
@@ -14,7 +14,6 @@ import 'package:clean_architecture_test/features/products/domain/usecases/upload
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_state.dart';
 import 'package:clean_architecture_test/features/products/utils.dart';
-import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,6 +37,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<ProductsEvent>((event, emit) async {
       await event.map(
         productsFetched: (e) => _onProductsFetched(e, emit),
+        nextProductsFetched: (e) => _onNextProductsFetched(e, emit),
         productsSearchStarted: (e) => _onProductsSearchStarted(e, emit),
         productsCategorySelected: (e) => _onProductsCategorySelected(e, emit),
         productFetched: (e) => _onProductFetched(e, emit),
@@ -78,17 +78,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       emit(state.copyWith(isLoading: true));
     }
 
-    int? priceMin;
-    int? priceMax;
-
-    if (state.filters.isNotEmpty == true) {
-      priceMin = state.filters
-          .firstWhereOrNull((e) => e.identifier == AppStrings.amountMin)
-          ?.apiValue;
-      priceMax = state.filters
-          .firstWhereOrNull((e) => e.identifier == AppStrings.amountMax)
-          ?.apiValue;
-    }
+    final (min, max) = ProductsUtils.getPriceFilters(state.filters);
 
     final result = await fetchProductsUseCase(
       FetchProductsParams(
@@ -96,8 +86,10 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
             ? state.selectedCategoryId
             : null,
         search: state.search,
-        priceMin: priceMin,
-        priceMax: priceMax,
+        priceMin: min,
+        priceMax: max,
+        offset: state.products.isEmpty ? 0 : state.products.length - 10,
+        limit: 10,
       ),
     );
 
@@ -111,6 +103,52 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       },
       (r) {
         emit(state.copyWith(products: r, isLoading: false));
+      },
+    );
+  }
+
+  /// Load more products
+  Future<void> _onNextProductsFetched(
+    NextProductsFetched event,
+    Emitter<ProductsState> emit,
+  ) async {
+    if (state.hasReachedMaxProducts) return;
+    emit(state.copyWith(isShowProductLoader: true));
+
+    final (min, max) = ProductsUtils.getPriceFilters(state.filters);
+
+    final result = await fetchProductsUseCase(
+      FetchProductsParams(
+        categoryId: state.selectedCategoryId.isNotEmpty
+            ? state.selectedCategoryId
+            : null,
+        search: state.search,
+        priceMin: min,
+        priceMax: max,
+        offset: state.products.length,
+        limit: 10,
+      ),
+    );
+
+    result.fold(
+      (l) {
+        String message = 'errors.serverError'.tr();
+        if (l is InvalidCredentialsFailure) {
+          message = 'errors.wrongEmailOrPassword'.tr();
+        }
+        emit(state.copyWith(error: message, isShowProductLoader: false));
+      },
+      (r) {
+        if (r.isEmpty) {
+          return emit(
+            state.copyWith(
+              isShowProductLoader: false,
+              hasReachedMaxProducts: true,
+            ),
+          );
+        }
+        final products = <ProductEntity>[...state.products, ...r];
+        emit(state.copyWith(products: products, isShowProductLoader: false));
       },
     );
   }
@@ -129,7 +167,12 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     ProductsCategorySelected event,
     Emitter<ProductsState> emit,
   ) async {
-    emit(state.copyWith(selectedCategoryId: event.categoryId ?? ''));
+    emit(
+      state.copyWith(
+        selectedCategoryId: event.categoryId ?? '',
+        hasReachedMaxProducts: false,
+      ),
+    );
     add(const ProductsFetched());
   }
 
@@ -208,7 +251,12 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     CreatedProductCategorySelected event,
     Emitter<ProductsState> emit,
   ) async {
-    emit(state.copyWith(createdProductCategoryId: event.categoryId));
+    emit(
+      state.copyWith(
+        createdProductCategoryId: event.categoryId,
+        hasReachedMaxProducts: false,
+      ),
+    );
   }
 
   Future<void> _onImagePicked(
@@ -406,7 +454,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ) async {
     final filters = List<AvailabilityFilterEntity>.from(state.filters);
     filters.add(event.filter);
-    emit(state.copyWith(filters: filters));
+    emit(state.copyWith(filters: filters, hasReachedMaxProducts: false));
   }
 
   Future<void> _onFilterRemoved(
@@ -415,7 +463,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ) async {
     final filters = List<AvailabilityFilterEntity>.from(state.filters);
     filters.remove(event.filter);
-    emit(state.copyWith(filters: filters));
+    emit(state.copyWith(filters: filters, hasReachedMaxProducts: false));
     add(const ProductsFetched());
   }
 
@@ -423,7 +471,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     FiltersSaved event,
     Emitter<ProductsState> emit,
   ) async {
-    emit(state.copyWith(filters: event.filters));
+    emit(state.copyWith(filters: event.filters, hasReachedMaxProducts: false));
     add(const ProductsFetched());
   }
 }
