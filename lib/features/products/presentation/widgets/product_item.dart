@@ -53,7 +53,7 @@ class ProductItem extends StatelessWidget {
                       style: textTheme.bodyMedium?.copyWith(
                         color: Colors.black,
                       ),
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
