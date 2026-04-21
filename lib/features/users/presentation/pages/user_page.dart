@@ -36,7 +36,7 @@ class _UserPageState extends State<UserPage> {
               : Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: SingleChildScrollView(
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     child: Column(
                       spacing: 24.0,
                       children: [

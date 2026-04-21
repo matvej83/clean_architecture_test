@@ -12,13 +12,13 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthLocalDataSource authLocalDataSource;
-  final AuthRemoteDataSource authRemoteDataSource;
-
   AuthRepositoryImpl({
     required this.authLocalDataSource,
     required this.authRemoteDataSource,
   });
+
+  final AuthLocalDataSource authLocalDataSource;
+  final AuthRemoteDataSource authRemoteDataSource;
 
   @override
   Future<Either<Failure, bool>> isAuthenticated() async {
@@ -38,7 +38,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final token = await authRemoteDataSource.login(email, password);
       await authLocalDataSource.cacheToken(
-        AuthTokenModel(accessToken: '', refreshToken: ''),
+        const AuthTokenModel(accessToken: '', refreshToken: ''),
       );
       await authLocalDataSource.cacheToken(token!);
       return Right(token.toEntity());
@@ -52,7 +52,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await authRemoteDataSource.logout();
       await authLocalDataSource.clearToken();
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(mapExceptionToFailure(e));
     }

@@ -16,7 +16,7 @@ class UsersPage extends StatefulWidget {
 class _UsersPageState extends State<UsersPage> {
   @override
   void initState() {
-    context.read<UsersBloc>().add(UsersFetched());
+    context.read<UsersBloc>().add(const UsersFetched());
     super.initState();
   }
 
@@ -26,7 +26,7 @@ class _UsersPageState extends State<UsersPage> {
       builder: (context, state) {
         return state.isLoading
             ? const Center(child: CircularProgressIndicator())
-            : UsersList();
+            : const UsersList();
       },
     );
   }

@@ -15,9 +15,9 @@ import '../models/category_model.dart';
 
 @LazySingleton(as: ProductsRepository)
 class ProductsRepositoryImpl implements ProductsRepository {
-  final ProductsRemoteDataSource productsRemoteDataSource;
-
   ProductsRepositoryImpl({required this.productsRemoteDataSource});
+
+  final ProductsRemoteDataSource productsRemoteDataSource;
 
   @override
   Future<Either<Failure, List<ProductEntity>>> fetchProducts({
@@ -25,6 +25,8 @@ class ProductsRepositoryImpl implements ProductsRepository {
     String? search,
     int? priceMin,
     int? priceMax,
+    int? offset,
+    int? limit,
   }) async {
     try {
       final products = await productsRemoteDataSource.fetchProducts(
@@ -32,6 +34,8 @@ class ProductsRepositoryImpl implements ProductsRepository {
         search: search,
         priceMin: priceMin,
         priceMax: priceMax,
+        offset: offset,
+        limit: limit,
       );
       final list = products?.map((e) => e.toEntity()).toList() ?? [];
       return Right(list);
@@ -97,7 +101,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
     try {
       final result = await productsRemoteDataSource.deleteProduct(id: id);
       if (result) {
-        return Right(true);
+        return const Right(true);
       } else {
         return Left(ServerFailure());
       }
@@ -147,7 +151,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
     try {
       final result = await productsRemoteDataSource.deleteCategory(id: id);
       if (result) {
-        return Right(true);
+        return const Right(true);
       } else {
         return Left(ServerFailure());
       }

@@ -6,9 +6,9 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class LogoutUseCase implements UseCase<void, NoParams> {
-  final AuthRepository repository;
-
   LogoutUseCase(this.repository);
+
+  final AuthRepository repository;
 
   @override
   Future<Either<Failure, void>> call(NoParams params) async {

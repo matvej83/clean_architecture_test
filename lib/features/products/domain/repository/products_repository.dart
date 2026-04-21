@@ -14,6 +14,8 @@ abstract class ProductsRepository {
     String? search,
     int? priceMin,
     int? priceMax,
+    int? offset,
+    int? limit,
   });
 
   Future<Either<Failure, List<ProductEntity>>> fetchRelatedById({String? id});

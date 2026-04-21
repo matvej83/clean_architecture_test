@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
-  final Color success;
-
   const AppSemanticColors({required this.success});
+
+  final Color success;
 
   @override
   AppSemanticColors copyWith({Color? success}) {

@@ -10,15 +10,15 @@ import '../services/auth_session_manager.dart';
 
 @lazySingleton
 class AuthInterceptor extends Interceptor {
-  final AuthLocalDataSource localDataSource;
-  final AuthSessionManager sessionManager;
-  final Dio refreshDio;
-
   AuthInterceptor(
     this.localDataSource,
     this.sessionManager,
     @Named('refresh_dio') this.refreshDio,
   );
+
+  final AuthLocalDataSource localDataSource;
+  final AuthSessionManager sessionManager;
+  final Dio refreshDio;
 
   bool _isRefreshing = false;
 

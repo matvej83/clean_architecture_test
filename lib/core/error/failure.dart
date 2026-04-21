@@ -6,9 +6,9 @@ abstract class Failure extends Equatable {
 }
 
 class ServerFailure extends Failure {
-  final String? message;
-
   ServerFailure({this.message});
+
+  final String? message;
 }
 
 class CacheFailure extends Failure {}
@@ -22,7 +22,7 @@ class TimeoutFailure extends Failure {}
 class NoInternetFailure extends Failure {}
 
 class UnknownFailure extends Failure {
-  final String message;
-
   UnknownFailure(this.message);
+
+  final String message;
 }

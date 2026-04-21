@@ -55,7 +55,7 @@ class _LocationsPageState extends State<LocationsPage>
   void initState() {
     super.initState();
     bloc = context.read<LocationsBloc>();
-    bloc.add(GeoStatusChecked());
+    bloc.add(const GeoStatusChecked());
     _tabController = TabController(
       initialIndex: initialIndex ?? 0,
       length: tabCount,
@@ -87,7 +87,7 @@ class _LocationsPageState extends State<LocationsPage>
         if (result) {
           await Geolocator.openAppSettings();
         }
-        bloc.add(GeoStatusModalDisabled());
+        bloc.add(const GeoStatusModalDisabled());
       },
       builder: (context, state) {
         return Column(
@@ -103,8 +103,8 @@ class _LocationsPageState extends State<LocationsPage>
                   selectedIndex: _tabController.index,
                   useDifferentBorderForOuter: true,
                   onTap: (i) => _tabController.animateTo(i),
-                  barDecoration: BoxDecoration(color: Colors.transparent),
-                  barPadding: EdgeInsets.symmetric(vertical: 8.0),
+                  barDecoration: const BoxDecoration(color: Colors.transparent),
+                  barPadding: const EdgeInsets.symmetric(vertical: 8.0),
                   buttonBorderRadius: 12.0,
                   buttonColor: theme.unselectedWidgetColor,
                   labelColor: theme.disabledColor,
@@ -119,7 +119,7 @@ class _LocationsPageState extends State<LocationsPage>
                   ? const Center(child: CircularProgressIndicator())
                   : IndexedStack(
                       index: _tabController.index,
-                      children: List.generate(tabCount, (i) => _buildTab(i)),
+                      children: List.generate(tabCount, _buildTab),
                     ),
             ),
           ],

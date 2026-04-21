@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class LoginUseCase implements UseCase<AuthTokenEntity, LoginParams> {
-  final AuthRepository repository;
-
   LoginUseCase(this.repository);
+
+  final AuthRepository repository;
 
   @override
   Future<Either<Failure, AuthTokenEntity>> call(params) async {
@@ -21,8 +21,8 @@ class LoginUseCase implements UseCase<AuthTokenEntity, LoginParams> {
 }
 
 class LoginParams {
+  LoginParams({required this.email, required this.password});
+
   final String email;
   final String password;
-
-  LoginParams({required this.email, required this.password});
 }

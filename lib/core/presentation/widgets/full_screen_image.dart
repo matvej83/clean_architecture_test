@@ -35,7 +35,7 @@ class FullScreenImage extends StatelessWidget {
             onPressed: () {
               context.pop();
             },
-            icon: Icon(Icons.close, size: 32.0),
+            icon: const Icon(Icons.close, size: 32.0),
           ),
         ),
       ],

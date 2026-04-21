@@ -38,12 +38,13 @@ class ProductsPage extends StatelessWidget {
                               child: SizedBox(
                                 height: 40.0,
                                 child: SearchBar(
-                                  leading: Icon(
+                                  leading: const Icon(
                                     Icons.search,
                                     color: Colors.white,
                                   ),
                                   onTapOutside: (PointerDownEvent event) {
-                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                   },
                                   onChanged: (search) {
                                     bloc.add(ProductsFetched(search: search));
@@ -57,11 +58,11 @@ class ProductsPage extends StatelessWidget {
                               onTap: () {
                                 showDialog(
                                   context: context,
-                                  builder: (context) => Material(
+                                  builder: (context) => const Material(
                                     color: Colors.transparent,
                                     child: Center(
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
+                                        padding: EdgeInsets.symmetric(
                                           horizontal: 16.0,
                                         ),
                                         child: FilterModal(),

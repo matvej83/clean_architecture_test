@@ -22,7 +22,7 @@ class ImagesList extends StatelessWidget {
       (e) => ListItem(key: ValueKey(e.name), image: e, onRemove: onRemove),
     );
     return SingleChildScrollView(
-      physics: ClampingScrollPhysics(),
+      physics: const ClampingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       child: Row(
         spacing: 8.0,
@@ -49,7 +49,7 @@ class ListItem extends StatelessWidget {
       alignment: AlignmentDirectional.topEnd,
       children: [
         Container(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
           width: 120.0,
           height: 120.0,
@@ -71,7 +71,7 @@ class ListItem extends StatelessWidget {
             onRemove(image);
           },
           style: IconButton.styleFrom(
-            shape: CircleBorder(),
+            shape: const CircleBorder(),
             backgroundColor: Colors.cyan.withValues(alpha: 0.4),
           ),
           icon: Icon(
@@ -96,14 +96,14 @@ class AddImageItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           color: theme.unselectedWidgetColor,
         ),
         width: 120.0,
         height: 120.0,
-        child: Center(
+        child: const Center(
           child: Icon(Icons.photo_library, size: 32.0, color: Colors.white),
         ),
       ),

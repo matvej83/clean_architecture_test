@@ -3,13 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class InfiniteScrollingBackground extends StatefulWidget {
-  final String backgroundImage;
-  final String foregroundImage;
-  final double animationHeight;
-  final double foregroundImageSize;
-  final Duration duration;
-  final double? foregroundImageBottomPosition;
-
   const InfiniteScrollingBackground({
     super.key,
     required this.backgroundImage,
@@ -19,6 +12,13 @@ class InfiniteScrollingBackground extends StatefulWidget {
     this.duration = const Duration(seconds: 10),
     this.foregroundImageBottomPosition,
   });
+
+  final String backgroundImage;
+  final String foregroundImage;
+  final double animationHeight;
+  final double foregroundImageSize;
+  final Duration duration;
+  final double? foregroundImageBottomPosition;
 
   @override
   State<InfiniteScrollingBackground> createState() =>
@@ -112,9 +112,9 @@ class _InfiniteScrollingBackgroundState
 }
 
 class _InfiniteFlowDelegate extends FlowDelegate {
-  final double translation;
-
   _InfiniteFlowDelegate({required this.translation});
+
+  final double translation;
 
   @override
   void paintChildren(FlowPaintingContext context) {

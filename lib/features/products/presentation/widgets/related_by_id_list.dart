@@ -21,7 +21,7 @@ class RelatedByIdList extends StatelessWidget {
           final product = state.relatedById[index];
           return ProductItem(key: ValueKey(product.id), product: product);
         },
-        separatorBuilder: (context, index) => SizedBox(width: 8.0),
+        separatorBuilder: (context, index) => const SizedBox(width: 8.0),
       ),
     );
   }

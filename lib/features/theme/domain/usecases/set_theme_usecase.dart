@@ -8,9 +8,9 @@ import '../repository/theme_repository.dart';
 
 @lazySingleton
 class SetThemeUseCase implements UseCase<void, SetThemeParams> {
-  final ThemeRepository repository;
-
   SetThemeUseCase(this.repository);
+
+  final ThemeRepository repository;
 
   @override
   Future<Either<Failure, void>> call(SetThemeParams params) async {
@@ -19,7 +19,7 @@ class SetThemeUseCase implements UseCase<void, SetThemeParams> {
 }
 
 class SetThemeParams {
-  final AppThemeMode mode;
-
   SetThemeParams({required this.mode});
+
+  final AppThemeMode mode;
 }

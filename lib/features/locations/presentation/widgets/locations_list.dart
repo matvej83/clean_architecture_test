@@ -15,7 +15,7 @@ class LocationsList extends StatelessWidget {
     return ListView.separated(
       itemCount: state.locations.length,
       physics: const ClampingScrollPhysics(),
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       itemBuilder: (context, index) {
         final location = state.locations[index];
         final isSelected = location.id == state.selectedLocationId;
@@ -24,7 +24,7 @@ class LocationsList extends StatelessWidget {
           isSelected: isSelected,
           onTap: () {
             if (isSelected) {
-              bloc.add(LocationSelected(locationId: ''));
+              bloc.add(const LocationSelected(locationId: ''));
             } else {
               bloc.add(
                 LocationSelected(locationId: location.id, location: location),
@@ -57,7 +57,7 @@ class ListItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           border: isSelected

@@ -40,7 +40,7 @@ class _ProductPageState extends State<ProductPage> {
             : Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
+                  physics: const ClampingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 8.0,
@@ -87,7 +87,7 @@ class _ProductPageState extends State<ProductPage> {
                           'productScreen.relatedProducts'.tr(),
                           style: textTheme.bodyLarge,
                         ),
-                        RelatedByIdList(),
+                        const RelatedByIdList(),
                       ],
                     ],
                   ),

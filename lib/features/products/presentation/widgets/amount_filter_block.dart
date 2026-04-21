@@ -109,7 +109,7 @@ class AmountFilterBlock extends StatelessWidget {
                           ),
                         ),
                       )
-                    : SizedBox();
+                    : const SizedBox();
               },
             ),
           ],

@@ -24,16 +24,6 @@ import '../../domain/usecases/delete_category_usecase.dart';
 import '../../domain/usecases/fetch_product_usecase.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final FetchProductsUseCase fetchProductsUseCase;
-  final FetchProductUseCase fetchProductUseCase;
-  final FetchCategoriesUseCase fetchCategoriesUseCase;
-  final FetchRelatedByIdUseCase fetchRelatedByIdUseCase;
-  final UploadImageUseCase uploadImageUseCase;
-  final CreateProductUseCase createProductUseCase;
-  final DeleteProductUseCase deleteProductUseCase;
-  final CreateCategoryUseCase createCategoryUseCase;
-  final DeleteCategoryUseCase deleteCategoryUseCase;
-
   ProductsBloc({
     required this.fetchProductsUseCase,
     required this.fetchCategoriesUseCase,
@@ -67,6 +57,16 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       );
     });
   }
+
+  final FetchProductsUseCase fetchProductsUseCase;
+  final FetchProductUseCase fetchProductUseCase;
+  final FetchCategoriesUseCase fetchCategoriesUseCase;
+  final FetchRelatedByIdUseCase fetchRelatedByIdUseCase;
+  final UploadImageUseCase uploadImageUseCase;
+  final CreateProductUseCase createProductUseCase;
+  final DeleteProductUseCase deleteProductUseCase;
+  final CreateCategoryUseCase createCategoryUseCase;
+  final DeleteCategoryUseCase deleteCategoryUseCase;
 
   Future<void> _onProductsFetched(
     ProductsFetched event,
@@ -309,7 +309,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         );
       },
       (r) {
-        add(ProductsFetched());
+        add(const ProductsFetched());
       },
     );
   }
@@ -374,9 +374,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       (r) {
         if (state.selectedCategoryId == event.id.toString()) {
           emit(state.copyWith(selectedCategoryId: ''));
-          add(ProductsFetched());
+          add(const ProductsFetched());
         }
-        add(CategoriesFetched());
+        add(const CategoriesFetched());
       },
     );
   }
@@ -412,7 +412,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     final filters = List<AvailabilityFilterEntity>.from(state.filters);
     filters.remove(event.filter);
     emit(state.copyWith(filters: filters));
-    add(ProductsFetched());
+    add(const ProductsFetched());
   }
 
   Future<void> _onFiltersSaved(
@@ -420,6 +420,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     emit(state.copyWith(filters: event.filters));
-    add(ProductsFetched());
+    add(const ProductsFetched());
   }
 }

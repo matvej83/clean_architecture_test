@@ -11,11 +11,10 @@ import '../domain/usecases/set_theme_usecase.dart';
 
 @lazySingleton
 class ThemeCubit extends Cubit<ThemeState> {
+  ThemeCubit({required this.getThemeUseCase, required this.setThemeUseCase})
+    : super(const ThemeState());
   final GetThemeUseCase getThemeUseCase;
   final SetThemeUseCase setThemeUseCase;
-
-  ThemeCubit({required this.getThemeUseCase, required this.setThemeUseCase})
-    : super(ThemeState());
 
   Future<void> loadTheme() async {
     final mode = getThemeUseCase.repository.getTheme();

@@ -9,9 +9,9 @@ import 'package:injectable/injectable.dart';
 @lazySingleton
 class CreateCategoryUseCase
     implements UseCase<CategoryEntity, CreateCategoryParams> {
-  final ProductsRepository repository;
-
   CreateCategoryUseCase(this.repository);
+
+  final ProductsRepository repository;
 
   @override
   Future<Either<Failure, CategoryEntity>> call(
@@ -22,7 +22,7 @@ class CreateCategoryUseCase
 }
 
 class CreateCategoryParams {
-  final CategoryModel category;
-
   CreateCategoryParams({required this.category});
+
+  final CategoryModel category;
 }

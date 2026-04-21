@@ -35,10 +35,10 @@ class ProductItem extends StatelessWidget {
               right: 0,
               bottom: 0,
               child: Container(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white24.withValues(alpha: 0.7),
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(12.0),
                     bottomRight: Radius.circular(12.0),
                   ),

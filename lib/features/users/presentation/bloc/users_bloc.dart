@@ -11,9 +11,6 @@ import '../../domain/usecases/fetch_user_usecase.dart';
 import '../../domain/usecases/fetch_users_usecase.dart';
 
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
-  final FetchUsersUseCase fetchUsersUseCase;
-  final FetchUserUseCase fetchUserUseCase;
-
   UsersBloc({required this.fetchUsersUseCase, required this.fetchUserUseCase})
     : super(const UsersState()) {
     on<UsersEvent>((event, emit) async {
@@ -23,6 +20,9 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       );
     });
   }
+
+  final FetchUsersUseCase fetchUsersUseCase;
+  final FetchUserUseCase fetchUserUseCase;
 
   Future<void> _onUsersFetched(
     UsersFetched event,

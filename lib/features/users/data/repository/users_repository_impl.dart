@@ -10,9 +10,9 @@ import '../data_sources/users_remote_data_source.dart';
 
 @LazySingleton(as: UsersRepository)
 class UsersRepositoryImpl implements UsersRepository {
-  final UsersRemoteDataSource productsRemoteDataSource;
-
   UsersRepositoryImpl({required this.productsRemoteDataSource});
+
+  final UsersRemoteDataSource productsRemoteDataSource;
 
   @override
   Future<Either<Failure, List<UserEntity>>> fetchUsers() async {

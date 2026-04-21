@@ -8,9 +8,9 @@ import '../repository/users_repository.dart';
 
 @lazySingleton
 class FetchUsersUseCase implements UseCase<List<UserEntity>, NoParams> {
-  final UsersRepository repository;
-
   FetchUsersUseCase(this.repository);
+
+  final UsersRepository repository;
 
   @override
   Future<Either<Failure, List<UserEntity>>> call(NoParams params) async {

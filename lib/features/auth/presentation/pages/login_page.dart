@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: 'loginScreen.fieldNameEmail'.tr(),
-                        prefix: Icon(Icons.email),
+                        prefix: const Icon(Icons.email),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -123,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                     ElevatedButton(
                       onPressed: isLoading ? null : handleLogin,
                       child: isLoading
-                          ? SizedBox(
+                          ? const SizedBox(
                               width: 20.0,
                               height: 20.0,
                               child: CircularProgressIndicator(

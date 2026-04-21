@@ -6,9 +6,9 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class DeleteProductUseCase implements UseCase<bool, DeleteProductParams> {
-  final ProductsRepository repository;
-
   DeleteProductUseCase(this.repository);
+
+  final ProductsRepository repository;
 
   @override
   Future<Either<Failure, bool>> call(DeleteProductParams params) async {
@@ -17,7 +17,7 @@ class DeleteProductUseCase implements UseCase<bool, DeleteProductParams> {
 }
 
 class DeleteProductParams {
-  final int id;
-
   DeleteProductParams({required this.id});
+
+  final int id;
 }

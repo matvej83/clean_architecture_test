@@ -12,9 +12,9 @@ abstract class LocationsRemoteDataSource {
 
 @LazySingleton(as: LocationsRemoteDataSource)
 class LocationsRemoteDataSourceImpl implements LocationsRemoteDataSource {
-  final Dio dio;
-
   LocationsRemoteDataSourceImpl(this.dio);
+
+  final Dio dio;
 
   @override
   Future<List<LocationModel>?> fetchLocations({

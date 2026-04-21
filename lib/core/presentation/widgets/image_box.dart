@@ -14,7 +14,7 @@ class ImageBox extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageUrl,
       fit: fit,
-      errorWidget: (context, o, s) => ImagePlaceholder(),
+      errorWidget: (context, o, s) => const ImagePlaceholder(),
     );
   }
 }

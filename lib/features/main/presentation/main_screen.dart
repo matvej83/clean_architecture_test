@@ -15,9 +15,9 @@ import '../../../core/services/geolocation_service.dart';
 import '../../../navigation/pages.dart';
 
 class MainScreen extends StatefulWidget {
-  final StatefulNavigationShell navigationShell;
-
   const MainScreen({super.key, required this.navigationShell});
+
+  final StatefulNavigationShell navigationShell;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -29,10 +29,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    context.read<ProductsBloc>().add(ProductsFetched(loadSilent: false));
-    context.read<ProductsBloc>().add(CategoriesFetched());
+    context.read<ProductsBloc>().add(const ProductsFetched(loadSilent: false));
+    context.read<ProductsBloc>().add(const CategoriesFetched());
     locationsBloc = context.read<LocationsBloc>();
-    locationsBloc.add(LocationsFetched(loadSilent: false));
+    locationsBloc.add(const LocationsFetched(loadSilent: false));
     super.initState();
   }
 
@@ -86,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
                   final granted = await geolocationService.requestPermission();
                   if (granted) {
                     await geolocationService.startTracking();
-                    locationsBloc.add(LocationsFetched());
+                    locationsBloc.add(const LocationsFetched());
                   }
                 },
               )

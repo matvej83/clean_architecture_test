@@ -14,11 +14,6 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final LoginUseCase loginUseCase;
-  final LogoutUseCase logoutUseCase;
-  final CheckAuthUseCase checkAuthUseCase;
-  final GetUserProfileUseCase getUserProfileUseCase;
-
   AuthBloc({
     required this.loginUseCase,
     required this.logoutUseCase,
@@ -34,6 +29,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
   }
+
+  final LoginUseCase loginUseCase;
+  final LogoutUseCase logoutUseCase;
+  final CheckAuthUseCase checkAuthUseCase;
+  final GetUserProfileUseCase getUserProfileUseCase;
 
   Future<void> _onAuthCheckRequested(
     AuthCheckRequested event,
@@ -82,7 +82,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(
           state.copyWith(status: AuthStatus.authenticated, isLoading: false),
         );
-        add(AuthUserProfileRequested());
+        add(const AuthUserProfileRequested());
       },
     );
   }
