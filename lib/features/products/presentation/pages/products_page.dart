@@ -169,11 +169,16 @@ class _ProductsPageState extends State<ProductsPage> {
                       sliver: ProductsList(products: state.products),
                     ),
                     if (state.isShowProductLoader)
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          width: 40.0,
-                          height: 40.0,
-                          child: CircularProgressIndicator(),
+                      const SliverPadding(
+                        padding: EdgeInsets.symmetric(vertical: 24.0),
+                        sliver: SliverToBoxAdapter(
+                          child: Center(
+                            child: SizedBox(
+                              width: 40.0,
+                              height: 40.0,
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
                         ),
                       ),
                   ],
