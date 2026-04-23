@@ -24,14 +24,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  late ProductsBloc productsBloc;
   late LocationsBloc locationsBloc;
   final geolocationService = getIt<GeolocationService>();
 
   @override
   void initState() {
-    context.read<ProductsBloc>().add(const ProductsFetched(loadSilent: false));
-    context.read<ProductsBloc>().add(const CategoriesFetched());
+    productsBloc = context.read<ProductsBloc>();
     locationsBloc = context.read<LocationsBloc>();
+    productsBloc.add(const ProductsFetched(loadSilent: false));
+    productsBloc.add(const CategoriesFetched());
     locationsBloc.add(const LocationsFetched(loadSilent: false));
     super.initState();
   }
