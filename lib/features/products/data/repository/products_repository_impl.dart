@@ -134,7 +134,7 @@ class ProductsRepositoryImpl implements ProductsRepository {
   }) async {
     try {
       final result = await productsRemoteDataSource.createCategory(
-        product: category,
+        category: category,
       );
       if (result != null) {
         return Right(result.toEntity());
