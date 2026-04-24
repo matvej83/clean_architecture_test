@@ -70,7 +70,7 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    print('image: ${category.image}');
+
     return GestureDetector(
       onTap: onTap,
       onLongPress: onDeleteTap,
