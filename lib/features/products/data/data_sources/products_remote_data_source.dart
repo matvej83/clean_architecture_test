@@ -29,7 +29,7 @@ abstract class ProductsRemoteDataSource {
 
   Future<List<CategoryModel>?> fetchCategories();
 
-  Future<CategoryModel?> createCategory({required CategoryModel product});
+  Future<CategoryModel?> createCategory({required CategoryModel category});
 
   Future<ImageModel?> uploadImage({required AppImageEntity imageFile});
 }
@@ -179,10 +179,10 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
 
   @override
   Future<CategoryModel?> createCategory({
-    required CategoryModel product,
+    required CategoryModel category,
   }) async {
     try {
-      final response = await dio.post('categories/', data: product.toJson());
+      final response = await dio.post('categories/', data: category.toJson());
       if (response.data != null) {
         return CategoryModel.fromJson(response.data);
       }

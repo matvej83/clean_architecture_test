@@ -339,7 +339,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         );
       },
       (r) {
-        emit(state.copyWith(createdSuccessful: true, isCreating: false));
+        emit(
+          state.copyWith(createdSuccessful: true, isCreating: false, error: ''),
+        );
       },
     );
   }
@@ -404,7 +406,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         );
       },
       (r) {
-        emit(state.copyWith(createdSuccessful: true, isCreating: false));
+        emit(
+          state.copyWith(createdSuccessful: true, isCreating: false, error: ''),
+        );
       },
     );
   }
@@ -443,6 +447,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         isCreating: false,
         createdSuccessful: false,
         createdProductCategoryId: '',
+        error: '',
         uploadedImages: [],
         pickedImages: [],
       ),
