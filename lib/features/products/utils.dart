@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'dart:typed_data';
-import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
+import 'package:clean_architecture_test/core/domain/entity/availability_filter_entity.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/app_image_entity.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';

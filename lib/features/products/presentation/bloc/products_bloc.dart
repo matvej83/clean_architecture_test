@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
+import 'package:clean_architecture_test/core/domain/entity/availability_filter_entity.dart';
 import 'package:clean_architecture_test/core/usecases/usecase.dart';
 import 'package:clean_architecture_test/features/products/data/models/category_model.dart';
 import 'package:clean_architecture_test/features/products/domain/entity/product_entity.dart';
@@ -16,12 +16,14 @@ import 'package:clean_architecture_test/features/products/presentation/bloc/prod
 import 'package:clean_architecture_test/features/products/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../data/models/product_model.dart';
 import '../../domain/usecases/delete_category_usecase.dart';
 import '../../domain/usecases/fetch_product_usecase.dart';
 
+@lazySingleton
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc({
     required this.fetchProductsUseCase,

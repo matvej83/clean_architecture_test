@@ -7,13 +7,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:injectable/injectable.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../domain/usecases/fetch_products_usecase.dart';
+import '../../domain/usecases/fetch_locations_usecase.dart';
 import 'locations_event.dart';
 import 'locations_state.dart';
 
+@lazySingleton
 class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     with WidgetsBindingObserver {
   LocationsBloc({

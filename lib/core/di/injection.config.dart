@@ -39,12 +39,14 @@ import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_blo
     as _i738;
 import 'package:clean_architecture_test/features/locations/data/data_sources/locations_remote_data_source.dart'
     as _i198;
-import 'package:clean_architecture_test/features/locations/data/repository/products_repository_impl.dart'
-    as _i332;
+import 'package:clean_architecture_test/features/locations/data/repository/locations_repository_impl.dart'
+    as _i534;
 import 'package:clean_architecture_test/features/locations/domain/repository/locations_repository.dart'
     as _i1056;
-import 'package:clean_architecture_test/features/locations/domain/usecases/fetch_products_usecase.dart'
-    as _i548;
+import 'package:clean_architecture_test/features/locations/domain/usecases/fetch_locations_usecase.dart'
+    as _i58;
+import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart'
+    as _i175;
 import 'package:clean_architecture_test/features/products/data/data_sources/products_remote_data_source.dart'
     as _i223;
 import 'package:clean_architecture_test/features/products/data/repository/products_repository_impl.dart'
@@ -69,6 +71,8 @@ import 'package:clean_architecture_test/features/products/domain/usecases/fetch_
     as _i460;
 import 'package:clean_architecture_test/features/products/domain/usecases/upload_image_usecase.dart'
     as _i362;
+import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart'
+    as _i1063;
 import 'package:clean_architecture_test/features/theme/cubit/cubit.dart'
     as _i474;
 import 'package:clean_architecture_test/features/theme/data/data_sources/theme_local_data_source.dart'
@@ -91,6 +95,8 @@ import 'package:clean_architecture_test/features/users/domain/usecases/fetch_use
     as _i487;
 import 'package:clean_architecture_test/features/users/domain/usecases/fetch_users_usecase.dart'
     as _i788;
+import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart'
+    as _i149;
 import 'package:clean_architecture_test/navigation/router.dart' as _i657;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
@@ -192,11 +198,6 @@ extension GetItInjectableX on _i174.GetIt {
         setThemeUseCase: gh<_i831.SetThemeUseCase>(),
       ),
     );
-    gh.lazySingleton<_i1056.LocationsRepository>(
-      () => _i332.LocationsRepositoryImpl(
-        locationsRemoteDataSource: gh<_i198.LocationsRemoteDataSource>(),
-      ),
-    );
     gh.lazySingleton<_i738.AuthBloc>(
       () => _i738.AuthBloc(
         loginUseCase: gh<_i778.LoginUseCase>(),
@@ -207,6 +208,11 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i657.AppRouter>(
       () => _i657.AppRouter(gh<_i738.AuthBloc>()),
+    );
+    gh.lazySingleton<_i1056.LocationsRepository>(
+      () => _i534.LocationsRepositoryImpl(
+        locationsRemoteDataSource: gh<_i198.LocationsRemoteDataSource>(),
+      ),
     );
     gh.lazySingleton<_i1001.UsersRepository>(
       () => _i868.UsersRepositoryImpl(
@@ -246,8 +252,33 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i362.UploadImageUseCase>(
       () => _i362.UploadImageUseCase(gh<_i557.ProductsRepository>()),
     );
-    gh.lazySingleton<_i548.FetchLocationsUseCase>(
-      () => _i548.FetchLocationsUseCase(gh<_i1056.LocationsRepository>()),
+    gh.lazySingleton<_i1063.ProductsBloc>(
+      () => _i1063.ProductsBloc(
+        fetchProductsUseCase: gh<_i542.FetchProductsUseCase>(),
+        fetchCategoriesUseCase: gh<_i1043.FetchCategoriesUseCase>(),
+        fetchProductUseCase: gh<_i994.FetchProductUseCase>(),
+        fetchRelatedByIdUseCase: gh<_i460.FetchRelatedByIdUseCase>(),
+        uploadImageUseCase: gh<_i362.UploadImageUseCase>(),
+        createProductUseCase: gh<_i979.CreateProductUseCase>(),
+        deleteProductUseCase: gh<_i745.DeleteProductUseCase>(),
+        createCategoryUseCase: gh<_i100.CreateCategoryUseCase>(),
+        deleteCategoryUseCase: gh<_i422.DeleteCategoryUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i58.FetchLocationsUseCase>(
+      () => _i58.FetchLocationsUseCase(gh<_i1056.LocationsRepository>()),
+    );
+    gh.lazySingleton<_i149.UsersBloc>(
+      () => _i149.UsersBloc(
+        fetchUsersUseCase: gh<_i788.FetchUsersUseCase>(),
+        fetchUserUseCase: gh<_i487.FetchUserUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i175.LocationsBloc>(
+      () => _i175.LocationsBloc(
+        fetchLocationsUseCase: gh<_i58.FetchLocationsUseCase>(),
+        geolocationService: gh<_i139.GeolocationService>(),
+      ),
     );
     return this;
   }

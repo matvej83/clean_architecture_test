@@ -5,11 +5,13 @@ import 'package:clean_architecture_test/features/users/presentation/bloc/users_e
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../domain/usecases/fetch_user_usecase.dart';
 import '../../domain/usecases/fetch_users_usecase.dart';
 
+@lazySingleton
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   UsersBloc({required this.fetchUsersUseCase, required this.fetchUserUseCase})
     : super(const UsersState()) {
