@@ -1,5 +1,5 @@
 import 'package:clean_architecture_test/core/constants/app_strings.dart';
-import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
+import 'package:clean_architecture_test/core/domain/entity/availability_filter_entity.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
 import 'package:clean_architecture_test/features/products/presentation/widgets/selected_filters_block.dart';

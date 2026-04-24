@@ -2,12 +2,9 @@ import 'dart:async';
 
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
-import 'package:clean_architecture_test/features/products/domain/usecases/create_product_usecase.dart';
-import 'package:clean_architecture_test/features/products/domain/usecases/delete_product_usecase.dart';
-import 'package:clean_architecture_test/features/products/domain/usecases/fetch_categories_usecase.dart';
-import 'package:clean_architecture_test/features/products/domain/usecases/upload_image_usecase.dart';
 import 'package:clean_architecture_test/features/theme/cubit/state.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
+import 'package:clean_architecture_test/navigation/pages.dart';
 import 'package:clean_architecture_test/navigation/router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -16,18 +13,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'core/di/injection.dart';
 import 'core/services/auth_session_manager.dart';
-import 'core/services/geolocation_service.dart';
 import 'features/auth/domain/repository/auth_repository.dart';
-import 'features/locations/domain/usecases/fetch_products_usecase.dart';
-import 'features/products/domain/usecases/create_category_usecase.dart';
-import 'features/products/domain/usecases/delete_category_usecase.dart';
-import 'features/products/domain/usecases/fetch_product_usecase.dart';
-import 'features/products/domain/usecases/fetch_products_usecase.dart';
-import 'features/products/domain/usecases/fetch_related_by_id_usecase.dart';
 import 'features/products/presentation/bloc/products_bloc.dart';
 import 'features/theme/cubit/cubit.dart';
-import 'features/users/domain/usecases/fetch_user_usecase.dart';
-import 'features/users/domain/usecases/fetch_users_usecase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,25 +47,6 @@ class _MyAppState extends State<MyApp> {
   final themeCubit = getIt<ThemeCubit>();
   final sessionManager = getIt<AuthSessionManager>();
   final authRepo = getIt<AuthRepository>();
-  final geolocationService = getIt<GeolocationService>();
-
-  // products
-  final fetchProductsUseCase = getIt<FetchProductsUseCase>();
-  final fetchProductUseCase = getIt<FetchProductUseCase>();
-  final fetchCategoriesUseCase = getIt<FetchCategoriesUseCase>();
-  final fetchRelatedByIdUseCase = getIt<FetchRelatedByIdUseCase>();
-  final uploadImageUseCase = getIt<UploadImageUseCase>();
-  final createProductUseCase = getIt<CreateProductUseCase>();
-  final deleteProductUseCase = getIt<DeleteProductUseCase>();
-  final createCategoryUseCase = getIt<CreateCategoryUseCase>();
-  final deleteCategoryUseCase = getIt<DeleteCategoryUseCase>();
-
-  // users
-  final fetchUsersUseCase = getIt<FetchUsersUseCase>();
-  final fetchUserUseCase = getIt<FetchUserUseCase>();
-
-  // locations
-  final fetchLocationsUseCase = getIt<FetchLocationsUseCase>();
 
   @override
   void initState() {
@@ -85,7 +54,7 @@ class _MyAppState extends State<MyApp> {
     sessionManager.setRepository(authRepo);
     _sessionSub = sessionManager.onSessionExpired.listen((_) async {
       await sessionManager.logout();
-      appRouter.router.go('/login');
+      appRouter.router.go(Pages.login);
     });
   }
 
@@ -101,34 +70,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(create: (_) => authBloc),
         BlocProvider(create: (_) => themeCubit..loadTheme()),
-        BlocProvider(
-          create: (_) => ProductsBloc(
-            fetchProductsUseCase: fetchProductsUseCase,
-            fetchProductUseCase: fetchProductUseCase,
-            fetchCategoriesUseCase: fetchCategoriesUseCase,
-            fetchRelatedByIdUseCase: fetchRelatedByIdUseCase,
-            uploadImageUseCase: uploadImageUseCase,
-            createProductUseCase: createProductUseCase,
-            deleteProductUseCase: deleteProductUseCase,
-            createCategoryUseCase: createCategoryUseCase,
-            deleteCategoryUseCase: deleteCategoryUseCase,
-          ),
-          lazy: true,
-        ),
-        BlocProvider(
-          create: (_) => UsersBloc(
-            fetchUsersUseCase: fetchUsersUseCase,
-            fetchUserUseCase: fetchUserUseCase,
-          ),
-          lazy: true,
-        ),
-        BlocProvider(
-          create: (_) => LocationsBloc(
-            fetchLocationsUseCase: fetchLocationsUseCase,
-            geolocationService: geolocationService,
-          ),
-          lazy: true,
-        ),
+        BlocProvider(create: (_) => getIt<ProductsBloc>(), lazy: true),
+        BlocProvider(create: (_) => getIt<UsersBloc>(), lazy: true),
+        BlocProvider(create: (_) => getIt<LocationsBloc>(), lazy: true),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {

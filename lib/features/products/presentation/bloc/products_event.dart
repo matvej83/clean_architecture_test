@@ -1,4 +1,4 @@
-import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
+import 'package:clean_architecture_test/core/domain/entity/availability_filter_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain/entity/app_image_entity.dart';

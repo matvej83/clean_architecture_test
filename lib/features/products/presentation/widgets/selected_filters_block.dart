@@ -1,4 +1,4 @@
-import 'package:clean_architecture_test/core/domain/entity/avaliability_filter_entity.dart';
+import 'package:clean_architecture_test/core/domain/entity/availability_filter_entity.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/widgets/availability_filters_list.dart';
