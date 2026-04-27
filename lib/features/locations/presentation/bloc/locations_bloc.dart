@@ -61,9 +61,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
       emit(state.copyWith(isLoading: true));
     }
     if (!kIsWeb && position == null && !locationAsked) {
-      if (await geolocationService.hasPermission()) {
-        position = await geolocationService.getCurrentPosition();
-      }
+      position = await geolocationService.getCurrentPosition();
       locationAsked = true;
     }
     final result = await fetchLocationsUseCase(
@@ -149,8 +147,8 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     GeoStatusChecked event,
     Emitter<LocationsState> emit,
   ) async {
-    final permissionStatus = await Geolocator.checkPermission();
-    if (permissionStatus == LocationPermission.deniedForever) {
+    final enabled = await Geolocator.isLocationServiceEnabled();
+    if (!enabled) {
       emit(state.copyWith(showGeoModal: true));
     }
   }

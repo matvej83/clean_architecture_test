@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -51,10 +52,13 @@ class MainScreenUtils {
           context.go('${Pages.products}/${Pages.addCategory}');
         },
       ),
-      Pages.locations => FloatingActionButton(
-        onPressed: action,
-        child: const Icon(Icons.location_searching),
-      ),
+      Pages.locations =>
+        kIsWeb
+            ? FloatingActionButton(
+                onPressed: action,
+                child: const Icon(Icons.location_searching),
+              )
+            : null,
       _ => null,
     };
   }

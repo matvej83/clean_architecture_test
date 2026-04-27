@@ -19,6 +19,7 @@ class AddCategoryPage extends StatefulWidget {
 
 class _AddCategoryPageState extends State<AddCategoryPage> {
   late ProductsBloc bloc;
+  late ThemeData theme;
   late TextTheme textTheme;
   late ProductModel product;
   final _formKey = GlobalKey<FormState>();
@@ -41,7 +42,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     bloc = context.read<ProductsBloc>();
-    textTheme = Theme.of(context).textTheme;
+    theme = Theme.of(context);
+    textTheme = theme.textTheme;
   }
 
   @override
@@ -86,7 +88,8 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
       },
       builder: (context, state) {
         final isLoading = state.isCreating;
-        return Padding(
+        return Container(
+          color: theme.scaffoldBackgroundColor,
           padding: const EdgeInsets.only(top: 16.0, left: 16.0),
           child: SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
