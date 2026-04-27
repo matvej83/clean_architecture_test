@@ -79,7 +79,7 @@ class AppRouter {
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return MainScreen(navigationShell: navigationShell);
+          return MainScreen(navigationShell: navigationShell, state: state);
         },
         branches: [
           StatefulShellBranch(
@@ -89,6 +89,14 @@ class AppRouter {
                 pageBuilder: (context, state) =>
                     const NoTransitionPage(child: ProductsPage()),
                 routes: [
+                  GoRoute(
+                    path: Pages.addProduct,
+                    builder: (context, state) => const AddProductPage(),
+                  ),
+                  GoRoute(
+                    path: Pages.addCategory,
+                    builder: (context, state) => const AddCategoryPage(),
+                  ),
                   GoRoute(
                     path: ':id',
                     builder: (context, state) {
@@ -146,14 +154,14 @@ class AppRouter {
         path: Pages.login,
         builder: (context, state) => const LoginPage(),
       ),
-      GoRoute(
-        path: Pages.addProduct,
-        builder: (context, state) => const AddProductPage(),
-      ),
-      GoRoute(
-        path: Pages.addCategory,
-        builder: (context, state) => const AddCategoryPage(),
-      ),
+      // GoRoute(
+      //   path: Pages.addProduct,
+      //   builder: (context, state) => const AddProductPage(),
+      // ),
+      // GoRoute(
+      //   path: Pages.addCategory,
+      //   builder: (context, state) => const AddCategoryPage(),
+      // ),
     ],
   );
 }

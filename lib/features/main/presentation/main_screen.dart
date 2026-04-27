@@ -1,23 +1,25 @@
-import 'package:clean_architecture_test/core/presentation/widgets/fab_menu.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_event.dart';
 import 'package:clean_architecture_test/features/main/presentation/widgets/bottom_nav_bar.dart';
 import 'package:clean_architecture_test/features/main/utils.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_bloc.dart';
 import 'package:clean_architecture_test/features/products/presentation/bloc/products_event.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/di/injection.dart';
 import '../../../core/services/geolocation_service.dart';
-import '../../../navigation/pages.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key, required this.navigationShell});
+  const MainScreen({
+    super.key,
+    required this.navigationShell,
+    required this.state,
+  });
 
   final StatefulNavigationShell navigationShell;
+  final GoRouterState state;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -71,28 +73,17 @@ class _MainScreenState extends State<MainScreen> {
             child: FadeTransition(opacity: animation, child: child),
           );
         },
-        child: widget.navigationShell.currentIndex == 0
-            ? FabMenu(
-                key: const ValueKey('fab'),
-                onAddProductTap: () {
-                  context.push(Pages.addProduct);
-                },
-                onAddCategoryTap: () {
-                  context.push(Pages.addCategory);
-                },
-              )
-            : widget.navigationShell.currentIndex == 2 && kIsWeb
-            ? FloatingActionButton(
-                child: const Icon(Icons.location_searching),
-                onPressed: () async {
-                  final granted = await geolocationService.requestPermission();
-                  if (granted) {
-                    await geolocationService.startTracking();
-                    locationsBloc.add(const LocationsFetched());
-                  }
-                },
-              )
-            : null,
+        child: MainScreenUtils.getFAB(
+          context,
+          state: widget.state,
+          action: () async {
+            final granted = await geolocationService.requestPermission();
+            if (granted) {
+              await geolocationService.startTracking();
+              locationsBloc.add(const LocationsFetched());
+            }
+          },
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavBar(
