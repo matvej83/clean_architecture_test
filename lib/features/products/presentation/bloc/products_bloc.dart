@@ -90,8 +90,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         search: state.search,
         priceMin: min,
         priceMax: max,
-        offset: state.products.isEmpty ? 0 : state.products.length - 10,
-        limit: 10,
+        offset: 0,
+        limit: state.products.isEmpty ? 10 : state.products.length,
       ),
     );
 
@@ -351,8 +351,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     ProductDeleted event,
     Emitter<ProductsState> emit,
   ) async {
-    final result = await deleteProductUseCase.repository.deleteProduct(
-      id: event.id,
+    final result = await deleteProductUseCase(
+      DeleteProductParams(id: event.id),
     );
     result.fold(
       (l) {
@@ -418,8 +418,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     CategoryDeleted event,
     Emitter<ProductsState> emit,
   ) async {
-    final result = await deleteCategoryUseCase.repository.deleteCategory(
-      id: event.id,
+    final result = await deleteCategoryUseCase(
+      DeleteCategoryParams(id: event.id),
     );
     result.fold(
       (l) {
