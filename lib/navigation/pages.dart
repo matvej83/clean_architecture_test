@@ -1,8 +1,8 @@
 class Pages {
   static const splash = '/splash';
   static const login = '/login';
-  static const addProduct = '/add-product';
-  static const addCategory = '/add-category';
+  static const addProduct = 'add-product';
+  static const addCategory = 'add-category';
 
   /// Shell routes
   static const products = '/products';

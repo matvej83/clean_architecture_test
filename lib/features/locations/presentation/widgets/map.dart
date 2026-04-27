@@ -57,6 +57,7 @@ class _LocationsMapState extends State<LocationsMap> {
               tileProvider: kIsWeb ? null : _tileProvider,
             ),
             const RichAttributionWidget(
+              alignment: AttributionAlignment.bottomLeft,
               attributions: [
                 TextSourceAttribution('OpenStreetMap contributors'),
               ],
