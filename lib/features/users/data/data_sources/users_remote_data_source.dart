@@ -1,5 +1,7 @@
 import 'package:clean_architecture_test/core/error/exception.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:injectable/injectable.dart';
 
 import '../../../auth/data/models/user_model.dart';
@@ -19,9 +21,15 @@ class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
   @override
   Future<List<UserModel>?> fetchUsers() async {
     try {
-      final response = await dio.get('users/');
+      final response = await dio.get(
+        'users/',
+
+        /// to use separated tread for data parsing
+        options: Options(responseType: ResponseType.plain),
+      );
       if (response.data != null) {
-        return UserModel.fromList(response.data);
+        final users = await compute(userModelFromList, response.data as String);
+        return users;
       }
     } on Exception catch (e) {
       if (e is DioException && e.response?.statusCode == 401) {

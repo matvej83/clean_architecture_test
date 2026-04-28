@@ -6,5 +6,8 @@ part 'users_event.freezed.dart';
 class UsersEvent with _$UsersEvent {
   const factory UsersEvent.usersFetched() = UsersFetched;
 
+  const factory UsersEvent.moreUsersLoaded() = MoreUsersLoaded;
+
   const factory UsersEvent.userFetched(String id) = UserFetched;
+
 }

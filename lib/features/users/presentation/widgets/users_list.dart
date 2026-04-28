@@ -2,6 +2,7 @@ import 'package:clean_architecture_test/features/auth/domain/entity/user_entity.
 import 'package:clean_architecture_test/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_architecture_test/features/auth/presentation/widgets/user_avatar.dart';
 import 'package:clean_architecture_test/features/users/presentation/bloc/users_bloc.dart';
+import 'package:clean_architecture_test/features/users/presentation/bloc/users_event.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ class UsersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<UsersBloc>();
     final state = context.watch<UsersBloc>().state;
     final authState = context.read<AuthBloc>().state;
     return ListView.separated(
@@ -22,14 +24,21 @@ class UsersList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       itemBuilder: (context, index) {
         final user = state.users[index];
-        return ListItem(
-          key: ValueKey(user.id),
-          areYou: authState.user?.id == user.id,
-          onTap: () {
-            context.go('${Pages.users}/${user.id}');
-          },
-          user: user,
-        );
+        if (index >= state.users.length - 5) {
+          bloc.add(const MoreUsersLoaded());
+        }
+        if (index < state.users.length) {
+          return ListItem(
+            key: ValueKey(user.id),
+            areYou: authState.user?.id == user.id,
+            onTap: () {
+              context.go('${Pages.users}/${user.id}');
+            },
+            user: user,
+          );
+        }
+
+        return const Center(child: CircularProgressIndicator());
       },
       separatorBuilder: (context, index) =>
           const Divider(height: 16.0, thickness: 1.0, color: Colors.white70),

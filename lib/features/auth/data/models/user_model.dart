@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain/entity/user_entity.dart';
@@ -21,12 +23,6 @@ abstract class UserModel with _$UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
-
-  static List<UserModel> fromList(List<dynamic> list) {
-    return list
-        .map((jsonItem) => UserModel.fromJson(jsonItem as Map<String, dynamic>))
-        .toList();
-  }
 }
 
 extension UserModelExt on UserModel {
@@ -37,4 +33,11 @@ extension UserModelExt on UserModel {
     role: role,
     avatar: avatar ?? '',
   );
+}
+
+List<UserModel> userModelFromList(String body) {
+  final decoded = jsonDecode(body) as List<dynamic>;
+  return decoded
+      .map((jsonItem) => UserModel.fromJson(jsonItem as Map<String, dynamic>))
+      .toList();
 }
