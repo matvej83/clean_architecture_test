@@ -4,60 +4,66 @@ import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton
-class GeolocationService {
-  /// Example:
-  ///
-  /// ```dart
-  /// class GeolocationBloc extends Bloc<GeolocationEvent, GeolocationState>
-  ///     with WidgetsBindingObserver {
-  ///   final GeolocationService geolocationService;
-  ///
-  ///   StreamSubscription? _locationSub;
-  ///
-  ///   GeolocationBloc({
-  ///     required this.geolocationService,
-  ///   }) : super(const GeolocationState()) {
-  ///     on<GeolocationUpdated>(_onUpdateGeolocation);
-  ///     ...
-  ///     WidgetsBinding.instance.addObserver(this);
-  ///     geolocationService.init();
-  ///     _locationSub = geolocationService.onLocationChanged.listen((position) {
-  ///       add(GeolocationUpdated(position));
-  ///     });
-  ///   }
-  ///   ...
-  ///
-  ///   @override
-  ///   Future<void> close() {
-  ///     WidgetsBinding.instance.removeObserver(this);
-  ///     _locationSub?.cancel();
-  ///     return super.close();
-  ///   }
-  ///   ...
-  ///
-  /// FutureOr<void> _onUpdateGeolocation(
-  ///     GeolocationUpdated event,
-  ///     Emitter<GeolocationState> emit,
-  ///   ) {
-  ///      // handle update
-  ///   }
-  ///   ...
-  ///
-  /// @override
-  ///   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-  ///     if (state == AppLifecycleState.resumed && !kIsWeb) {
-  ///       final pos = await geolocationService.getCurrentPosition();
-  ///       if (pos != null) {
-  ///         add(GeolocationUpdated(pos));
-  ///       }
-  ///     }
-  ///   }
-  ///   ```
+import 'geolocation_service_interface.dart';
 
-  final _controller = StreamController<Position>.broadcast();
+/// Geolocation service that provides a stream of location updates
+/// and methods for managing tracking.
+///
+/// Uses the `geolocator` package and supports:
+/// - permission request
+/// - geolocation status checking
+/// - streaming coordinate update
+/// - current position getting
+///
+/// Example of using in BLoC:
+/// ```dart
+/// class GeolocationBloc extends Bloc<GeolocationEvent, GeolocationState>
+///     with WidgetsBindingObserver {
+///   final IGeolocationService geolocationService;
+///
+///   StreamSubscription? _locationSub;
+///
+///   GeolocationBloc({
+///     required this.geolocationService,
+///   }) : super(const GeolocationState()) {
+///     on<GeolocationUpdated>(_onUpdateGeolocation);
+///     WidgetsBinding.instance.addObserver(this);
+///     geolocationService.init();
+///     _locationSub = geolocationService.onLocationChanged.listen((position) {
+///       add(GeolocationUpdated(position));
+///     });
+///   }
+///
+///   @override
+///   Future<void> close() {
+///     WidgetsBinding.instance.removeObserver(this);
+///     _locationSub?.cancel();
+///     return super.close();
+///   }
+///
+///   FutureOr<void> _onUpdateGeolocation(
+///     GeolocationUpdated event,
+///     Emitter<GeolocationState> emit,
+///   ) {
+///     // handle update
+///   }
+///
+///   @override
+///   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+///     if (state == AppLifecycleState.resumed && !kIsWeb) {
+///       final pos = await geolocationService.getCurrentPosition();
+///       if (pos != null) {
+///         add(GeolocationUpdated(pos));
+///       }
+///     }
+///   }
+/// }
+/// ```
 
-  Stream<Position> get onLocationChanged => _controller.stream;
+@LazySingleton(as: IGeolocationService)
+class GeolocationService implements IGeolocationService {
+  final StreamController<Position> _controller =
+      StreamController<Position>.broadcast();
 
   StreamSubscription<Position>? _positionSub;
 
@@ -70,10 +76,12 @@ class GeolocationService {
     distanceFilter: 20,
   );
 
+  @override
+  Stream<Position> get onLocationChanged => _controller.stream;
+
+  @override
   Future<void> init() async {
-    if (kIsWeb) {
-      return;
-    }
+    if (kIsWeb) return;
 
     final granted = await requestPermission();
     final enabled = await Geolocator.isLocationServiceEnabled();
@@ -83,43 +91,52 @@ class GeolocationService {
     }
   }
 
-  /// Add this action to button
+  @override
   Future<bool> requestPermission() async {
-    final locationPermission = await Geolocator.requestPermission();
-    final enabled =
-        locationPermission == LocationPermission.whileInUse ||
-        locationPermission == LocationPermission.always;
-
-    return enabled;
-  }
-
-  Future<bool> hasPermission() async {
-    final locationPermission = await Geolocator.checkPermission();
-
-    if (locationPermission == LocationPermission.deniedForever) {
+    try {
+      final locationPermission = await Geolocator.requestPermission();
+      return locationPermission == LocationPermission.whileInUse ||
+          locationPermission == LocationPermission.always;
+    } catch (e) {
+      log('Geolocation: permission request error: $e');
       return false;
     }
-
-    return locationPermission == LocationPermission.whileInUse ||
-        locationPermission == LocationPermission.always;
   }
 
+  @override
+  Future<bool> hasPermission() async {
+    try {
+      final locationPermission = await Geolocator.checkPermission();
+
+      if (locationPermission == LocationPermission.deniedForever) {
+        return false;
+      }
+
+      return locationPermission == LocationPermission.whileInUse ||
+          locationPermission == LocationPermission.always;
+    } catch (e) {
+      log('Geolocation: permission check error: $e');
+      return false;
+    }
+  }
+
+  @override
   Future<void> startTracking() async {
     if (_isTracking) return;
 
-    final enabled = await Geolocator.isLocationServiceEnabled();
-    if (!enabled) {
-      log('Geolocation: service disabled');
-      return;
-    }
-
-    final hasGeoPermission = await hasPermission();
-    if (!hasGeoPermission) {
-      log('Geolocation: no locationPermission, tracking not started');
-      return;
-    }
-
     try {
+      final enabled = await Geolocator.isLocationServiceEnabled();
+      if (!enabled) {
+        log('Geolocation: service disabled');
+        return;
+      }
+
+      final hasGeoPermission = await hasPermission();
+      if (!hasGeoPermission) {
+        log('Geolocation: no permission, tracking not started');
+        return;
+      }
+
       _positionSub = Geolocator.getPositionStream(
         locationSettings: _locationSettings,
       ).listen(_onPosition, onError: _onError);
@@ -131,27 +148,29 @@ class GeolocationService {
     }
   }
 
+  @override
   Future<void> stopTracking() async {
     await _positionSub?.cancel();
     _positionSub = null;
     _isTracking = false;
   }
 
+  @override
   Future<void> restartTracking() async {
-    if (kIsWeb) {
-      return;
-    }
+    if (kIsWeb) return;
 
     await stopTracking();
     await startTracking();
   }
 
+  @override
   Future<Position?> getCurrentPosition() async {
-    final hasGeoPermission = await hasPermission();
-    final enabled = await Geolocator.isLocationServiceEnabled();
-    if (!hasGeoPermission || !enabled) return null;
-
     try {
+      final hasGeoPermission = await hasPermission();
+      final enabled = await Geolocator.isLocationServiceEnabled();
+
+      if (!hasGeoPermission || !enabled) return null;
+
       return await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
           accuracy: LocationAccuracy.high,
@@ -205,6 +224,7 @@ class GeolocationService {
     await restartTracking();
   }
 
+  @override
   Future<void> dispose() async {
     await stopTracking();
     await _controller.close();

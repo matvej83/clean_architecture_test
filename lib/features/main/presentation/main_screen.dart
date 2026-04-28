@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/di/injection.dart';
-import '../../../core/services/geolocation_service.dart';
+import '../../../core/services/geolocation_service_interface.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({
@@ -28,7 +28,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   late ProductsBloc productsBloc;
   late LocationsBloc locationsBloc;
-  final geolocationService = getIt<GeolocationService>();
+  final IGeolocationService geolocationService = getIt<IGeolocationService>();
 
   @override
   void initState() {
@@ -78,9 +78,10 @@ class _MainScreenState extends State<MainScreen> {
           state: widget.state,
           action: () async {
             final granted = await geolocationService.requestPermission();
+
             if (granted) {
               await geolocationService.startTracking();
-              locationsBloc.add(const LocationsFetched());
+              locationsBloc.add(const LocationsFetched(loadSilent: true));
             }
           },
         ),
