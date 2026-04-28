@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_bloc.dart';
 import 'package:clean_architecture_test/features/locations/presentation/bloc/locations_event.dart';
 import 'package:clean_architecture_test/features/main/presentation/widgets/bottom_nav_bar.dart';
