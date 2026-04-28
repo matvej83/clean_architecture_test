@@ -19,6 +19,8 @@ import 'package:clean_architecture_test/core/services/auth_session_manager.dart'
     as _i649;
 import 'package:clean_architecture_test/core/services/geolocation_service.dart'
     as _i139;
+import 'package:clean_architecture_test/core/services/geolocation_service_interface.dart'
+    as _i130;
 import 'package:clean_architecture_test/features/auth/data/data_sources/auth_local_data_source.dart'
     as _i905;
 import 'package:clean_architecture_test/features/auth/data/data_sources/auth_remote_data_source.dart'
@@ -120,7 +122,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i649.AuthSessionManager>(
       () => _i649.AuthSessionManager(),
     );
-    gh.lazySingleton<_i139.GeolocationService>(
+    gh.lazySingleton<_i130.IGeolocationService>(
       () => _i139.GeolocationService(),
     );
     gh.lazySingleton<_i905.AuthLocalDataSource>(
@@ -268,16 +270,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i58.FetchLocationsUseCase>(
       () => _i58.FetchLocationsUseCase(gh<_i1056.LocationsRepository>()),
     );
+    gh.lazySingleton<_i175.LocationsBloc>(
+      () => _i175.LocationsBloc(
+        fetchLocationsUseCase: gh<_i58.FetchLocationsUseCase>(),
+        geolocationService: gh<_i130.IGeolocationService>(),
+      ),
+    );
     gh.lazySingleton<_i149.UsersBloc>(
       () => _i149.UsersBloc(
         fetchUsersUseCase: gh<_i788.FetchUsersUseCase>(),
         fetchUserUseCase: gh<_i487.FetchUserUseCase>(),
-      ),
-    );
-    gh.lazySingleton<_i175.LocationsBloc>(
-      () => _i175.LocationsBloc(
-        fetchLocationsUseCase: gh<_i58.FetchLocationsUseCase>(),
-        geolocationService: gh<_i139.GeolocationService>(),
       ),
     );
     return this;

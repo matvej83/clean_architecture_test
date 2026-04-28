@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:clean_architecture_test/core/services/geolocation_service.dart';
+import 'package:clean_architecture_test/core/services/geolocation_service_interface.dart';
 import 'package:clean_architecture_test/features/locations/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -39,7 +39,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
   }
 
   final FetchLocationsUseCase fetchLocationsUseCase;
-  final GeolocationService geolocationService;
+  final IGeolocationService geolocationService;
 
   StreamSubscription? _locationSub;
 
@@ -170,3 +170,4 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     }
   }
 }
+
