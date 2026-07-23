@@ -104,8 +104,6 @@ class AuthInterceptor extends Interceptor {
     try {
       final newAccessToken = await _refreshToken();
 
-      _queue.clear();
-
       while (_queue.isNotEmpty) {
         final item = _queue.removeAt(0);
 
