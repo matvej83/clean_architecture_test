@@ -17,9 +17,9 @@ class TimeoutException extends NetworkException {}
 class NoInternetException extends NetworkException {}
 
 class UnknownException extends NetworkException {
-  UnknownException(this.message);
+  UnknownException({this.message});
 
-  final String message;
+  final String? message;
 }
 
 /// CacheException

@@ -83,10 +83,16 @@ class AuthInterceptor extends Interceptor {
 
         return handler.resolve(response);
       } catch (e) {
+        if (e is DioException) {
+          return handler.reject(e);
+        }
+
         return handler.reject(
-          e is DioException
-              ? e
-              : DioException(requestOptions: err.requestOptions, error: e),
+          DioException(
+            requestOptions: err.requestOptions,
+            response: err.response,
+            error: e,
+          ),
         );
       }
     }
@@ -98,10 +104,11 @@ class AuthInterceptor extends Interceptor {
     try {
       final newAccessToken = await _refreshToken();
 
-      final queuedRequests = List.of(_queue);
       _queue.clear();
 
-      for (final item in queuedRequests) {
+      while (_queue.isNotEmpty) {
+        final item = _queue.removeAt(0);
+
         try {
           final request = item.request.copyWith(
             headers: {
@@ -116,7 +123,9 @@ class AuthInterceptor extends Interceptor {
           item.completer.complete(response);
         } catch (e) {
           item.completer.completeError(
-            DioException(requestOptions: item.request, error: e),
+            e is DioException
+                ? e
+                : DioException(requestOptions: item.request, error: e),
           );
         }
       }
@@ -127,12 +136,13 @@ class AuthInterceptor extends Interceptor {
         sessionManager.notifySessionExpired();
       }
 
-      final queuedRequests = List.of(_queue);
-      _queue.clear();
+      while (_queue.isNotEmpty) {
+        final item = _queue.removeAt(0);
 
-      for (final item in queuedRequests) {
         item.completer.completeError(
-          DioException(requestOptions: item.request, error: e),
+          e is DioException
+              ? e
+              : DioException(requestOptions: item.request, error: e),
         );
       }
       return;

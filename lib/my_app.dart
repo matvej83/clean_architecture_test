@@ -14,7 +14,6 @@ import 'features/products/presentation/bloc/products_bloc.dart';
 import 'features/theme/cubit/cubit.dart';
 import 'features/theme/cubit/state.dart';
 import 'features/users/presentation/bloc/users_bloc.dart';
-import 'navigation/pages.dart';
 import 'navigation/router.dart';
 
 class MyApp extends StatefulWidget {
@@ -35,10 +34,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    sessionManager.setRepository(authRepo);
     _sessionSub = sessionManager.onSessionExpired.listen((_) async {
-      await sessionManager.logout();
-      appRouter.router.go(Pages.login);
+      authBloc.add(const AuthLogoutRequested());
     });
   }
 

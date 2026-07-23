@@ -20,21 +20,29 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   static const String cachedToken = 'CACHED_TOKEN';
 
+  AuthTokenModel? _tokenModel;
+
   @override
   Future<void> cacheToken(AuthTokenModel token) async {
+    _tokenModel = token;
     await sharedPreferences.setString(cachedToken, jsonEncode(token.toJson()));
   }
 
   @override
   Future<void> clearToken() async {
+    _tokenModel = null;
     await sharedPreferences.remove(cachedToken);
   }
 
   @override
   Future<AuthTokenModel?> getCachedToken() async {
+    if (_tokenModel != null) {
+      return _tokenModel;
+    }
     final jsonString = sharedPreferences.getString(cachedToken);
     if (jsonString != null) {
-      return AuthTokenModel.fromJson(jsonDecode(jsonString));
+      _tokenModel = AuthTokenModel.fromJson(jsonDecode(jsonString));
+      return _tokenModel;
     }
     return null;
   }

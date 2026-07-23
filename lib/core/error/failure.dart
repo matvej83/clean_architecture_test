@@ -22,7 +22,7 @@ class TimeoutFailure extends Failure {}
 class NoInternetFailure extends Failure {}
 
 class UnknownFailure extends Failure {
-  UnknownFailure(this.message);
+  UnknownFailure({this.message});
 
-  final String message;
+  final String? message;
 }

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:store_app/core/error/exception.dart';
+import 'package:store_app/core/network/base_remote_data_source.dart';
 import 'package:store_app/features/locations/data/models/location_model.dart';
 
 abstract class LocationsRemoteDataSource {
@@ -11,7 +11,8 @@ abstract class LocationsRemoteDataSource {
 }
 
 @LazySingleton(as: LocationsRemoteDataSource)
-class LocationsRemoteDataSourceImpl implements LocationsRemoteDataSource {
+class LocationsRemoteDataSourceImpl extends BaseRemoteDataSource
+    implements LocationsRemoteDataSource {
   LocationsRemoteDataSourceImpl(this.dio);
 
   final Dio dio;
@@ -21,7 +22,7 @@ class LocationsRemoteDataSourceImpl implements LocationsRemoteDataSource {
     List<double>? origin,
     int? radius,
   }) async {
-    try {
+    return makeRequest<List<LocationModel>?>(() async {
       Map<String, dynamic> queryParameters = {};
       if (origin != null) {
         queryParameters.addAll({'origin': origin});
@@ -36,13 +37,7 @@ class LocationsRemoteDataSourceImpl implements LocationsRemoteDataSource {
       if (response.data != null) {
         return LocationModel.fromList(response.data);
       }
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
-    return null;
+      return null;
+    });
   }
 }
