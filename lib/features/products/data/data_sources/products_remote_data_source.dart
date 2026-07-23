@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:store_app/core/error/exception.dart';
+import 'package:store_app/core/network/base_remote_data_source.dart';
 import 'package:store_app/features/products/data/models/category_model.dart';
 import 'package:store_app/features/products/data/models/image_model.dart';
 import 'package:store_app/features/products/data/models/product_model.dart';
@@ -35,7 +35,8 @@ abstract class ProductsRemoteDataSource {
 }
 
 @LazySingleton(as: ProductsRemoteDataSource)
-class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
+class ProductsRemoteDataSourceImpl extends BaseRemoteDataSource
+    implements ProductsRemoteDataSource {
   ProductsRemoteDataSourceImpl(this.dio);
 
   final Dio dio;
@@ -49,7 +50,7 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
     int? offset,
     int? limit,
   }) async {
-    try {
+    return makeRequest<List<ProductModel>?>(() async {
       final Map<String, dynamic> queryParameters = {};
       if (categoryId?.isNotEmpty == true) {
         queryParameters.addAll({'categoryId': categoryId});
@@ -74,70 +75,46 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
       if (response.data != null) {
         return ProductModel.fromList(response.data);
       }
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
-    return null;
+      return null;
+    });
   }
 
   @override
   Future<ProductModel?> fetchProduct({String? id}) async {
-    try {
+    return makeRequest<ProductModel?>(() async {
       final response = await dio.get('products/$id');
       if (response.data != null) {
         return ProductModel.fromJson(response.data);
       }
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
-    return null;
+      return null;
+    });
   }
 
   @override
   Future<List<CategoryModel>?> fetchCategories() async {
-    try {
+    return makeRequest<List<CategoryModel>?>(() async {
       final response = await dio.get('categories');
       if (response.data != null) {
         return CategoryModel.fromList(response.data);
       }
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
-    return null;
+      return null;
+    });
   }
 
   @override
   Future<List<ProductModel>?> fetchRelatedById({String? id}) async {
-    try {
+    return makeRequest<List<ProductModel>?>(() async {
       final response = await dio.get('products/$id/related');
       if (response.data != null) {
         return ProductModel.fromList(response.data);
       }
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
-    return null;
+      return null;
+    });
   }
 
   @override
   Future<ImageModel?> uploadImage({required AppImageEntity imageFile}) async {
-    try {
+    return makeRequest<ImageModel?>(() async {
       final formData = FormData.fromMap({
         'file': MultipartFile.fromBytes(
           imageFile.bytes,
@@ -148,79 +125,47 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
       if (response.data != null) {
         return ImageModel.fromJson(response.data);
       }
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
-    return null;
+      return null;
+    });
   }
 
   @override
   Future<ProductModel?> createProduct({required ProductModel product}) async {
-    try {
+    return makeRequest<ProductModel?>(() async {
       final response = await dio.post('products/', data: product.toJson());
       if (response.data != null) {
         return ProductModel.fromJson(response.data);
       }
-    } on Exception catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode == 401) {
-          throw InvalidCredentialsException();
-        }
-      } else {
-        throw ServerException();
-      }
-    }
-    return null;
+      return null;
+    });
   }
 
   @override
   Future<CategoryModel?> createCategory({
     required CategoryModel category,
   }) async {
-    try {
+    return makeRequest<CategoryModel?>(() async {
       final response = await dio.post('categories/', data: category.toJson());
       if (response.data != null) {
         return CategoryModel.fromJson(response.data);
       }
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
-    return null;
+      return null;
+    });
   }
 
   @override
   Future<bool> deleteProduct({required int id}) async {
-    try {
+    return makeRequest<bool>(() async {
       final response = await dio.delete('products/$id');
       return response.statusCode == 200;
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
+    });
   }
 
   @override
   Future<bool> deleteCategory({required int id}) async {
-    try {
+    return makeRequest<bool>(() async {
       final response = await dio.delete('categories/$id');
       return response.statusCode == 200;
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
+    });
   }
 }

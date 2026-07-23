@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:store_app/core/error/exception.dart';
+import 'package:store_app/core/network/base_remote_data_source.dart';
 import 'package:store_app/features/auth/data/models/auth_token_model.dart';
 import 'package:store_app/features/auth/data/models/user_model.dart';
 
@@ -13,23 +13,25 @@ abstract class AuthRemoteDataSource {
 }
 
 @LazySingleton(as: AuthRemoteDataSource)
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+class AuthRemoteDataSourceImpl extends BaseRemoteDataSource
+    implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this.dio);
 
   final Dio dio;
 
   @override
   Future<AuthTokenModel?> login(String email, String password) async {
-    final response = await dio.post(
-      'auth/login',
-      queryParameters: {'email': email, 'password': password},
-      options: Options(extra: {'skipAuth': true}),
-    );
-    if (response.data != null) {
-      return AuthTokenModel.fromJson(response.data);
-    } else {
-      throw InvalidCredentialsException();
-    }
+    return makeRequest<AuthTokenModel?>(() async {
+      final response = await dio.post(
+        'auth/login',
+        queryParameters: {'email': email, 'password': password},
+        options: Options(extra: {'skipAuth': true}),
+      );
+      if (response.data != null) {
+        return AuthTokenModel.fromJson(response.data);
+      }
+      return null;
+    });
   }
 
   @override
@@ -39,18 +41,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel?> getUserProfile() async {
-    try {
+    return makeRequest<UserModel?>(() async {
       final response = await dio.get('auth/profile');
       if (response.data != null) {
         return UserModel.fromJson(response.data);
       }
-    } on Exception catch (e) {
-      if (e is DioException && e.response?.statusCode == 401) {
-        throw InvalidCredentialsException();
-      } else {
-        throw ServerException();
-      }
-    }
-    return null;
+      return null;
+    });
   }
 }

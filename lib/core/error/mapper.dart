@@ -12,8 +12,8 @@ Failure mapExceptionToFailure(Object error) {
   if (error is CacheException) return CacheFailure();
 
   if (error is UnknownException) {
-    return UnknownFailure(error.message);
+    return UnknownFailure(message: error.message);
   }
 
-  return UnknownFailure(error.toString());
+  return UnknownFailure(message: error.toString());
 }
