@@ -74,6 +74,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final CreateCategoryUseCase _createCategoryUseCase;
   final DeleteCategoryUseCase _deleteCategoryUseCase;
 
+  final int defaultLimit = 10;
+
   /// Initialize data
   Future<void> _onDataInitialized(
     DataInitialized event,
@@ -103,7 +105,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         priceMin: min,
         priceMax: max,
         offset: 0,
-        limit: state.products.isEmpty ? 10 : state.products.length,
+        limit: defaultLimit,
       ),
     );
 
@@ -116,7 +118,13 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         emit(state.copyWith(error: message, isProductLoading: false));
       },
       (r) {
-        emit(state.copyWith(products: r, isProductLoading: false));
+        emit(
+          state.copyWith(
+            products: r,
+            isProductLoading: false,
+            hasReachedMaxProducts: r.length < defaultLimit,
+          ),
+        );
       },
     );
   }
@@ -140,7 +148,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         priceMin: min,
         priceMax: max,
         offset: state.products.length,
-        limit: 10,
+        limit: defaultLimit,
       ),
     );
 
@@ -153,16 +161,24 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         emit(state.copyWith(error: message, isShowProductLoader: false));
       },
       (r) {
-        if (r.isEmpty) {
-          return emit(
-            state.copyWith(
-              isShowProductLoader: false,
-              hasReachedMaxProducts: true,
-            ),
-          );
-        }
-        final products = <ProductEntity>[...state.products, ...r];
-        emit(state.copyWith(products: products, isShowProductLoader: false));
+        final isLastPage = r.length < defaultLimit;
+
+        // remove duplicates
+        final newProducts = r
+            .where(
+              (newProd) =>
+                  !state.products.any((oldProd) => oldProd.id == newProd.id),
+            )
+            .toList();
+
+        final products = <ProductEntity>[...state.products, ...newProducts];
+        emit(
+          state.copyWith(
+            products: products,
+            isShowProductLoader: false,
+            hasReachedMaxProducts: isLastPage,
+          ),
+        );
       },
     );
   }
