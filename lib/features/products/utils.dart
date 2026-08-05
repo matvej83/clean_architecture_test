@@ -11,7 +11,10 @@ import 'package:store_app/features/products/domain/entity/category_entity.dart';
 
 import '../../core/constants/app_strings.dart';
 
+@immutable
 class ProductsUtils {
+  const ProductsUtils._();
+
   static Future<AppImageEntity?> getImageFromGallery() async {
     final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
 
