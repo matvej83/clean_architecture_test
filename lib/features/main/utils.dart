@@ -6,7 +6,10 @@ import 'package:go_router/go_router.dart';
 import '../../core/presentation/widgets/fab_menu.dart';
 import '../../navigation/pages.dart';
 
+@immutable
 class MainScreenUtils {
+  const MainScreenUtils._();
+
   static String getAppBarTitle(BuildContext context) {
     final location = GoRouterState.of(context).uri;
     if (location.pathSegments.length == 2) {

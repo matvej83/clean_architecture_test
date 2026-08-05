@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:store_app/core/constants/app_strings.dart';
 
+@immutable
 class ProfileUtils {
+  const ProfileUtils._();
+
   static Widget getLanguageIcon(String code) {
     var assetName = '';
     switch (code) {
