@@ -18,4 +18,16 @@ class AppUtils {
     if (name.isEmpty) return '';
     return name.split(' ').last;
   }
+
+  static List<T> parseList<T>(
+    List<dynamic> list,
+    T Function(Map<String, dynamic>) fromJson,
+  ) {
+    if (list.isEmpty) {
+      return [];
+    }
+    return list
+        .map((jsonItem) => fromJson(jsonItem as Map<String, dynamic>))
+        .toList();
+  }
 }

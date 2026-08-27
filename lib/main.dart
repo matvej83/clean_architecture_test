@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:store_app/core/constants/app_strings.dart';
 
 import 'core/di/injection.dart';
 import 'my_app.dart';
@@ -14,7 +15,7 @@ void main() async {
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ru')],
-      path: 'assets/translations',
+      path: AppStrings.assetTranslationsPath,
       fallbackLocale: const Locale('en'),
       child: const MyApp(),
     ),

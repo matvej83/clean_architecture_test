@@ -83,7 +83,7 @@ class _LocationsMapState extends State<LocationsMap> {
                 onMarkerTap: (marker) {
                   setState(() {
                     _selectedMarker = marker;
-                    _tappedLocation = LocationsUtil.getLocationByLatLong(
+                    _tappedLocation = LocationsUtils.getLocationByLatLong(
                       latLng: marker.point,
                       locations: state.locations,
                     );

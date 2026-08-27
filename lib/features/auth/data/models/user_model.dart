@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../utils.dart';
 import '../../domain/entity/user_entity.dart';
 
 part 'user_model.freezed.dart';
@@ -36,7 +37,5 @@ extension UserModelExt on UserModel {
 
 List<UserModel> userModelFromList(String body) {
   final decoded = jsonDecode(body) as List<dynamic>;
-  return decoded
-      .map((jsonItem) => UserModel.fromJson(jsonItem as Map<String, dynamic>))
-      .toList();
+  return AppUtils.parseList<UserModel>(decoded, UserModel.fromJson);
 }

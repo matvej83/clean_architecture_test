@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:store_app/features/products/domain/entity/product_entity.dart';
 
+import '../../../../utils.dart';
 import 'category_model.dart';
 
 part 'product_model.freezed.dart';
@@ -28,11 +29,7 @@ abstract class ProductModel with _$ProductModel {
       _$ProductModelFromJson(json);
 
   static List<ProductModel> fromList(List<dynamic> list) {
-    return list
-        .map(
-          (jsonItem) => ProductModel.fromJson(jsonItem as Map<String, dynamic>),
-        )
-        .toList();
+    return AppUtils.parseList<ProductModel>(list, ProductModel.fromJson);
   }
 }
 
