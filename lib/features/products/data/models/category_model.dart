@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:store_app/features/products/domain/entity/category_entity.dart';
 
+import '../../../../utils.dart';
+
 part 'category_model.freezed.dart';
 part 'category_model.g.dart';
 
@@ -19,12 +21,7 @@ abstract class CategoryModel with _$CategoryModel {
       _$CategoryModelFromJson(json);
 
   static List<CategoryModel> fromList(List<dynamic> list) {
-    return list
-        .map(
-          (jsonItem) =>
-              CategoryModel.fromJson(jsonItem as Map<String, dynamic>),
-        )
-        .toList();
+    return AppUtils.parseList<CategoryModel>(list, CategoryModel.fromJson);
   }
 }
 

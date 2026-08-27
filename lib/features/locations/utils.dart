@@ -5,7 +5,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:store_app/features/locations/domain/entity/location_entity.dart';
 
-class LocationsUtil {
+@immutable
+class LocationsUtils {
+  const LocationsUtils._();
+
   static LocationEntity? getLocationByLatLong({
     required LatLng latLng,
     required List<LocationEntity> locations,

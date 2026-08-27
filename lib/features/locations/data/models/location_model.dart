@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:store_app/features/locations/domain/entity/location_entity.dart';
 
+import '../../../../utils.dart';
+
 part 'location_model.freezed.dart';
 part 'location_model.g.dart';
 
@@ -20,12 +22,7 @@ abstract class LocationModel with _$LocationModel {
       _$LocationModelFromJson(json);
 
   static List<LocationModel> fromList(List<dynamic> list) {
-    return list
-        .map(
-          (jsonItem) =>
-              LocationModel.fromJson(jsonItem as Map<String, dynamic>),
-        )
-        .toList();
+    return AppUtils.parseList<LocationModel>(list, LocationModel.fromJson);
   }
 }
 

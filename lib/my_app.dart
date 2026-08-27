@@ -27,9 +27,12 @@ class _MyAppState extends State<MyApp> {
   late final StreamSubscription _sessionSub;
   final appRouter = getIt<AppRouter>();
   final authBloc = getIt<AuthBloc>();
-  final themeCubit = getIt<ThemeCubit>();
   final sessionManager = getIt<AuthSessionManager>();
   final authRepo = getIt<AuthRepository>();
+  final themeCubit = getIt<ThemeCubit>();
+  final productsBloc = getIt<ProductsBloc>();
+  final usersBloc = getIt<UsersBloc>();
+  final locationsBloc = getIt<LocationsBloc>();
 
   @override
   void initState() {
@@ -54,9 +57,9 @@ class _MyAppState extends State<MyApp> {
           lazy: false,
         ),
         BlocProvider(create: (_) => themeCubit..loadTheme(), lazy: false),
-        BlocProvider(create: (_) => getIt<ProductsBloc>(), lazy: true),
-        BlocProvider(create: (_) => getIt<UsersBloc>(), lazy: true),
-        BlocProvider(create: (_) => getIt<LocationsBloc>(), lazy: true),
+        BlocProvider(create: (_) => productsBloc, lazy: true),
+        BlocProvider(create: (_) => usersBloc, lazy: true),
+        BlocProvider(create: (_) => locationsBloc, lazy: true),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {

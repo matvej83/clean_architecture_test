@@ -77,7 +77,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
       (r) {
         if (r.isNotEmpty) {
           final center = LatLng(r.first.latitude, r.first.longitude);
-          final markers = LocationsUtil.makeMarkers(
+          final markers = LocationsUtils.makeMarkers(
             locations: r,
             selectedLocation: (state.selectedLocationId?.isNotEmpty == true)
                 ? state.selectedLocation
@@ -85,7 +85,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
           );
           var locations = r;
           if (position != null) {
-            locations = LocationsUtil.addGeolocationToList(
+            locations = LocationsUtils.addGeolocationToList(
               locations: r,
               position: position!,
             );
@@ -109,7 +109,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
     LocationSelected event,
     Emitter<LocationsState> emit,
   ) async {
-    final markers = LocationsUtil.makeMarkers(
+    final markers = LocationsUtils.makeMarkers(
       locations: state.locations,
       selectedLocation: event.locationId?.isNotEmpty == true
           ? event.location
@@ -130,9 +130,9 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState>
   ) async {
     if (state.locations.isNotEmpty &&
         (position == null ||
-            !LocationsUtil.isSamePosition(position!, event.position))) {
+            !LocationsUtils.isSamePosition(position!, event.position))) {
       position = event.position;
-      final updatedLocations = LocationsUtil.addGeolocationToList(
+      final updatedLocations = LocationsUtils.addGeolocationToList(
         locations: state.locations,
         position: event.position,
       );
