@@ -1,4 +1,9 @@
+import 'package:flutter/material.dart';
+
+@immutable
 class Pages {
+  const Pages._();
+
   static const splash = '/splash';
   static const login = '/login';
   static const addProduct = 'add-product';
