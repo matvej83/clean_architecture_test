@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 class AppStrings {
   const AppStrings._();
 
+  static const String baseUrl = 'https://api.escuelajs.co/api/v1/';
+
   /// filters
   static const String amountsGroupName = 'amounts';
   static const String amountMin = 'amountMin';
